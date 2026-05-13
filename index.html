@@ -671,291 +671,333 @@ body::after {
 
 <script>
 const VISUALS = {
-  'select': `<svg viewBox="0 0 520 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  'select': `<svg viewBox="0 0 700 150" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
   <defs>
-    <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#1D9E75"/>
+    <marker id="arr" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 9 3, 0 6" fill="#00d4a8"/>
     </marker>
   </defs>
-  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
+  <g font-family="JetBrains Mono,monospace" font-size="11" fill="#9da3b4">
     <!-- tabla origen -->
-    <text x="12" y="14" font-size="9" fill="#6e7681" letter-spacing="1">TABLA ORIGEN</text>
-    <rect x="10" y="20" width="180" height="88" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="10" y="20" width="180" height="20" rx="6" fill="#21262d" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="10" y="38" width="180" height="2" fill="#21262d"/>
-    <text x="20" y="34" fill="#9FE1CB" font-weight="700">id</text>
-    <text x="55" y="34" fill="#9FE1CB" font-weight="700">nombre</text>
-    <text x="120" y="34" fill="#9FE1CB" font-weight="700">ciudad</text>
-    <text x="20" y="52" fill="#8b949e">1</text><text x="55" y="52">Ana</text><text x="120" y="52">CDMX</text>
-    <text x="20" y="66" fill="#8b949e">2</text><text x="55" y="66">Luis</text><text x="120" y="66">GDL</text>
-    <text x="20" y="80" fill="#8b949e">3</text><text x="55" y="80">Sara</text><text x="120" y="80">CDMX</text>
-    <text x="20" y="94" fill="#8b949e">4</text><text x="55" y="94">Mario</text><text x="120" y="94">MTY</text>
-    <text x="20" y="108" fill="#8b949e">5</text><text x="55" y="108">Rosa</text><text x="120" y="108">GDL</text>
+    <text x="14" y="16" font-size="9" fill="#5d6478" letter-spacing="1.2">TABLA ORIGEN</text>
+    <rect x="10" y="24" width="270" height="118" rx="6" fill="#0f1422" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="10" y="24" width="270" height="22" rx="6" fill="#1a2030" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="10" y="44" width="270" height="2" fill="#1a2030"/>
+    <text x="24" y="40" fill="#67e8c8" font-weight="700">id</text>
+    <text x="68" y="40" fill="#67e8c8" font-weight="700">nombre</text>
+    <text x="180" y="40" fill="#67e8c8" font-weight="700">ciudad</text>
+    <text x="24" y="62">1</text><text x="68" y="62">Ana</text><text x="180" y="62">CDMX</text>
+    <text x="24" y="78">2</text><text x="68" y="78">Luis</text><text x="180" y="78">GDL</text>
+    <text x="24" y="94">3</text><text x="68" y="94">Sara</text><text x="180" y="94">CDMX</text>
+    <text x="24" y="110">4</text><text x="68" y="110">Mario</text><text x="180" y="110">MTY</text>
+    <text x="24" y="126">5</text><text x="68" y="126">Rosa</text><text x="180" y="126">GDL</text>
     <!-- highlight columnas seleccionadas -->
-    <rect x="50" y="22" width="60" height="86" rx="0" fill="rgba(29,158,117,0.08)" stroke="rgba(29,158,117,0.3)" stroke-width="0.5"/>
-    <rect x="115" y="22" width="74" height="86" rx="0" fill="rgba(55,138,221,0.08)" stroke="rgba(55,138,221,0.3)" stroke-width="0.5"/>
+    <rect x="62" y="28" width="106" height="112" fill="rgba(0,212,168,0.08)" stroke="rgba(0,212,168,0.3)" stroke-width="0.5"/>
+    <rect x="172" y="28" width="104" height="112" fill="rgba(130,168,255,0.08)" stroke="rgba(130,168,255,0.3)" stroke-width="0.5"/>
     <!-- flecha -->
-    <line x1="198" y1="64" x2="250" y2="64" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr)"/>
-    <text x="206" y="59" fill="#1D9E75" font-size="9">SELECT</text>
-    <text x="204" y="71" fill="#6e7681" font-size="9">nombre, ciudad</text>
+    <line x1="290" y1="83" x2="358" y2="83" stroke="#00d4a8" stroke-width="1.6" marker-end="url(#arr)"/>
+    <text x="298" y="76" fill="#00d4a8" font-size="10" font-weight="700">SELECT</text>
+    <text x="294" y="98" fill="#5d6478" font-size="9">nombre, ciudad</text>
     <!-- resultado -->
-    <text x="262" y="14" font-size="9" fill="#6e7681" letter-spacing="1">RESULTADO</text>
-    <rect x="260" y="20" width="148" height="88" rx="6" fill="#161b22" stroke="#1D9E75" stroke-width="0.5"/>
-    <rect x="260" y="20" width="148" height="20" rx="6" fill="#21262d" stroke="#1D9E75" stroke-width="0.5"/>
-    <rect x="260" y="38" width="148" height="2" fill="#21262d"/>
-    <text x="270" y="34" fill="#9FE1CB" font-weight="700">nombre</text>
-    <text x="340" y="34" fill="#378ADD" font-weight="700">ciudad</text>
-    <text x="270" y="52">Ana</text><text x="340" y="52" fill="#378ADD">CDMX</text>
-    <text x="270" y="66">Luis</text><text x="340" y="66" fill="#378ADD">GDL</text>
-    <text x="270" y="80">Sara</text><text x="340" y="80" fill="#378ADD">CDMX</text>
-    <text x="270" y="94">Mario</text><text x="340" y="94" fill="#378ADD">MTY</text>
-    <text x="270" y="108">Rosa</text><text x="340" y="108" fill="#378ADD">GDL</text>
+    <text x="378" y="16" font-size="9" fill="#5d6478" letter-spacing="1.2">RESULTADO</text>
+    <rect x="376" y="24" width="305" height="118" rx="6" fill="#0f1422" stroke="#00d4a8" stroke-width="0.6"/>
+    <rect x="376" y="24" width="305" height="22" rx="6" fill="#1a2030" stroke="#00d4a8" stroke-width="0.6"/>
+    <rect x="376" y="44" width="305" height="2" fill="#1a2030"/>
+    <text x="392" y="40" fill="#67e8c8" font-weight="700">nombre</text>
+    <text x="510" y="40" fill="#82a8ff" font-weight="700">ciudad</text>
+    <text x="392" y="62">Ana</text><text x="510" y="62" fill="#82a8ff">CDMX</text>
+    <text x="392" y="78">Luis</text><text x="510" y="78" fill="#82a8ff">GDL</text>
+    <text x="392" y="94">Sara</text><text x="510" y="94" fill="#82a8ff">CDMX</text>
+    <text x="392" y="110">Mario</text><text x="510" y="110" fill="#82a8ff">MTY</text>
+    <text x="392" y="126">Rosa</text><text x="510" y="126" fill="#82a8ff">GDL</text>
   </g></svg>`,
 
-  'distinct': `<svg viewBox="0 0 520 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-  <defs><marker id="arr2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#1D9E75"/></marker></defs>
-  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
-    <text x="12" y="14" font-size="9" fill="#6e7681" letter-spacing="1">CON DUPLICADOS</text>
-    <rect x="10" y="20" width="120" height="100" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="10" y="20" width="120" height="20" rx="6" fill="#21262d" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="10" y="38" width="120" height="2" fill="#21262d"/>
-    <text x="20" y="34" fill="#9FE1CB" font-weight="700">ciudad</text>
-    <text x="20" y="52">CDMX</text>
-    <text x="20" y="66">GDL</text>
-    <text x="20" y="80" fill="rgba(224,75,74,0.7)">CDMX</text>
-    <rect x="10" y="71" width="120" height="14" fill="rgba(224,75,74,0.07)" stroke="rgba(224,75,74,0.2)" stroke-width="0.5"/>
-    <text x="20" y="94">MTY</text>
-    <text x="20" y="108" fill="rgba(224,75,74,0.7)">GDL</text>
-    <rect x="10" y="99" width="120" height="14" fill="rgba(224,75,74,0.07)" stroke="rgba(224,75,74,0.2)" stroke-width="0.5"/>
-    <text x="20" y="122" fill="rgba(224,75,74,0.7)">CDMX</text>
-    <rect x="10" y="113" width="120" height="14" fill="rgba(224,75,74,0.07)" stroke="rgba(224,75,74,0.2)" stroke-width="0.5"/>
-    <line x1="138" y1="70" x2="185" y2="70" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr2)"/>
-    <text x="140" y="65" fill="#1D9E75" font-size="9">DISTINCT</text>
-    <text x="280" y="14" font-size="9" fill="#6e7681" letter-spacing="1">ÚNICOS</text>
-    <rect x="200" y="20" width="120" height="74" rx="6" fill="#161b22" stroke="#1D9E75" stroke-width="0.5"/>
-    <rect x="200" y="20" width="120" height="20" rx="6" fill="#21262d" stroke="#1D9E75" stroke-width="0.5"/>
-    <rect x="200" y="38" width="120" height="2" fill="#21262d"/>
-    <text x="210" y="34" fill="#9FE1CB" font-weight="700">ciudad</text>
-    <text x="210" y="52">CDMX</text>
-    <text x="210" y="66">GDL</text>
-    <text x="210" y="80">MTY</text>
+  'distinct': `<svg viewBox="0 0 700 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <defs><marker id="arr2" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#00d4a8"/></marker></defs>
+  <g font-family="JetBrains Mono,monospace" font-size="11" fill="#9da3b4">
+    <text x="14" y="16" font-size="9" fill="#5d6478" letter-spacing="1.2">CON DUPLICADOS</text>
+    <rect x="10" y="24" width="190" height="125" rx="6" fill="#0f1422" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="10" y="24" width="190" height="22" rx="6" fill="#1a2030" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="10" y="44" width="190" height="2" fill="#1a2030"/>
+    <text x="24" y="40" fill="#67e8c8" font-weight="700">ciudad</text>
+    <text x="24" y="62">CDMX</text>
+    <text x="24" y="78">GDL</text>
+    <rect x="10" y="82" width="190" height="16" fill="rgba(248,113,113,0.07)"/>
+    <text x="24" y="94" fill="rgba(248,113,113,0.85)">CDMX</text>
+    <text x="160" y="94" font-size="9" fill="#f87171">dup</text>
+    <text x="24" y="110">MTY</text>
+    <rect x="10" y="114" width="190" height="16" fill="rgba(248,113,113,0.07)"/>
+    <text x="24" y="126" fill="rgba(248,113,113,0.85)">GDL</text>
+    <text x="160" y="126" font-size="9" fill="#f87171">dup</text>
+    <rect x="10" y="130" width="190" height="16" fill="rgba(248,113,113,0.07)"/>
+    <text x="24" y="142" fill="rgba(248,113,113,0.85)">CDMX</text>
+    <text x="160" y="142" font-size="9" fill="#f87171">dup</text>
+    <line x1="220" y1="86" x2="310" y2="86" stroke="#00d4a8" stroke-width="1.6" marker-end="url(#arr2)"/>
+    <text x="232" y="78" fill="#00d4a8" font-size="10" font-weight="700">DISTINCT</text>
+    <text x="406" y="16" font-size="9" fill="#5d6478" letter-spacing="1.2">ÚNICOS</text>
+    <rect x="330" y="24" width="190" height="80" rx="6" fill="#0f1422" stroke="#00d4a8" stroke-width="0.6"/>
+    <rect x="330" y="24" width="190" height="22" rx="6" fill="#1a2030" stroke="#00d4a8" stroke-width="0.6"/>
+    <rect x="330" y="44" width="190" height="2" fill="#1a2030"/>
+    <text x="344" y="40" fill="#67e8c8" font-weight="700">ciudad</text>
+    <text x="344" y="62">CDMX</text>
+    <text x="344" y="78">GDL</text>
+    <text x="344" y="94">MTY</text>
   </g></svg>`,
 
-  'where': `<svg viewBox="0 0 520 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-  <defs><marker id="arr3" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#1D9E75"/></marker></defs>
-  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
-    <text x="12" y="14" font-size="9" fill="#6e7681" letter-spacing="1">TODAS LAS FILAS</text>
-    <rect x="10" y="20" width="170" height="100" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="10" y="20" width="170" height="20" rx="6" fill="#21262d" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="10" y="38" width="170" height="2" fill="#21262d"/>
-    <text x="20" y="34" fill="#9FE1CB" font-weight="700">nombre</text><text x="90" y="34" fill="#9FE1CB" font-weight="700">monto</text>
-    <text x="20" y="52">Ana</text><text x="90" y="52">8500</text>
-    <rect x="10" y="55" width="170" height="14" fill="rgba(224,75,74,0.07)"/>
-    <text x="20" y="66" fill="#6e7681">Luis</text><text x="90" y="66" fill="#6e7681">3200</text>
-    <text x="140" y="66" font-size="9" fill="#E24B4A">✗</text>
-    <text x="20" y="80">Sara</text><text x="90" y="80">12000</text>
-    <text x="20" y="94" fill="#6e7681">Mario</text><text x="90" y="94" fill="#6e7681">1800</text>
-    <rect x="10" y="97" width="170" height="14" fill="rgba(224,75,74,0.07)"/>
-    <text x="140" y="108" font-size="9" fill="#E24B4A">✗</text>
-    <text x="20" y="108" fill="#6e7681">Carlos</text><text x="90" y="108" fill="#6e7681">2900</text>
-    <text x="20" y="108" fill="#6e7681">Carlos</text>
-    <!-- filtro label -->
-    <rect x="195" y="56" width="80" height="28" rx="4" fill="rgba(29,158,117,0.12)" stroke="rgba(29,158,117,0.4)" stroke-width="0.5"/>
-    <text x="205" y="67" fill="#9FE1CB" font-weight="700" font-size="10">WHERE</text>
-    <text x="200" y="79" fill="#EF9F27" font-size="9">monto &gt; 5000</text>
-    <line x1="280" y1="70" x2="318" y2="70" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr3)"/>
-    <text x="328" y="14" font-size="9" fill="#6e7681" letter-spacing="1">FILTRADAS</text>
-    <rect x="328" y="20" width="170" height="60" rx="6" fill="#161b22" stroke="#1D9E75" stroke-width="0.5"/>
-    <rect x="328" y="20" width="170" height="20" rx="6" fill="#21262d" stroke="#1D9E75" stroke-width="0.5"/>
-    <rect x="328" y="38" width="170" height="2" fill="#21262d"/>
-    <text x="338" y="34" fill="#9FE1CB" font-weight="700">nombre</text><text x="408" y="34" fill="#9FE1CB" font-weight="700">monto</text>
-    <text x="338" y="52">Ana</text><text x="408" y="52" fill="#1D9E75">8500</text>
-    <text x="338" y="66">Sara</text><text x="408" y="66" fill="#1D9E75">12000</text>
+  'where': `<svg viewBox="0 0 700 145" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <defs><marker id="arr3" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#00d4a8"/></marker></defs>
+  <g font-family="JetBrains Mono,monospace" font-size="11" fill="#9da3b4">
+    <text x="14" y="16" font-size="9" fill="#5d6478" letter-spacing="1.2">TODAS LAS FILAS</text>
+    <rect x="10" y="24" width="240" height="120" rx="6" fill="#0f1422" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="10" y="24" width="240" height="22" rx="6" fill="#1a2030" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="10" y="44" width="240" height="2" fill="#1a2030"/>
+    <text x="22" y="40" fill="#67e8c8" font-weight="700">nombre</text>
+    <text x="130" y="40" fill="#67e8c8" font-weight="700">monto</text>
+    <!-- Ana ✓ -->
+    <text x="22" y="62">Ana</text><text x="130" y="62" fill="#00d4a8">8500</text>
+    <text x="220" y="62" font-size="11" fill="#00d4a8">✓</text>
+    <!-- Luis ✗ -->
+    <rect x="10" y="66" width="240" height="16" fill="rgba(248,113,113,0.08)"/>
+    <text x="22" y="78" fill="#5d6478">Luis</text>
+    <text x="130" y="78" fill="#5d6478">3200</text>
+    <line x1="22" y1="75" x2="180" y2="75" stroke="#f87171" stroke-width="0.7" opacity="0.6"/>
+    <text x="220" y="78" font-size="11" fill="#f87171">✗</text>
+    <!-- Sara ✓ -->
+    <text x="22" y="94">Sara</text><text x="130" y="94" fill="#00d4a8">12000</text>
+    <text x="220" y="94" font-size="11" fill="#00d4a8">✓</text>
+    <!-- Mario ✗ -->
+    <rect x="10" y="98" width="240" height="16" fill="rgba(248,113,113,0.08)"/>
+    <text x="22" y="110" fill="#5d6478">Mario</text>
+    <text x="130" y="110" fill="#5d6478">1800</text>
+    <line x1="22" y1="107" x2="180" y2="107" stroke="#f87171" stroke-width="0.7" opacity="0.6"/>
+    <text x="220" y="110" font-size="11" fill="#f87171">✗</text>
+    <!-- Carlos ✗ -->
+    <rect x="10" y="114" width="240" height="16" fill="rgba(248,113,113,0.08)"/>
+    <text x="22" y="126" fill="#5d6478">Carlos</text>
+    <text x="130" y="126" fill="#5d6478">2900</text>
+    <line x1="22" y1="123" x2="180" y2="123" stroke="#f87171" stroke-width="0.7" opacity="0.6"/>
+    <text x="220" y="126" font-size="11" fill="#f87171">✗</text>
+    <!-- Filtro label -->
+    <rect x="278" y="66" width="120" height="34" rx="6" fill="rgba(0,212,168,0.10)" stroke="rgba(0,212,168,0.40)" stroke-width="0.6"/>
+    <text x="306" y="80" fill="#67e8c8" font-weight="700" font-size="11">WHERE</text>
+    <text x="290" y="93" fill="#fcd34d" font-size="10">monto &gt; 5000</text>
+    <line x1="402" y1="83" x2="448" y2="83" stroke="#00d4a8" stroke-width="1.6" marker-end="url(#arr3)"/>
+    <!-- Resultado -->
+    <text x="466" y="16" font-size="9" fill="#5d6478" letter-spacing="1.2">FILTRADAS</text>
+    <rect x="462" y="24" width="225" height="68" rx="6" fill="#0f1422" stroke="#00d4a8" stroke-width="0.6"/>
+    <rect x="462" y="24" width="225" height="22" rx="6" fill="#1a2030" stroke="#00d4a8" stroke-width="0.6"/>
+    <rect x="462" y="44" width="225" height="2" fill="#1a2030"/>
+    <text x="476" y="40" fill="#67e8c8" font-weight="700">nombre</text>
+    <text x="586" y="40" fill="#67e8c8" font-weight="700">monto</text>
+    <text x="476" y="62">Ana</text><text x="586" y="62" fill="#00d4a8">8500</text>
+    <text x="476" y="80">Sara</text><text x="586" y="80" fill="#00d4a8">12000</text>
   </g></svg>`,
 
-  'groupby': `<svg viewBox="0 0 520 150" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-  <defs><marker id="arr4" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#1D9E75"/></marker></defs>
-  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
-    <text x="12" y="14" font-size="9" fill="#6e7681" letter-spacing="1">FILAS INDIVIDUALES</text>
-    <rect x="10" y="20" width="160" height="120" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="10" y="20" width="160" height="20" rx="6" fill="#21262d" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="10" y="38" width="160" height="2" fill="#21262d"/>
-    <text x="20" y="34" fill="#9FE1CB" font-weight="700">región</text><text x="90" y="34" fill="#9FE1CB" font-weight="700">venta</text>
+  'groupby': `<svg viewBox="0 0 700 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <defs><marker id="arr4" markerWidth="9" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,9 3,0 6" fill="#00d4a8"/></marker></defs>
+  <g font-family="JetBrains Mono,monospace" font-size="11" fill="#9da3b4">
+    <text x="14" y="16" font-size="9" fill="#5d6478" letter-spacing="1.2">FILAS INDIVIDUALES</text>
+    <rect x="10" y="24" width="200" height="140" rx="6" fill="#0f1422" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="10" y="24" width="200" height="22" rx="6" fill="#1a2030" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="10" y="44" width="200" height="2" fill="#1a2030"/>
+    <text x="24" y="40" fill="#67e8c8" font-weight="700">región</text>
+    <text x="120" y="40" fill="#67e8c8" font-weight="700">venta</text>
     <!-- grupo Norte -->
-    <rect x="10" y="40" width="160" height="42" fill="rgba(55,138,221,0.06)" stroke="rgba(55,138,221,0.15)" stroke-width="0.5"/>
-    <text x="20" y="52" fill="#378ADD">Norte</text><text x="90" y="52">4200</text>
-    <text x="20" y="66" fill="#378ADD">Norte</text><text x="90" y="66">3800</text>
-    <text x="20" y="80" fill="#378ADD">Norte</text><text x="90" y="80">5100</text>
+    <rect x="10" y="46" width="200" height="50" fill="rgba(130,168,255,0.06)" stroke="rgba(130,168,255,0.18)" stroke-width="0.5"/>
+    <text x="24" y="62" fill="#82a8ff">Norte</text><text x="120" y="62">4200</text>
+    <text x="24" y="78" fill="#82a8ff">Norte</text><text x="120" y="78">3800</text>
+    <text x="24" y="94" fill="#82a8ff">Norte</text><text x="120" y="94">5100</text>
     <!-- grupo Sur -->
-    <rect x="10" y="82" width="160" height="28" fill="rgba(29,158,117,0.06)" stroke="rgba(29,158,117,0.15)" stroke-width="0.5"/>
-    <text x="20" y="94" fill="#1D9E75">Sur</text><text x="90" y="94">6700</text>
-    <text x="20" y="108" fill="#1D9E75">Sur</text><text x="90" y="108">2300</text>
+    <rect x="10" y="96" width="200" height="34" fill="rgba(0,212,168,0.06)" stroke="rgba(0,212,168,0.18)" stroke-width="0.5"/>
+    <text x="24" y="112" fill="#00d4a8">Sur</text><text x="120" y="112">6700</text>
+    <text x="24" y="126" fill="#00d4a8">Sur</text><text x="120" y="126">2300</text>
     <!-- grupo Este -->
-    <rect x="10" y="110" width="160" height="28" fill="rgba(186,117,23,0.06)" stroke="rgba(186,117,23,0.15)" stroke-width="0.5"/>
-    <text x="20" y="122" fill="#EF9F27">Este</text><text x="90" y="122">8900</text>
-    <text x="20" y="136" fill="#EF9F27">Este</text><text x="90" y="136">1200</text>
+    <rect x="10" y="130" width="200" height="34" fill="rgba(252,211,77,0.06)" stroke="rgba(252,211,77,0.20)" stroke-width="0.5"/>
+    <text x="24" y="146" fill="#fcd34d">Este</text><text x="120" y="146">8900</text>
+    <text x="24" y="160" fill="#fcd34d">Este</text><text x="120" y="160">1200</text>
     <!-- arrow -->
-    <line x1="178" y1="80" x2="228" y2="80" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr4)"/>
-    <text x="179" y="74" fill="#1D9E75" font-size="9">GROUP BY</text>
-    <text x="179" y="88" fill="#EF9F27" font-size="9">SUM(venta)</text>
+    <line x1="220" y1="94" x2="298" y2="94" stroke="#00d4a8" stroke-width="1.6" marker-end="url(#arr4)"/>
+    <text x="228" y="86" fill="#00d4a8" font-size="10" font-weight="700">GROUP BY</text>
+    <text x="228" y="108" fill="#fcd34d" font-size="10">SUM(venta)</text>
     <!-- resultado agrupado -->
-    <text x="338" y="14" font-size="9" fill="#6e7681" letter-spacing="1">AGRUPADO</text>
-    <rect x="248" y="20" width="160" height="88" rx="6" fill="#161b22" stroke="#1D9E75" stroke-width="0.5"/>
-    <rect x="248" y="20" width="160" height="20" rx="6" fill="#21262d" stroke="#1D9E75" stroke-width="0.5"/>
-    <rect x="248" y="38" width="160" height="2" fill="#21262d"/>
-    <text x="258" y="34" fill="#9FE1CB" font-weight="700">región</text><text x="338" y="34" fill="#9FE1CB" font-weight="700">SUM(venta)</text>
-    <text x="258" y="52" fill="#378ADD">Norte</text><text x="338" y="52" fill="#378ADD">13100</text>
-    <text x="258" y="66" fill="#1D9E75">Sur</text><text x="338" y="66" fill="#1D9E75">9000</text>
-    <text x="258" y="80" fill="#EF9F27">Este</text><text x="338" y="80" fill="#EF9F27">10100</text>
-    <!-- collapse arrows -->
-    <line x1="172" y1="52" x2="244" y2="52" stroke="rgba(55,138,221,0.4)" stroke-width="0.5" stroke-dasharray="3,2"/>
-    <line x1="172" y1="66" x2="244" y2="52" stroke="rgba(55,138,221,0.4)" stroke-width="0.5" stroke-dasharray="3,2"/>
-    <line x1="172" y1="80" x2="244" y2="52" stroke="rgba(55,138,221,0.4)" stroke-width="0.5" stroke-dasharray="3,2"/>
-    <line x1="172" y1="94" x2="244" y2="66" stroke="rgba(29,158,117,0.4)" stroke-width="0.5" stroke-dasharray="3,2"/>
-    <line x1="172" y1="108" x2="244" y2="66" stroke="rgba(29,158,117,0.4)" stroke-width="0.5" stroke-dasharray="3,2"/>
-    <line x1="172" y1="122" x2="244" y2="80" stroke="rgba(186,117,23,0.4)" stroke-width="0.5" stroke-dasharray="3,2"/>
-    <line x1="172" y1="136" x2="244" y2="80" stroke="rgba(186,117,23,0.4)" stroke-width="0.5" stroke-dasharray="3,2"/>
+    <text x="446" y="16" font-size="9" fill="#5d6478" letter-spacing="1.2">AGRUPADO</text>
+    <rect x="320" y="24" width="220" height="100" rx="6" fill="#0f1422" stroke="#00d4a8" stroke-width="0.6"/>
+    <rect x="320" y="24" width="220" height="22" rx="6" fill="#1a2030" stroke="#00d4a8" stroke-width="0.6"/>
+    <rect x="320" y="44" width="220" height="2" fill="#1a2030"/>
+    <text x="334" y="40" fill="#67e8c8" font-weight="700">región</text>
+    <text x="440" y="40" fill="#67e8c8" font-weight="700">SUM(venta)</text>
+    <text x="334" y="62" fill="#82a8ff">Norte</text><text x="440" y="62" fill="#82a8ff">13100</text>
+    <text x="334" y="82" fill="#00d4a8">Sur</text><text x="440" y="82" fill="#00d4a8">9000</text>
+    <text x="334" y="102" fill="#fcd34d">Este</text><text x="440" y="102" fill="#fcd34d">10100</text>
+    <!-- collapse lines -->
+    <line x1="212" y1="62" x2="318" y2="62" stroke="rgba(130,168,255,0.3)" stroke-width="0.5" stroke-dasharray="3,2"/>
+    <line x1="212" y1="78" x2="318" y2="62" stroke="rgba(130,168,255,0.3)" stroke-width="0.5" stroke-dasharray="3,2"/>
+    <line x1="212" y1="94" x2="318" y2="62" stroke="rgba(130,168,255,0.3)" stroke-width="0.5" stroke-dasharray="3,2"/>
+    <line x1="212" y1="112" x2="318" y2="82" stroke="rgba(0,212,168,0.3)" stroke-width="0.5" stroke-dasharray="3,2"/>
+    <line x1="212" y1="126" x2="318" y2="82" stroke="rgba(0,212,168,0.3)" stroke-width="0.5" stroke-dasharray="3,2"/>
+    <line x1="212" y1="146" x2="318" y2="102" stroke="rgba(252,211,77,0.3)" stroke-width="0.5" stroke-dasharray="3,2"/>
+    <line x1="212" y1="160" x2="318" y2="102" stroke="rgba(252,211,77,0.3)" stroke-width="0.5" stroke-dasharray="3,2"/>
   </g></svg>`,
 
-  'inner': `<svg viewBox="0 0 520 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-  <defs><marker id="arr5" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#1D9E75"/></marker></defs>
-  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
+  'inner': `<svg viewBox="0 0 700 170" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <g font-family="JetBrains Mono,monospace" font-size="11" fill="#9da3b4">
     <!-- tabla A -->
-    <text x="12" y="14" font-size="9" fill="#6e7681" letter-spacing="1">TABLA A (ordenes)</text>
-    <rect x="10" y="20" width="155" height="110" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="10" y="20" width="155" height="20" rx="6" fill="#21262d" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="10" y="38" width="155" height="2" fill="#21262d"/>
-    <text x="20" y="34" fill="#9FE1CB" font-weight="700">orden_id</text><text x="90" y="34" fill="#9FE1CB" font-weight="700">cli_id</text>
-    <text x="20" y="52">1001</text><text x="90" y="52" fill="#378ADD">10</text>
-    <text x="20" y="66">1002</text><text x="90" y="66" fill="#378ADD">11</text>
-    <text x="20" y="80">1003</text><text x="90" y="80" fill="#6e7681">99</text>
-    <text x="130" y="80" font-size="9" fill="#E24B4A">✗</text>
-    <text x="20" y="94">1004</text><text x="90" y="94" fill="#378ADD">12</text>
-    <text x="20" y="108">1005</text><text x="90" y="108" fill="#6e7681">88</text>
-    <text x="130" y="108" font-size="9" fill="#E24B4A">✗</text>
+    <text x="14" y="16" font-size="9" fill="#5d6478" letter-spacing="1.2">TABLA A (ordenes)</text>
+    <rect x="10" y="24" width="195" height="130" rx="6" fill="#0f1422" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="10" y="24" width="195" height="22" rx="6" fill="#1a2030" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="10" y="44" width="195" height="2" fill="#1a2030"/>
+    <text x="22" y="40" fill="#67e8c8" font-weight="700">orden_id</text>
+    <text x="120" y="40" fill="#67e8c8" font-weight="700">cli_id</text>
+    <text x="22" y="62">1001</text><text x="120" y="62" fill="#82a8ff">10</text>
+    <text x="178" y="62" font-size="11" fill="#00d4a8">✓</text>
+    <text x="22" y="78">1002</text><text x="120" y="78" fill="#82a8ff">11</text>
+    <text x="178" y="78" font-size="11" fill="#00d4a8">✓</text>
+    <rect x="10" y="82" width="195" height="16" fill="rgba(248,113,113,0.07)"/>
+    <text x="22" y="94" fill="#5d6478">1003</text><text x="120" y="94" fill="#5d6478">99</text>
+    <text x="178" y="94" font-size="11" fill="#f87171">✗</text>
+    <text x="22" y="110">1004</text><text x="120" y="110" fill="#82a8ff">12</text>
+    <text x="178" y="110" font-size="11" fill="#00d4a8">✓</text>
+    <rect x="10" y="114" width="195" height="16" fill="rgba(248,113,113,0.07)"/>
+    <text x="22" y="126" fill="#5d6478">1005</text><text x="120" y="126" fill="#5d6478">88</text>
+    <text x="178" y="126" font-size="11" fill="#f87171">✗</text>
     <!-- diagrama venn -->
-    <ellipse cx="236" cy="80" rx="36" ry="36" fill="rgba(55,138,221,0.12)" stroke="rgba(55,138,221,0.4)" stroke-width="1"/>
-    <ellipse cx="284" cy="80" rx="36" ry="36" fill="rgba(29,158,117,0.12)" stroke="rgba(29,158,117,0.4)" stroke-width="1"/>
-    <ellipse cx="260" cy="80" rx="16" ry="30" fill="rgba(29,158,117,0.25)" stroke="rgba(29,158,117,0.5)" stroke-width="1"/>
-    <text x="260" y="77" text-anchor="middle" fill="#1D9E75" font-weight="700" font-size="9">INNER</text>
-    <text x="260" y="89" text-anchor="middle" fill="#1D9E75" font-size="9">JOIN</text>
-    <text x="222" y="122" text-anchor="middle" fill="#6e7681" font-size="9">A</text>
-    <text x="298" y="122" text-anchor="middle" fill="#6e7681" font-size="9">B</text>
+    <ellipse cx="295" cy="88" rx="46" ry="46" fill="rgba(130,168,255,0.12)" stroke="rgba(130,168,255,0.45)" stroke-width="1.2"/>
+    <ellipse cx="365" cy="88" rx="46" ry="46" fill="rgba(0,212,168,0.12)" stroke="rgba(0,212,168,0.45)" stroke-width="1.2"/>
+    <ellipse cx="330" cy="88" rx="22" ry="38" fill="rgba(0,212,168,0.30)" stroke="rgba(0,212,168,0.65)" stroke-width="1"/>
+    <text x="330" y="86" text-anchor="middle" fill="#00d4a8" font-weight="700" font-size="10">INNER</text>
+    <text x="330" y="98" text-anchor="middle" fill="#00d4a8" font-size="10">JOIN</text>
+    <text x="270" y="148" text-anchor="middle" fill="#5d6478" font-size="10">A</text>
+    <text x="390" y="148" text-anchor="middle" fill="#5d6478" font-size="10">B</text>
     <!-- tabla B -->
-    <text x="340" y="14" font-size="9" fill="#6e7681" letter-spacing="1">TABLA B (clientes)</text>
-    <rect x="338" y="20" width="160" height="88" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="338" y="20" width="160" height="20" rx="6" fill="#21262d" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="338" y="38" width="160" height="2" fill="#21262d"/>
-    <text x="348" y="34" fill="#9FE1CB" font-weight="700">id</text><text x="378" y="34" fill="#9FE1CB" font-weight="700">nombre</text>
-    <text x="348" y="52" fill="#378ADD">10</text><text x="378" y="52">Ana</text>
-    <text x="348" y="66" fill="#378ADD">11</text><text x="378" y="66">Luis</text>
-    <text x="348" y="80" fill="#378ADD">12</text><text x="378" y="80">Sara</text>
-    <text x="348" y="94" fill="#6e7681">13</text><text x="378" y="94" fill="#6e7681">Mario</text>
-    <text x="488" y="94" font-size="9" fill="#6e7681">✗</text>
+    <text x="442" y="16" font-size="9" fill="#5d6478" letter-spacing="1.2">TABLA B (clientes)</text>
+    <rect x="440" y="24" width="245" height="115" rx="6" fill="#0f1422" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="440" y="24" width="245" height="22" rx="6" fill="#1a2030" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="440" y="44" width="245" height="2" fill="#1a2030"/>
+    <text x="454" y="40" fill="#67e8c8" font-weight="700">id</text>
+    <text x="510" y="40" fill="#67e8c8" font-weight="700">nombre</text>
+    <text x="454" y="62" fill="#82a8ff">10</text><text x="510" y="62">Ana</text>
+    <text x="656" y="62" font-size="11" fill="#00d4a8">✓</text>
+    <text x="454" y="78" fill="#82a8ff">11</text><text x="510" y="78">Luis</text>
+    <text x="656" y="78" font-size="11" fill="#00d4a8">✓</text>
+    <text x="454" y="94" fill="#82a8ff">12</text><text x="510" y="94">Sara</text>
+    <text x="656" y="94" font-size="11" fill="#00d4a8">✓</text>
+    <rect x="440" y="98" width="245" height="16" fill="rgba(248,113,113,0.07)"/>
+    <text x="454" y="110" fill="#5d6478">13</text><text x="510" y="110" fill="#5d6478">Mario</text>
+    <text x="656" y="110" font-size="11" fill="#f87171">✗</text>
     <!-- resultado label -->
-    <text x="10" y="140" font-size="9" fill="#1D9E75">→ Resultado: 3 filas (cli_id 10, 11, 12 coinciden)</text>
+    <text x="14" y="164" font-size="10" fill="#00d4a8">→ Resultado: 3 filas (cli_id 10, 11, 12 coinciden en ambas tablas)</text>
   </g></svg>`,
 
-  'left': `<svg viewBox="0 0 520 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
-    <ellipse cx="236" cy="70" rx="36" ry="36" fill="rgba(55,138,221,0.28)" stroke="rgba(55,138,221,0.6)" stroke-width="1.5"/>
-    <ellipse cx="284" cy="70" rx="36" ry="36" fill="rgba(29,158,117,0.08)" stroke="rgba(29,158,117,0.3)" stroke-width="1"/>
-    <ellipse cx="260" cy="70" rx="16" ry="30" fill="rgba(55,138,221,0.15)" stroke="rgba(55,138,221,0.3)" stroke-width="0.5"/>
-    <text x="213" y="67" text-anchor="middle" fill="#378ADD" font-weight="700" font-size="9">LEFT</text>
-    <text x="213" y="79" text-anchor="middle" fill="#378ADD" font-size="9">tabla</text>
-    <text x="222" y="116" text-anchor="middle" fill="#6e7681" font-size="9">A (izq)</text>
-    <text x="298" y="116" text-anchor="middle" fill="#6e7681" font-size="9">B (der)</text>
-    <text x="10" y="14" font-size="9" fill="#378ADD" letter-spacing="1">TABLA A — siempre aparece completa</text>
-    <rect x="10" y="20" width="200" height="100" rx="6" fill="#161b22" stroke="#378ADD" stroke-width="0.5"/>
-    <rect x="10" y="20" width="200" height="20" rx="6" fill="#21262d" stroke="#378ADD" stroke-width="0.5"/>
-    <rect x="10" y="38" width="200" height="2" fill="#21262d"/>
-    <text x="20" y="34" fill="#9FE1CB" font-weight="700">cliente</text><text x="100" y="34" fill="#9FE1CB" font-weight="700">orden_id</text>
-    <text x="20" y="52">Ana</text><text x="100" y="52">1001</text>
-    <text x="20" y="66">Luis</text><text x="100" y="66">1002</text>
-    <text x="20" y="80">Sara</text><text x="100" y="80" fill="#E24B4A">NULL</text>
-    <text x="155" y="80" font-size="9" fill="#E24B4A">sin orden</text>
-    <text x="20" y="94">Mario</text><text x="100" y="94">1003</text>
-    <text x="20" y="108">Rosa</text><text x="100" y="108" fill="#E24B4A">NULL</text>
-    <text x="155" y="108" font-size="9" fill="#E24B4A">sin orden</text>
-    <text x="10" y="130" font-size="9" fill="#378ADD">→ 5 filas: todos los clientes, con NULL donde no hay match</text>
+  'left': `<svg viewBox="0 0 700 165" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <g font-family="JetBrains Mono,monospace" font-size="11" fill="#9da3b4">
+    <!-- Venn -->
+    <ellipse cx="500" cy="62" rx="42" ry="42" fill="rgba(130,168,255,0.30)" stroke="rgba(130,168,255,0.70)" stroke-width="1.4"/>
+    <ellipse cx="562" cy="62" rx="42" ry="42" fill="rgba(0,212,168,0.10)" stroke="rgba(0,212,168,0.35)" stroke-width="1"/>
+    <ellipse cx="531" cy="62" rx="20" ry="36" fill="rgba(130,168,255,0.20)" stroke="rgba(130,168,255,0.40)" stroke-width="0.6"/>
+    <text x="478" y="60" text-anchor="middle" fill="#82a8ff" font-weight="700" font-size="10">LEFT</text>
+    <text x="478" y="72" text-anchor="middle" fill="#82a8ff" font-size="9">tabla</text>
+    <text x="488" y="118" text-anchor="middle" fill="#5d6478" font-size="10">A (izq)</text>
+    <text x="576" y="118" text-anchor="middle" fill="#5d6478" font-size="10">B (der)</text>
+    <!-- Tabla A -->
+    <text x="14" y="16" font-size="9" fill="#82a8ff" letter-spacing="1.2">TABLA A — siempre aparece completa, NULL donde B no coincide</text>
+    <rect x="10" y="24" width="450" height="118" rx="6" fill="#0f1422" stroke="#82a8ff" stroke-width="0.6"/>
+    <rect x="10" y="24" width="450" height="22" rx="6" fill="#1a2030" stroke="#82a8ff" stroke-width="0.6"/>
+    <rect x="10" y="44" width="450" height="2" fill="#1a2030"/>
+    <text x="22" y="40" fill="#67e8c8" font-weight="700">cliente</text>
+    <text x="130" y="40" fill="#67e8c8" font-weight="700">orden_id</text>
+    <text x="280" y="40" fill="#67e8c8" font-weight="700">nota</text>
+    <text x="22" y="62">Ana</text><text x="130" y="62">1001</text>
+    <text x="280" y="62" font-size="10" fill="#00d4a8">match en B</text>
+    <text x="22" y="80">Luis</text><text x="130" y="80">1002</text>
+    <text x="280" y="80" font-size="10" fill="#00d4a8">match en B</text>
+    <rect x="10" y="84" width="450" height="16" fill="rgba(248,113,113,0.06)"/>
+    <text x="22" y="96">Sara</text><text x="130" y="96" fill="#f87171">NULL</text>
+    <text x="280" y="96" font-size="10" fill="#f87171">sin orden</text>
+    <text x="22" y="114">Mario</text><text x="130" y="114">1003</text>
+    <text x="280" y="114" font-size="10" fill="#00d4a8">match en B</text>
+    <rect x="10" y="118" width="450" height="16" fill="rgba(248,113,113,0.06)"/>
+    <text x="22" y="130">Rosa</text><text x="130" y="130" fill="#f87171">NULL</text>
+    <text x="280" y="130" font-size="10" fill="#f87171">sin orden</text>
+    <text x="14" y="158" font-size="10" fill="#82a8ff">→ 5 filas: todos los clientes, con NULL donde no hay coincidencia en B</text>
   </g></svg>`,
 
-  'rownumber': `<svg viewBox="0 0 520 150" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
-    <text x="12" y="14" font-size="9" fill="#6e7681" letter-spacing="1">DATOS CON PARTICIÓN POR REGIÓN</text>
-    <rect x="10" y="20" width="490" height="120" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="10" y="20" width="490" height="20" rx="6" fill="#21262d" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="10" y="38" width="490" height="2" fill="#21262d"/>
-    <text x="20" y="34" fill="#9FE1CB" font-weight="700">nombre</text>
-    <text x="120" y="34" fill="#9FE1CB" font-weight="700">región</text>
-    <text x="220" y="34" fill="#9FE1CB" font-weight="700">ventas</text>
-    <text x="330" y="34" fill="#EF9F27" font-weight="700">ROW_NUMBER()</text>
-    <text x="440" y="34" fill="#6e7681" font-weight="700">→ filtrar</text>
+  'rownumber': `<svg viewBox="0 0 700 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <g font-family="JetBrains Mono,monospace" font-size="11" fill="#9da3b4">
+    <text x="14" y="16" font-size="9" fill="#5d6478" letter-spacing="1.2">PARTICIÓN POR REGIÓN · ORDENADO POR VENTAS DESC</text>
+    <rect x="10" y="24" width="680" height="145" rx="6" fill="#0f1422" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="10" y="24" width="680" height="22" rx="6" fill="#1a2030" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="10" y="44" width="680" height="2" fill="#1a2030"/>
+    <text x="24" y="40" fill="#67e8c8" font-weight="700">nombre</text>
+    <text x="150" y="40" fill="#67e8c8" font-weight="700">región</text>
+    <text x="280" y="40" fill="#67e8c8" font-weight="700">ventas</text>
+    <text x="400" y="40" fill="#fcd34d" font-weight="700">ROW_NUMBER()</text>
+    <text x="555" y="40" fill="#5d6478" font-weight="700">→ WHERE rn=1</text>
     <!-- Norte grupo -->
-    <rect x="10" y="40" width="490" height="42" fill="rgba(55,138,221,0.05)" stroke="rgba(55,138,221,0.15)" stroke-width="0.5"/>
-    <text x="20" y="52">Ana</text><text x="120" y="52" fill="#378ADD">Norte</text><text x="220" y="52">12500</text><text x="330" y="52" fill="#EF9F27">1</text><text x="440" y="52" fill="#1D9E75">← rn=1</text>
-    <text x="20" y="66">Luis</text><text x="120" y="66" fill="#378ADD">Norte</text><text x="220" y="66">9800</text><text x="330" y="66" fill="#EF9F27">2</text>
-    <text x="20" y="80">Pedro</text><text x="120" y="80" fill="#378ADD">Norte</text><text x="220" y="80">7200</text><text x="330" y="80" fill="#EF9F27">3</text>
+    <rect x="10" y="46" width="680" height="50" fill="rgba(130,168,255,0.05)" stroke="rgba(130,168,255,0.15)" stroke-width="0.5"/>
+    <text x="24" y="62">Ana</text><text x="150" y="62" fill="#82a8ff">Norte</text><text x="280" y="62">12500</text><text x="400" y="62" fill="#fcd34d">1</text><text x="555" y="62" fill="#00d4a8">← top Norte</text>
+    <text x="24" y="78">Luis</text><text x="150" y="78" fill="#82a8ff">Norte</text><text x="280" y="78">9800</text><text x="400" y="78" fill="#fcd34d">2</text>
+    <text x="24" y="94">Pedro</text><text x="150" y="94" fill="#82a8ff">Norte</text><text x="280" y="94">7200</text><text x="400" y="94" fill="#fcd34d">3</text>
     <!-- Sur grupo -->
-    <rect x="10" y="82" width="490" height="28" fill="rgba(29,158,117,0.05)" stroke="rgba(29,158,117,0.15)" stroke-width="0.5"/>
-    <text x="20" y="94">Sara</text><text x="120" y="94" fill="#1D9E75">Sur</text><text x="220" y="94">15200</text><text x="330" y="94" fill="#EF9F27">1</text><text x="440" y="94" fill="#1D9E75">← rn=1</text>
-    <text x="20" y="108">Mario</text><text x="120" y="108" fill="#1D9E75">Sur</text><text x="220" y="108">8900</text><text x="330" y="108" fill="#EF9F27">2</text>
+    <rect x="10" y="96" width="680" height="34" fill="rgba(0,212,168,0.05)" stroke="rgba(0,212,168,0.15)" stroke-width="0.5"/>
+    <text x="24" y="112">Sara</text><text x="150" y="112" fill="#00d4a8">Sur</text><text x="280" y="112">15200</text><text x="400" y="112" fill="#fcd34d">1</text><text x="555" y="112" fill="#00d4a8">← top Sur</text>
+    <text x="24" y="126">Mario</text><text x="150" y="126" fill="#00d4a8">Sur</text><text x="280" y="126">8900</text><text x="400" y="126" fill="#fcd34d">2</text>
     <!-- Este grupo -->
-    <rect x="10" y="110" width="490" height="28" fill="rgba(186,117,23,0.05)" stroke="rgba(186,117,23,0.15)" stroke-width="0.5"/>
-    <text x="20" y="122">Rosa</text><text x="120" y="122" fill="#EF9F27">Este</text><text x="220" y="122">20100</text><text x="330" y="122" fill="#EF9F27">1</text><text x="440" y="122" fill="#1D9E75">← rn=1</text>
-    <text x="20" y="136">Carlos</text><text x="120" y="136" fill="#EF9F27">Este</text><text x="220" y="136">11300</text><text x="330" y="136" fill="#EF9F27">2</text>
+    <rect x="10" y="130" width="680" height="34" fill="rgba(252,211,77,0.05)" stroke="rgba(252,211,77,0.18)" stroke-width="0.5"/>
+    <text x="24" y="146">Rosa</text><text x="150" y="146" fill="#fcd34d">Este</text><text x="280" y="146">20100</text><text x="400" y="146" fill="#fcd34d">1</text><text x="555" y="146" fill="#00d4a8">← top Este</text>
+    <text x="24" y="160">Carlos</text><text x="150" y="160" fill="#fcd34d">Este</text><text x="280" y="160">11300</text><text x="400" y="160" fill="#fcd34d">2</text>
   </g></svg>`,
 
-  'cte': `<svg viewBox="0 0 520 150" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-  <defs><marker id="arr6" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#1D9E75"/></marker></defs>
-  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
+  'cte': `<svg viewBox="0 0 700 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <defs><marker id="arr6" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#00d4a8"/></marker></defs>
+  <g font-family="JetBrains Mono,monospace" font-size="11" fill="#9da3b4">
     <!-- CTE 1 -->
-    <rect x="10" y="10" width="140" height="60" rx="6" fill="#161b22" stroke="rgba(55,138,221,0.5)" stroke-width="0.5" stroke-dasharray="4,2"/>
-    <text x="20" y="26" fill="#378ADD" font-weight="700" font-size="9">WITH cte_1 AS</text>
-    <text x="20" y="40" fill="#6e7681" font-size="9">SELECT region,</text>
-    <text x="20" y="52" fill="#6e7681" font-size="9">SUM(monto) AS total</text>
-    <text x="20" y="64" fill="#6e7681" font-size="9">FROM ventas</text>
+    <rect x="10" y="14" width="200" height="70" rx="6" fill="#0f1422" stroke="rgba(130,168,255,0.55)" stroke-width="0.6" stroke-dasharray="5,3"/>
+    <text x="22" y="32" fill="#82a8ff" font-weight="700" font-size="10">WITH ventas_region AS (</text>
+    <text x="22" y="48" fill="#5d6478" font-size="10">  SELECT region,</text>
+    <text x="22" y="62" fill="#5d6478" font-size="10">    SUM(monto) AS total</text>
+    <text x="22" y="76" fill="#5d6478" font-size="10">  FROM ventas)</text>
     <!-- CTE 2 -->
-    <rect x="10" y="84" width="140" height="60" rx="6" fill="#161b22" stroke="rgba(29,158,117,0.5)" stroke-width="0.5" stroke-dasharray="4,2"/>
-    <text x="20" y="100" fill="#1D9E75" font-weight="700" font-size="9">cte_2 AS</text>
-    <text x="20" y="114" fill="#6e7681" font-size="9">SELECT AVG(total)</text>
-    <text x="20" y="128" fill="#6e7681" font-size="9">FROM cte_1</text>
-    <text x="20" y="142" fill="#378ADD" font-size="9">← usa cte_1</text>
+    <rect x="10" y="98" width="200" height="74" rx="6" fill="#0f1422" stroke="rgba(0,212,168,0.55)" stroke-width="0.6" stroke-dasharray="5,3"/>
+    <text x="22" y="116" fill="#00d4a8" font-weight="700" font-size="10">promedio_global AS (</text>
+    <text x="22" y="132" fill="#5d6478" font-size="10">  SELECT AVG(total)</text>
+    <text x="22" y="146" fill="#5d6478" font-size="10">  FROM ventas_region)</text>
+    <text x="22" y="164" fill="#82a8ff" font-size="9">↑ usa ventas_region</text>
     <!-- flecha entre ctes -->
-    <line x1="80" y1="72" x2="80" y2="82" stroke="rgba(29,158,117,0.5)" stroke-width="1" marker-end="url(#arr6)"/>
+    <line x1="110" y1="86" x2="110" y2="96" stroke="rgba(0,212,168,0.55)" stroke-width="1" marker-end="url(#arr6)"/>
     <!-- flecha al query final -->
-    <line x1="152" y1="70" x2="198" y2="80" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr6)"/>
-    <line x1="152" y1="115" x2="198" y2="90" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr6)"/>
+    <line x1="214" y1="50" x2="278" y2="78" stroke="#00d4a8" stroke-width="1.4" marker-end="url(#arr6)"/>
+    <line x1="214" y1="132" x2="278" y2="98" stroke="#00d4a8" stroke-width="1.4" marker-end="url(#arr6)"/>
     <!-- query final -->
-    <rect x="200" y="50" width="300" height="80" rx="6" fill="#161b22" stroke="#1D9E75" stroke-width="0.5"/>
-    <rect x="200" y="50" width="300" height="20" rx="6" fill="#21262d" stroke="#1D9E75" stroke-width="0.5"/>
-    <rect x="200" y="68" width="300" height="2" fill="#21262d"/>
-    <text x="210" y="64" fill="#1D9E75" font-weight="700" font-size="9">QUERY FINAL (usa ambas CTEs)</text>
-    <text x="210" y="80" fill="#6e7681" font-size="9">SELECT c1.region, c1.total, c2.promedio</text>
-    <text x="210" y="94" fill="#6e7681" font-size="9">FROM cte_1 c1</text>
-    <text x="210" y="108" fill="#6e7681" font-size="9">CROSS JOIN cte_2 c2</text>
-    <text x="210" y="122" fill="#EF9F27" font-size="9">→ resultado final con contexto enriquecido</text>
+    <rect x="290" y="50" width="400" height="100" rx="6" fill="#0f1422" stroke="#00d4a8" stroke-width="0.6"/>
+    <rect x="290" y="50" width="400" height="22" rx="6" fill="#1a2030" stroke="#00d4a8" stroke-width="0.6"/>
+    <rect x="290" y="70" width="400" height="2" fill="#1a2030"/>
+    <text x="302" y="66" fill="#00d4a8" font-weight="700" font-size="10">QUERY FINAL — combina ambas CTEs</text>
+    <text x="302" y="90" fill="#67e8c8" font-size="10">SELECT</text>
+    <text x="302" y="106" fill="#5d6478" font-size="10">  c1.region, c1.total, c2.promedio</text>
+    <text x="302" y="122" fill="#67e8c8" font-size="10">FROM</text>
+    <text x="302" y="138" fill="#5d6478" font-size="10">  ventas_region c1 CROSS JOIN promedio_global c2</text>
+    <text x="290" y="166" fill="#fcd34d" font-size="10">→ resultado final con contexto enriquecido (total + promedio)</text>
   </g></svg>`,
 
-  'lag': `<svg viewBox="0 0 520 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-  <defs><marker id="arr7" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#EF9F27"/></marker></defs>
-  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
-    <text x="10" y="14" font-size="9" fill="#6e7681" letter-spacing="1">VENTANA DESLIZANTE — LAG() MIRA HACIA ATRÁS</text>
-    <rect x="10" y="22" width="490" height="100" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
-    <rect x="10" y="22" width="490" height="20" rx="6" fill="#21262d"/>
-    <rect x="10" y="40" width="490" height="2" fill="#21262d"/>
-    <text x="20" y="36" fill="#9FE1CB" font-weight="700">mes</text>
-    <text x="100" y="36" fill="#9FE1CB" font-weight="700">ventas</text>
-    <text x="200" y="36" fill="#EF9F27" font-weight="700">LAG(ventas)</text>
-    <text x="340" y="36" fill="#1D9E75" font-weight="700">variación</text>
-    <text x="20" y="54">Ene</text><text x="100" y="54">8000</text><text x="200" y="54" fill="#6e7681">NULL</text><text x="340" y="54" fill="#6e7681">—</text>
-    <text x="20" y="68">Feb</text><text x="100" y="68">9500</text><text x="200" y="68" fill="#EF9F27">8000</text><text x="340" y="68" fill="#1D9E75">+1500</text>
-    <text x="20" y="82">Mar</text><text x="100" y="82">7200</text><text x="200" y="82" fill="#EF9F27">9500</text><text x="340" y="82" fill="#E24B4A">-2300</text>
-    <text x="20" y="96">Abr</text><text x="100" y="96">11000</text><text x="200" y="96" fill="#EF9F27">7200</text><text x="340" y="96" fill="#1D9E75">+3800</text>
-    <text x="20" y="110">May</text><text x="100" y="110">10500</text><text x="200" y="110" fill="#EF9F27">11000</text><text x="340" y="110" fill="#E24B4A">-500</text>
-    <!-- flecha lag -->
-    <line x1="120" y1="68" x2="195" y2="68" stroke="#EF9F27" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arr7)"/>
-    <path d="M 120 54 Q 157 54 157 61 Q 157 68 195 68" fill="none" stroke="rgba(239,159,39,0.3)" stroke-width="0.8"/>
+  'lag': `<svg viewBox="0 0 700 150" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <defs><marker id="arr7" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#fcd34d"/></marker></defs>
+  <g font-family="JetBrains Mono,monospace" font-size="11" fill="#9da3b4">
+    <text x="14" y="16" font-size="9" fill="#5d6478" letter-spacing="1.2">VENTANA DESLIZANTE — LAG() MIRA UNA FILA HACIA ATRÁS</text>
+    <rect x="10" y="24" width="680" height="120" rx="6" fill="#0f1422" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="10" y="24" width="680" height="22" rx="6" fill="#1a2030" stroke="#2a3142" stroke-width="0.5"/>
+    <rect x="10" y="44" width="680" height="2" fill="#1a2030"/>
+    <text x="24" y="40" fill="#67e8c8" font-weight="700">mes</text>
+    <text x="140" y="40" fill="#67e8c8" font-weight="700">ventas</text>
+    <text x="290" y="40" fill="#fcd34d" font-weight="700">LAG(ventas)</text>
+    <text x="470" y="40" fill="#00d4a8" font-weight="700">variación</text>
+    <text x="24" y="62">Ene</text><text x="140" y="62">8000</text><text x="290" y="62" fill="#5d6478">NULL</text><text x="470" y="62" fill="#5d6478">—</text>
+    <text x="24" y="80">Feb</text><text x="140" y="80">9500</text><text x="290" y="80" fill="#fcd34d">8000</text><text x="470" y="80" fill="#00d4a8">+1500</text>
+    <text x="24" y="98">Mar</text><text x="140" y="98">7200</text><text x="290" y="98" fill="#fcd34d">9500</text><text x="470" y="98" fill="#f87171">-2300</text>
+    <text x="24" y="116">Abr</text><text x="140" y="116">11000</text><text x="290" y="116" fill="#fcd34d">7200</text><text x="470" y="116" fill="#00d4a8">+3800</text>
+    <text x="24" y="134">May</text><text x="140" y="134">10500</text><text x="290" y="134" fill="#fcd34d">11000</text><text x="470" y="134" fill="#f87171">-500</text>
+    <!-- LAG curved arrows from prior row's ventas to current row's LAG column -->
+    <path d="M 180 62 Q 240 62 240 71 Q 240 80 285 80" fill="none" stroke="rgba(252,211,77,0.5)" stroke-width="0.8" marker-end="url(#arr7)"/>
+    <path d="M 180 80 Q 240 80 240 89 Q 240 98 285 98" fill="none" stroke="rgba(252,211,77,0.5)" stroke-width="0.8" marker-end="url(#arr7)"/>
   </g></svg>`
 };
 
