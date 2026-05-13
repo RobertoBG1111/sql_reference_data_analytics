@@ -29,10 +29,6 @@ Una vez publicado el repo:
 
 Para activar Pages: **Settings → Pages → Source: `main` / root → Save.**
 
-## Stack
-
-HTML5 + CSS3 + JavaScript vanilla. SVG inline para los diagramas. Sin frameworks, sin build step, sin dependencias de runtime, solo Google Fonts y Tabler Icons vía CDN.
-
 ## Sobre este proyecto
 
 Este cheatsheet forma parte de mi **portafolio de Data Analytics**. Lo construí mientras consolidaba mis apuntes de SQL para análisis exploratorio, con el objetivo de tener una referencia visual rápida que pudiera consultar y compartir en cualquier momento.
