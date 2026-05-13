@@ -25,7 +25,7 @@ Después abre `index.html` en tu navegador. Listo.
 
 Una vez publicado el repo:
 
-`https://RobertoBG1111.github.io/sql-cheatsheet-data-analyst/`
+`https://robertobg1111.github.io/sql_reference_data_analytics/`
 
 Para activar Pages: **Settings → Pages → Source: `main` / root → Save.**
 
