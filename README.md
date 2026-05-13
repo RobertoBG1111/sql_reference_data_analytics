@@ -8,7 +8,7 @@
 
 - **22 cláusulas y funciones** organizadas por categoría: SELECT, filtrado, agregación, JOINs, window functions, subqueries y utilidades.
 - **3 vistas por comando**: sintaxis estructurada, ejemplo de código copiable y diagrama visual SVG de cómo funciona.
-- **100% estático** — un solo archivo HTML, sin dependencias de build.
+- **100% estático** con un solo archivo HTML, sin dependencias de build.
 
 ## Cómo usarlo
 
