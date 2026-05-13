@@ -1,4 +1,4 @@
-# SQL Cheat sheet para Analistas de Datos
+# SQL Cheatsheet para Analistas de Datos
 
 > Cheatsheet interactivo de SQL diseñado para analistas de datos junior: sintaxis estructurada, ejemplos copiables y diagramas visuales SVG de cada cláusula y función.
 
