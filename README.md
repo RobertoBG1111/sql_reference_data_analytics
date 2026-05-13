@@ -4,7 +4,7 @@
 > sintaxis estructurada, ejemplos copiables y diagramas visuales SVG
 > de cada cláusula y función.
 
-![Preview del SQL Cheatsheet](assets/preview.png)
+![Preview del SQL Cheatsheet](assets/preview.jpg)
 
 ## ¿Qué incluye?
 
