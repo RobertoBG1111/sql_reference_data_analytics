@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Cheatsheet · Roberto Barrera — Data Analyst Jr.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-base: #070914;
+  --bg-deep: #050811;
+  --bg-surface: rgba(255, 255, 255, 0.025);
+  --bg-surface-hover: rgba(255, 255, 255, 0.05);
+  --bg-elevated: rgba(255, 255, 255, 0.045);
+  --bg-code: rgba(0, 0, 0, 0.4);
+  --border: rgba(255, 255, 255, 0.07);
+  --border-hover: rgba(255, 255, 255, 0.15);
+  --border-active: rgba(0, 212, 168, 0.5);
+  --text: #ecedf2;
+  --text2: #9da3b4;
+  --text3: #5d6478;
+  --accent: #00d4a8;
+  --accent-bright: #14e6bf;
+  --accent-deep: #0bbf95;
+  --accent-dim: rgba(0, 212, 168, 0.14);
+  --accent-glow: rgba(0, 212, 168, 0.45);
+  --accent-mint: #67e8c8;
+  --blue: #82a8ff;
+  --purple: #a78bfa;
+  --amber: #fcd34d;
+  --red: #f87171;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html, body { height: 100%; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg-base);
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(0,212,168,0.06), transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(99,140,235,0.06), transparent 50%);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 3rem 1.5rem 4rem;
+  position: relative;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ANIMATED GRADIENT ORBS (backdrop) */
+body::before,
+body::after,
+.bg-orb {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(110px);
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform;
+}
+body::before {
+  width: 620px; height: 620px;
+  background: radial-gradient(circle, rgba(0,212,168,0.22) 0%, transparent 65%);
+  top: -240px; left: -200px;
+  animation: drift1 24s ease-in-out infinite;
+}
+body::after {
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(99,140,235,0.20) 0%, transparent 65%);
+  bottom: -280px; right: -260px;
+  animation: drift2 30s ease-in-out infinite;
+}
+.bg-orb {
+  width: 540px; height: 540px;
+  background: radial-gradient(circle, rgba(140,110,225,0.15) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  margin-left: -270px;
+  margin-top: -270px;
+  animation: drift3 26s ease-in-out infinite;
+}
+@keyframes drift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(180px, 120px) scale(1.1); }
+  66%      { transform: translate(40px, 220px) scale(0.95); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(-220px, -140px) scale(1.08); }
+  66%      { transform: translate(-60px, -260px) scale(0.92); }
+}
+@keyframes drift3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-120px, -80px) scale(1.12); }
+}
+
+.root {
+  max-width: 820px;
+  margin: 0 auto;
+  position: relative;
+  animation: fadeUp 0.7s var(--ease-out);
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 2.25rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.title {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+.title span {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-bright) 45%, var(--blue) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-surface);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 12px;
+  color: var(--text2);
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+  align-self: flex-start;
+}
+.dot {
+  width: 7px; height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--accent-glow);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 12px var(--accent-glow); }
+  50%      { opacity: 0.35; box-shadow: 0 0 3px var(--accent-glow); }
+}
+
+/* EXEC ORDER */
+.exec-order {
+  background: var(--bg-surface);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  margin-bottom: 1.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.85;
+}
+.exec-order strong { color: var(--accent-mint); font-weight: 600; }
+
+/* SEARCH */
+.search-row { position: relative; margin-bottom: 1.25rem; }
+.search-row i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: var(--text3);
+  pointer-events: none;
+  transition: color 0.25s var(--ease);
+  z-index: 1;
+}
+.search-row input {
+  width: 100%;
+  background: var(--bg-surface);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px 12px 42px;
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text);
+  outline: none;
+  transition: all 0.25s var(--ease);
+}
+.search-row input::placeholder { color: var(--text3); }
+.search-row input:focus {
+  border-color: var(--border-active);
+  background: var(--bg-surface-hover);
+  box-shadow: 0 0 0 4px var(--accent-dim);
+}
+.search-row:has(input:focus) i { color: var(--accent); }
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.tab {
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+.tab:hover {
+  background: var(--bg-surface-hover);
+  border-color: var(--border-hover);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+.tab.active {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+  border-color: transparent;
+  color: #00150f;
+  font-weight: 600;
+  box-shadow: 0 6px 20px var(--accent-dim), 0 0 0 1px rgba(0,212,168,0.3);
+  transform: translateY(-1px);
+}
+
+.counter {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 14px;
+  letter-spacing: 0.06em;
+}
+
+/* SECTIONS */
+.section { margin-bottom: 2rem; }
+.section-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+/* CARDS */
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.card {
+  background: var(--bg-surface);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: transform 0.28s var(--ease-out),
+              background 0.25s var(--ease),
+              border-color 0.25s var(--ease),
+              box-shadow 0.3s var(--ease);
+  animation: cardIn 0.5s var(--ease-out) backwards;
+}
+.cards .card:nth-child(1) { animation-delay: 0.02s; }
+.cards .card:nth-child(2) { animation-delay: 0.06s; }
+.cards .card:nth-child(3) { animation-delay: 0.10s; }
+.cards .card:nth-child(4) { animation-delay: 0.14s; }
+.cards .card:nth-child(5) { animation-delay: 0.18s; }
+.cards .card:nth-child(6) { animation-delay: 0.22s; }
+.cards .card:nth-child(n+7) { animation-delay: 0.26s; }
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.card:hover {
+  background: var(--bg-surface-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+}
+.card.expanded {
+  background: var(--bg-elevated);
+  border-color: var(--border-active);
+  box-shadow: 0 10px 40px rgba(0,212,168,0.08), 0 0 0 1px rgba(0,212,168,0.18);
+  transform: translateY(0);
+}
+.card.expanded:hover { transform: translateY(-1px); }
+
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cmd {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+  min-width: 170px;
+  letter-spacing: -0.01em;
+  transition: color 0.2s var(--ease);
+}
+.card:hover .cmd { color: var(--accent-bright); }
+.card-desc {
+  font-size: 12.5px;
+  color: var(--text2);
+  flex: 1;
+  line-height: 1.45;
+}
+.expand-icon {
+  font-size: 14px;
+  color: var(--text3);
+  flex-shrink: 0;
+  transition: transform 0.35s var(--ease-spring), color 0.2s var(--ease);
+}
+.card:hover .expand-icon { color: var(--accent); }
+.card.expanded .expand-icon { transform: rotate(180deg); color: var(--accent); }
+
+/* DETAIL */
+.detail {
+  display: none;
+  margin-top: 14px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+.card.expanded .detail {
+  display: block;
+  animation: expandIn 0.4s var(--ease-out);
+}
+@keyframes expandIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.detail-note {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 12px;
+  line-height: 1.7;
+}
+
+/* CODE BLOCK */
+.code-wrap { position: relative; margin-bottom: 10px; }
+.code-block {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text);
+  white-space: pre;
+  overflow-x: auto;
+  line-height: 1.75;
+}
+.kw { color: var(--accent-mint); font-weight: 600; }
+.fn { color: var(--blue); }
+.st { color: var(--amber); }
+.cm { color: var(--text3); font-style: italic; }
+.nm { color: var(--red); }
+
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--bg-surface);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-sm);
+  padding: 5px 11px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+.copy-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+.copy-btn.ok {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.tip {
+  font-size: 11.5px;
+  color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1.65;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.02);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.tip b { color: var(--accent); font-weight: 600; }
+
+/* SYNTAX BLOCK */
+.syntax-block {
+  background: rgba(0,212,168,0.05);
+  border: 1px solid rgba(0,212,168,0.18);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 2;
+  margin-bottom: 10px;
+}
+.syn-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+.s-req { color: var(--accent-mint); font-weight: 600; }
+.s-opt { color: var(--text3); }
+.s-val { color: var(--amber); font-style: italic; }
+.s-kw  { color: var(--accent-mint); font-weight: 600; }
+
+.syntax-legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.leg-req { color: var(--accent-mint); }
+.leg-opt { color: var(--text3); }
+.leg-val { color: var(--amber); }
+
+/* VISUAL BLOCK */
+.visual-block {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.visual-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 12px;
+  display: block;
+}
+
+/* DETAIL TABS (segmented control) */
+.detail-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 14px;
+  padding: 4px;
+  background: rgba(0,0,0,0.28);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: fit-content;
+}
+.dtab {
+  padding: 6px 14px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text3);
+  cursor: pointer;
+  border-radius: 7px;
+  transition: all 0.22s var(--ease);
+  background: transparent;
+  border: none;
+  font-weight: 500;
+}
+.dtab:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.dtab.dactive {
+  background: var(--accent-dim);
+  color: var(--accent-bright);
+  box-shadow: 0 0 0 1px rgba(0,212,168,0.25), 0 4px 12px rgba(0,212,168,0.1);
+}
+
+.tab-panel { animation: panelIn 0.32s var(--ease-out); }
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* FOOTER */
+.footer {
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.footer-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.footer-role {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 4px;
+}
+.footer-links { display: flex; gap: 10px; }
+.link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: 12.5px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s var(--ease);
+}
+.link-btn:hover {
+  background: var(--bg-surface-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+.link-btn.primary {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+  border-color: transparent;
+  color: #00150f;
+  font-weight: 600;
+}
+.link-btn.primary:hover {
+  box-shadow: 0 8px 24px var(--accent-dim);
+  transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  body { padding: 1.5rem 1rem 3rem; }
+  .title { font-size: 28px; }
+  .cmd { min-width: 130px; font-size: 12px; }
+  .live-badge { font-size: 11px; padding: 6px 12px; }
+}
+
+/* MOTION-SAFE */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-orb" aria-hidden="true"></div>
+<div class="root">
+
+  <div class="header">
+    <div>
+      <div class="eyebrow">// data analytics · sql reference</div>
+      <div class="title">SQL <span>Cheatsheet</span><br>para Analistas</div>
+    </div>
+    <div class="live-badge">
+      <span class="dot"></span>
+      v1.1 · 2026
+    </div>
+  </div>
+
+  <div class="exec-order">
+    <strong>Orden de ejecución SQL:</strong>
+    FROM → JOIN → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT
+  </div>
+
+  <div class="search-row">
+    <i class="ti ti-search"></i>
+    <input type="text" id="searchInput" placeholder="buscar cláusula, función..." oninput="filterCards()">
+  </div>
+
+  <div class="tabs" id="tabsRow">
+    <button class="tab active" onclick="setTab('all',this)">Todos</button>
+    <button class="tab" onclick="setTab('select',this)">SELECT</button>
+    <button class="tab" onclick="setTab('filter',this)">Filtrar</button>
+    <button class="tab" onclick="setTab('agg',this)">Agregar</button>
+    <button class="tab" onclick="setTab('join',this)">JOINs</button>
+    <button class="tab" onclick="setTab('window',this)">Window Fn</button>
+    <button class="tab" onclick="setTab('subquery',this)">Subqueries</button>
+    <button class="tab" onclick="setTab('util',this)">Utilidades</button>
+  </div>
+
+  <div class="counter" id="counter"></div>
+  <div id="cardContainer"></div>
+
+  <div class="footer">
+    <div>
+      <div class="footer-name">Roberto Barrera</div>
+      <div class="footer-role">// data analyst jr · mérida, mx</div>
+    </div>
+    <div class="footer-links">
+      <a class="link-btn" href="https://www.linkedin.com/in/robertobarreragarcia" target="_blank" rel="noopener">
+        <i class="ti ti-brand-linkedin"></i> LinkedIn
+      </a>
+      <a class="link-btn primary" href="https://github.com/RobertoBG1111" target="_blank" rel="noopener">
+        <i class="ti ti-brand-github"></i> Ver proyectos
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+const VISUALS = {
+  'select': `<svg viewBox="0 0 520 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1D9E75"/>
+    </marker>
+  </defs>
+  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
+    <!-- tabla origen -->
+    <text x="12" y="14" font-size="9" fill="#6e7681" letter-spacing="1">TABLA ORIGEN</text>
+    <rect x="10" y="20" width="180" height="88" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="10" y="20" width="180" height="20" rx="6" fill="#21262d" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="10" y="38" width="180" height="2" fill="#21262d"/>
+    <text x="20" y="34" fill="#9FE1CB" font-weight="700">id</text>
+    <text x="55" y="34" fill="#9FE1CB" font-weight="700">nombre</text>
+    <text x="120" y="34" fill="#9FE1CB" font-weight="700">ciudad</text>
+    <text x="20" y="52" fill="#8b949e">1</text><text x="55" y="52">Ana</text><text x="120" y="52">CDMX</text>
+    <text x="20" y="66" fill="#8b949e">2</text><text x="55" y="66">Luis</text><text x="120" y="66">GDL</text>
+    <text x="20" y="80" fill="#8b949e">3</text><text x="55" y="80">Sara</text><text x="120" y="80">CDMX</text>
+    <text x="20" y="94" fill="#8b949e">4</text><text x="55" y="94">Mario</text><text x="120" y="94">MTY</text>
+    <text x="20" y="108" fill="#8b949e">5</text><text x="55" y="108">Rosa</text><text x="120" y="108">GDL</text>
+    <!-- highlight columnas seleccionadas -->
+    <rect x="50" y="22" width="60" height="86" rx="0" fill="rgba(29,158,117,0.08)" stroke="rgba(29,158,117,0.3)" stroke-width="0.5"/>
+    <rect x="115" y="22" width="74" height="86" rx="0" fill="rgba(55,138,221,0.08)" stroke="rgba(55,138,221,0.3)" stroke-width="0.5"/>
+    <!-- flecha -->
+    <line x1="198" y1="64" x2="250" y2="64" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr)"/>
+    <text x="206" y="59" fill="#1D9E75" font-size="9">SELECT</text>
+    <text x="204" y="71" fill="#6e7681" font-size="9">nombre, ciudad</text>
+    <!-- resultado -->
+    <text x="262" y="14" font-size="9" fill="#6e7681" letter-spacing="1">RESULTADO</text>
+    <rect x="260" y="20" width="148" height="88" rx="6" fill="#161b22" stroke="#1D9E75" stroke-width="0.5"/>
+    <rect x="260" y="20" width="148" height="20" rx="6" fill="#21262d" stroke="#1D9E75" stroke-width="0.5"/>
+    <rect x="260" y="38" width="148" height="2" fill="#21262d"/>
+    <text x="270" y="34" fill="#9FE1CB" font-weight="700">nombre</text>
+    <text x="340" y="34" fill="#378ADD" font-weight="700">ciudad</text>
+    <text x="270" y="52">Ana</text><text x="340" y="52" fill="#378ADD">CDMX</text>
+    <text x="270" y="66">Luis</text><text x="340" y="66" fill="#378ADD">GDL</text>
+    <text x="270" y="80">Sara</text><text x="340" y="80" fill="#378ADD">CDMX</text>
+    <text x="270" y="94">Mario</text><text x="340" y="94" fill="#378ADD">MTY</text>
+    <text x="270" y="108">Rosa</text><text x="340" y="108" fill="#378ADD">GDL</text>
+  </g></svg>`,
+
+  'distinct': `<svg viewBox="0 0 520 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <defs><marker id="arr2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#1D9E75"/></marker></defs>
+  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
+    <text x="12" y="14" font-size="9" fill="#6e7681" letter-spacing="1">CON DUPLICADOS</text>
+    <rect x="10" y="20" width="120" height="100" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="10" y="20" width="120" height="20" rx="6" fill="#21262d" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="10" y="38" width="120" height="2" fill="#21262d"/>
+    <text x="20" y="34" fill="#9FE1CB" font-weight="700">ciudad</text>
+    <text x="20" y="52">CDMX</text>
+    <text x="20" y="66">GDL</text>
+    <text x="20" y="80" fill="rgba(224,75,74,0.7)">CDMX</text>
+    <rect x="10" y="71" width="120" height="14" fill="rgba(224,75,74,0.07)" stroke="rgba(224,75,74,0.2)" stroke-width="0.5"/>
+    <text x="20" y="94">MTY</text>
+    <text x="20" y="108" fill="rgba(224,75,74,0.7)">GDL</text>
+    <rect x="10" y="99" width="120" height="14" fill="rgba(224,75,74,0.07)" stroke="rgba(224,75,74,0.2)" stroke-width="0.5"/>
+    <text x="20" y="122" fill="rgba(224,75,74,0.7)">CDMX</text>
+    <rect x="10" y="113" width="120" height="14" fill="rgba(224,75,74,0.07)" stroke="rgba(224,75,74,0.2)" stroke-width="0.5"/>
+    <line x1="138" y1="70" x2="185" y2="70" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr2)"/>
+    <text x="140" y="65" fill="#1D9E75" font-size="9">DISTINCT</text>
+    <text x="280" y="14" font-size="9" fill="#6e7681" letter-spacing="1">ÚNICOS</text>
+    <rect x="200" y="20" width="120" height="74" rx="6" fill="#161b22" stroke="#1D9E75" stroke-width="0.5"/>
+    <rect x="200" y="20" width="120" height="20" rx="6" fill="#21262d" stroke="#1D9E75" stroke-width="0.5"/>
+    <rect x="200" y="38" width="120" height="2" fill="#21262d"/>
+    <text x="210" y="34" fill="#9FE1CB" font-weight="700">ciudad</text>
+    <text x="210" y="52">CDMX</text>
+    <text x="210" y="66">GDL</text>
+    <text x="210" y="80">MTY</text>
+  </g></svg>`,
+
+  'where': `<svg viewBox="0 0 520 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <defs><marker id="arr3" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#1D9E75"/></marker></defs>
+  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
+    <text x="12" y="14" font-size="9" fill="#6e7681" letter-spacing="1">TODAS LAS FILAS</text>
+    <rect x="10" y="20" width="170" height="100" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="10" y="20" width="170" height="20" rx="6" fill="#21262d" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="10" y="38" width="170" height="2" fill="#21262d"/>
+    <text x="20" y="34" fill="#9FE1CB" font-weight="700">nombre</text><text x="90" y="34" fill="#9FE1CB" font-weight="700">monto</text>
+    <text x="20" y="52">Ana</text><text x="90" y="52">8500</text>
+    <rect x="10" y="55" width="170" height="14" fill="rgba(224,75,74,0.07)"/>
+    <text x="20" y="66" fill="#6e7681">Luis</text><text x="90" y="66" fill="#6e7681">3200</text>
+    <text x="140" y="66" font-size="9" fill="#E24B4A">✗</text>
+    <text x="20" y="80">Sara</text><text x="90" y="80">12000</text>
+    <text x="20" y="94" fill="#6e7681">Mario</text><text x="90" y="94" fill="#6e7681">1800</text>
+    <rect x="10" y="97" width="170" height="14" fill="rgba(224,75,74,0.07)"/>
+    <text x="140" y="108" font-size="9" fill="#E24B4A">✗</text>
+    <text x="20" y="108" fill="#6e7681">Carlos</text><text x="90" y="108" fill="#6e7681">2900</text>
+    <text x="20" y="108" fill="#6e7681">Carlos</text>
+    <!-- filtro label -->
+    <rect x="195" y="56" width="80" height="28" rx="4" fill="rgba(29,158,117,0.12)" stroke="rgba(29,158,117,0.4)" stroke-width="0.5"/>
+    <text x="205" y="67" fill="#9FE1CB" font-weight="700" font-size="10">WHERE</text>
+    <text x="200" y="79" fill="#EF9F27" font-size="9">monto &gt; 5000</text>
+    <line x1="280" y1="70" x2="318" y2="70" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr3)"/>
+    <text x="328" y="14" font-size="9" fill="#6e7681" letter-spacing="1">FILTRADAS</text>
+    <rect x="328" y="20" width="170" height="60" rx="6" fill="#161b22" stroke="#1D9E75" stroke-width="0.5"/>
+    <rect x="328" y="20" width="170" height="20" rx="6" fill="#21262d" stroke="#1D9E75" stroke-width="0.5"/>
+    <rect x="328" y="38" width="170" height="2" fill="#21262d"/>
+    <text x="338" y="34" fill="#9FE1CB" font-weight="700">nombre</text><text x="408" y="34" fill="#9FE1CB" font-weight="700">monto</text>
+    <text x="338" y="52">Ana</text><text x="408" y="52" fill="#1D9E75">8500</text>
+    <text x="338" y="66">Sara</text><text x="408" y="66" fill="#1D9E75">12000</text>
+  </g></svg>`,
+
+  'groupby': `<svg viewBox="0 0 520 150" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <defs><marker id="arr4" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#1D9E75"/></marker></defs>
+  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
+    <text x="12" y="14" font-size="9" fill="#6e7681" letter-spacing="1">FILAS INDIVIDUALES</text>
+    <rect x="10" y="20" width="160" height="120" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="10" y="20" width="160" height="20" rx="6" fill="#21262d" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="10" y="38" width="160" height="2" fill="#21262d"/>
+    <text x="20" y="34" fill="#9FE1CB" font-weight="700">región</text><text x="90" y="34" fill="#9FE1CB" font-weight="700">venta</text>
+    <!-- grupo Norte -->
+    <rect x="10" y="40" width="160" height="42" fill="rgba(55,138,221,0.06)" stroke="rgba(55,138,221,0.15)" stroke-width="0.5"/>
+    <text x="20" y="52" fill="#378ADD">Norte</text><text x="90" y="52">4200</text>
+    <text x="20" y="66" fill="#378ADD">Norte</text><text x="90" y="66">3800</text>
+    <text x="20" y="80" fill="#378ADD">Norte</text><text x="90" y="80">5100</text>
+    <!-- grupo Sur -->
+    <rect x="10" y="82" width="160" height="28" fill="rgba(29,158,117,0.06)" stroke="rgba(29,158,117,0.15)" stroke-width="0.5"/>
+    <text x="20" y="94" fill="#1D9E75">Sur</text><text x="90" y="94">6700</text>
+    <text x="20" y="108" fill="#1D9E75">Sur</text><text x="90" y="108">2300</text>
+    <!-- grupo Este -->
+    <rect x="10" y="110" width="160" height="28" fill="rgba(186,117,23,0.06)" stroke="rgba(186,117,23,0.15)" stroke-width="0.5"/>
+    <text x="20" y="122" fill="#EF9F27">Este</text><text x="90" y="122">8900</text>
+    <text x="20" y="136" fill="#EF9F27">Este</text><text x="90" y="136">1200</text>
+    <!-- arrow -->
+    <line x1="178" y1="80" x2="228" y2="80" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr4)"/>
+    <text x="179" y="74" fill="#1D9E75" font-size="9">GROUP BY</text>
+    <text x="179" y="88" fill="#EF9F27" font-size="9">SUM(venta)</text>
+    <!-- resultado agrupado -->
+    <text x="338" y="14" font-size="9" fill="#6e7681" letter-spacing="1">AGRUPADO</text>
+    <rect x="248" y="20" width="160" height="88" rx="6" fill="#161b22" stroke="#1D9E75" stroke-width="0.5"/>
+    <rect x="248" y="20" width="160" height="20" rx="6" fill="#21262d" stroke="#1D9E75" stroke-width="0.5"/>
+    <rect x="248" y="38" width="160" height="2" fill="#21262d"/>
+    <text x="258" y="34" fill="#9FE1CB" font-weight="700">región</text><text x="338" y="34" fill="#9FE1CB" font-weight="700">SUM(venta)</text>
+    <text x="258" y="52" fill="#378ADD">Norte</text><text x="338" y="52" fill="#378ADD">13100</text>
+    <text x="258" y="66" fill="#1D9E75">Sur</text><text x="338" y="66" fill="#1D9E75">9000</text>
+    <text x="258" y="80" fill="#EF9F27">Este</text><text x="338" y="80" fill="#EF9F27">10100</text>
+    <!-- collapse arrows -->
+    <line x1="172" y1="52" x2="244" y2="52" stroke="rgba(55,138,221,0.4)" stroke-width="0.5" stroke-dasharray="3,2"/>
+    <line x1="172" y1="66" x2="244" y2="52" stroke="rgba(55,138,221,0.4)" stroke-width="0.5" stroke-dasharray="3,2"/>
+    <line x1="172" y1="80" x2="244" y2="52" stroke="rgba(55,138,221,0.4)" stroke-width="0.5" stroke-dasharray="3,2"/>
+    <line x1="172" y1="94" x2="244" y2="66" stroke="rgba(29,158,117,0.4)" stroke-width="0.5" stroke-dasharray="3,2"/>
+    <line x1="172" y1="108" x2="244" y2="66" stroke="rgba(29,158,117,0.4)" stroke-width="0.5" stroke-dasharray="3,2"/>
+    <line x1="172" y1="122" x2="244" y2="80" stroke="rgba(186,117,23,0.4)" stroke-width="0.5" stroke-dasharray="3,2"/>
+    <line x1="172" y1="136" x2="244" y2="80" stroke="rgba(186,117,23,0.4)" stroke-width="0.5" stroke-dasharray="3,2"/>
+  </g></svg>`,
+
+  'inner': `<svg viewBox="0 0 520 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <defs><marker id="arr5" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#1D9E75"/></marker></defs>
+  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
+    <!-- tabla A -->
+    <text x="12" y="14" font-size="9" fill="#6e7681" letter-spacing="1">TABLA A (ordenes)</text>
+    <rect x="10" y="20" width="155" height="110" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="10" y="20" width="155" height="20" rx="6" fill="#21262d" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="10" y="38" width="155" height="2" fill="#21262d"/>
+    <text x="20" y="34" fill="#9FE1CB" font-weight="700">orden_id</text><text x="90" y="34" fill="#9FE1CB" font-weight="700">cli_id</text>
+    <text x="20" y="52">1001</text><text x="90" y="52" fill="#378ADD">10</text>
+    <text x="20" y="66">1002</text><text x="90" y="66" fill="#378ADD">11</text>
+    <text x="20" y="80">1003</text><text x="90" y="80" fill="#6e7681">99</text>
+    <text x="130" y="80" font-size="9" fill="#E24B4A">✗</text>
+    <text x="20" y="94">1004</text><text x="90" y="94" fill="#378ADD">12</text>
+    <text x="20" y="108">1005</text><text x="90" y="108" fill="#6e7681">88</text>
+    <text x="130" y="108" font-size="9" fill="#E24B4A">✗</text>
+    <!-- diagrama venn -->
+    <ellipse cx="236" cy="80" rx="36" ry="36" fill="rgba(55,138,221,0.12)" stroke="rgba(55,138,221,0.4)" stroke-width="1"/>
+    <ellipse cx="284" cy="80" rx="36" ry="36" fill="rgba(29,158,117,0.12)" stroke="rgba(29,158,117,0.4)" stroke-width="1"/>
+    <ellipse cx="260" cy="80" rx="16" ry="30" fill="rgba(29,158,117,0.25)" stroke="rgba(29,158,117,0.5)" stroke-width="1"/>
+    <text x="260" y="77" text-anchor="middle" fill="#1D9E75" font-weight="700" font-size="9">INNER</text>
+    <text x="260" y="89" text-anchor="middle" fill="#1D9E75" font-size="9">JOIN</text>
+    <text x="222" y="122" text-anchor="middle" fill="#6e7681" font-size="9">A</text>
+    <text x="298" y="122" text-anchor="middle" fill="#6e7681" font-size="9">B</text>
+    <!-- tabla B -->
+    <text x="340" y="14" font-size="9" fill="#6e7681" letter-spacing="1">TABLA B (clientes)</text>
+    <rect x="338" y="20" width="160" height="88" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="338" y="20" width="160" height="20" rx="6" fill="#21262d" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="338" y="38" width="160" height="2" fill="#21262d"/>
+    <text x="348" y="34" fill="#9FE1CB" font-weight="700">id</text><text x="378" y="34" fill="#9FE1CB" font-weight="700">nombre</text>
+    <text x="348" y="52" fill="#378ADD">10</text><text x="378" y="52">Ana</text>
+    <text x="348" y="66" fill="#378ADD">11</text><text x="378" y="66">Luis</text>
+    <text x="348" y="80" fill="#378ADD">12</text><text x="378" y="80">Sara</text>
+    <text x="348" y="94" fill="#6e7681">13</text><text x="378" y="94" fill="#6e7681">Mario</text>
+    <text x="488" y="94" font-size="9" fill="#6e7681">✗</text>
+    <!-- resultado label -->
+    <text x="10" y="140" font-size="9" fill="#1D9E75">→ Resultado: 3 filas (cli_id 10, 11, 12 coinciden)</text>
+  </g></svg>`,
+
+  'left': `<svg viewBox="0 0 520 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
+    <ellipse cx="236" cy="70" rx="36" ry="36" fill="rgba(55,138,221,0.28)" stroke="rgba(55,138,221,0.6)" stroke-width="1.5"/>
+    <ellipse cx="284" cy="70" rx="36" ry="36" fill="rgba(29,158,117,0.08)" stroke="rgba(29,158,117,0.3)" stroke-width="1"/>
+    <ellipse cx="260" cy="70" rx="16" ry="30" fill="rgba(55,138,221,0.15)" stroke="rgba(55,138,221,0.3)" stroke-width="0.5"/>
+    <text x="213" y="67" text-anchor="middle" fill="#378ADD" font-weight="700" font-size="9">LEFT</text>
+    <text x="213" y="79" text-anchor="middle" fill="#378ADD" font-size="9">tabla</text>
+    <text x="222" y="116" text-anchor="middle" fill="#6e7681" font-size="9">A (izq)</text>
+    <text x="298" y="116" text-anchor="middle" fill="#6e7681" font-size="9">B (der)</text>
+    <text x="10" y="14" font-size="9" fill="#378ADD" letter-spacing="1">TABLA A — siempre aparece completa</text>
+    <rect x="10" y="20" width="200" height="100" rx="6" fill="#161b22" stroke="#378ADD" stroke-width="0.5"/>
+    <rect x="10" y="20" width="200" height="20" rx="6" fill="#21262d" stroke="#378ADD" stroke-width="0.5"/>
+    <rect x="10" y="38" width="200" height="2" fill="#21262d"/>
+    <text x="20" y="34" fill="#9FE1CB" font-weight="700">cliente</text><text x="100" y="34" fill="#9FE1CB" font-weight="700">orden_id</text>
+    <text x="20" y="52">Ana</text><text x="100" y="52">1001</text>
+    <text x="20" y="66">Luis</text><text x="100" y="66">1002</text>
+    <text x="20" y="80">Sara</text><text x="100" y="80" fill="#E24B4A">NULL</text>
+    <text x="155" y="80" font-size="9" fill="#E24B4A">sin orden</text>
+    <text x="20" y="94">Mario</text><text x="100" y="94">1003</text>
+    <text x="20" y="108">Rosa</text><text x="100" y="108" fill="#E24B4A">NULL</text>
+    <text x="155" y="108" font-size="9" fill="#E24B4A">sin orden</text>
+    <text x="10" y="130" font-size="9" fill="#378ADD">→ 5 filas: todos los clientes, con NULL donde no hay match</text>
+  </g></svg>`,
+
+  'rownumber': `<svg viewBox="0 0 520 150" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
+    <text x="12" y="14" font-size="9" fill="#6e7681" letter-spacing="1">DATOS CON PARTICIÓN POR REGIÓN</text>
+    <rect x="10" y="20" width="490" height="120" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="10" y="20" width="490" height="20" rx="6" fill="#21262d" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="10" y="38" width="490" height="2" fill="#21262d"/>
+    <text x="20" y="34" fill="#9FE1CB" font-weight="700">nombre</text>
+    <text x="120" y="34" fill="#9FE1CB" font-weight="700">región</text>
+    <text x="220" y="34" fill="#9FE1CB" font-weight="700">ventas</text>
+    <text x="330" y="34" fill="#EF9F27" font-weight="700">ROW_NUMBER()</text>
+    <text x="440" y="34" fill="#6e7681" font-weight="700">→ filtrar</text>
+    <!-- Norte grupo -->
+    <rect x="10" y="40" width="490" height="42" fill="rgba(55,138,221,0.05)" stroke="rgba(55,138,221,0.15)" stroke-width="0.5"/>
+    <text x="20" y="52">Ana</text><text x="120" y="52" fill="#378ADD">Norte</text><text x="220" y="52">12500</text><text x="330" y="52" fill="#EF9F27">1</text><text x="440" y="52" fill="#1D9E75">← rn=1</text>
+    <text x="20" y="66">Luis</text><text x="120" y="66" fill="#378ADD">Norte</text><text x="220" y="66">9800</text><text x="330" y="66" fill="#EF9F27">2</text>
+    <text x="20" y="80">Pedro</text><text x="120" y="80" fill="#378ADD">Norte</text><text x="220" y="80">7200</text><text x="330" y="80" fill="#EF9F27">3</text>
+    <!-- Sur grupo -->
+    <rect x="10" y="82" width="490" height="28" fill="rgba(29,158,117,0.05)" stroke="rgba(29,158,117,0.15)" stroke-width="0.5"/>
+    <text x="20" y="94">Sara</text><text x="120" y="94" fill="#1D9E75">Sur</text><text x="220" y="94">15200</text><text x="330" y="94" fill="#EF9F27">1</text><text x="440" y="94" fill="#1D9E75">← rn=1</text>
+    <text x="20" y="108">Mario</text><text x="120" y="108" fill="#1D9E75">Sur</text><text x="220" y="108">8900</text><text x="330" y="108" fill="#EF9F27">2</text>
+    <!-- Este grupo -->
+    <rect x="10" y="110" width="490" height="28" fill="rgba(186,117,23,0.05)" stroke="rgba(186,117,23,0.15)" stroke-width="0.5"/>
+    <text x="20" y="122">Rosa</text><text x="120" y="122" fill="#EF9F27">Este</text><text x="220" y="122">20100</text><text x="330" y="122" fill="#EF9F27">1</text><text x="440" y="122" fill="#1D9E75">← rn=1</text>
+    <text x="20" y="136">Carlos</text><text x="120" y="136" fill="#EF9F27">Este</text><text x="220" y="136">11300</text><text x="330" y="136" fill="#EF9F27">2</text>
+  </g></svg>`,
+
+  'cte': `<svg viewBox="0 0 520 150" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <defs><marker id="arr6" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#1D9E75"/></marker></defs>
+  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
+    <!-- CTE 1 -->
+    <rect x="10" y="10" width="140" height="60" rx="6" fill="#161b22" stroke="rgba(55,138,221,0.5)" stroke-width="0.5" stroke-dasharray="4,2"/>
+    <text x="20" y="26" fill="#378ADD" font-weight="700" font-size="9">WITH cte_1 AS</text>
+    <text x="20" y="40" fill="#6e7681" font-size="9">SELECT region,</text>
+    <text x="20" y="52" fill="#6e7681" font-size="9">SUM(monto) AS total</text>
+    <text x="20" y="64" fill="#6e7681" font-size="9">FROM ventas</text>
+    <!-- CTE 2 -->
+    <rect x="10" y="84" width="140" height="60" rx="6" fill="#161b22" stroke="rgba(29,158,117,0.5)" stroke-width="0.5" stroke-dasharray="4,2"/>
+    <text x="20" y="100" fill="#1D9E75" font-weight="700" font-size="9">cte_2 AS</text>
+    <text x="20" y="114" fill="#6e7681" font-size="9">SELECT AVG(total)</text>
+    <text x="20" y="128" fill="#6e7681" font-size="9">FROM cte_1</text>
+    <text x="20" y="142" fill="#378ADD" font-size="9">← usa cte_1</text>
+    <!-- flecha entre ctes -->
+    <line x1="80" y1="72" x2="80" y2="82" stroke="rgba(29,158,117,0.5)" stroke-width="1" marker-end="url(#arr6)"/>
+    <!-- flecha al query final -->
+    <line x1="152" y1="70" x2="198" y2="80" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr6)"/>
+    <line x1="152" y1="115" x2="198" y2="90" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arr6)"/>
+    <!-- query final -->
+    <rect x="200" y="50" width="300" height="80" rx="6" fill="#161b22" stroke="#1D9E75" stroke-width="0.5"/>
+    <rect x="200" y="50" width="300" height="20" rx="6" fill="#21262d" stroke="#1D9E75" stroke-width="0.5"/>
+    <rect x="200" y="68" width="300" height="2" fill="#21262d"/>
+    <text x="210" y="64" fill="#1D9E75" font-weight="700" font-size="9">QUERY FINAL (usa ambas CTEs)</text>
+    <text x="210" y="80" fill="#6e7681" font-size="9">SELECT c1.region, c1.total, c2.promedio</text>
+    <text x="210" y="94" fill="#6e7681" font-size="9">FROM cte_1 c1</text>
+    <text x="210" y="108" fill="#6e7681" font-size="9">CROSS JOIN cte_2 c2</text>
+    <text x="210" y="122" fill="#EF9F27" font-size="9">→ resultado final con contexto enriquecido</text>
+  </g></svg>`,
+
+  'lag': `<svg viewBox="0 0 520 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+  <defs><marker id="arr7" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#EF9F27"/></marker></defs>
+  <g font-family="JetBrains Mono,monospace" font-size="10" fill="#8b949e">
+    <text x="10" y="14" font-size="9" fill="#6e7681" letter-spacing="1">VENTANA DESLIZANTE — LAG() MIRA HACIA ATRÁS</text>
+    <rect x="10" y="22" width="490" height="100" rx="6" fill="#161b22" stroke="#30363d" stroke-width="0.5"/>
+    <rect x="10" y="22" width="490" height="20" rx="6" fill="#21262d"/>
+    <rect x="10" y="40" width="490" height="2" fill="#21262d"/>
+    <text x="20" y="36" fill="#9FE1CB" font-weight="700">mes</text>
+    <text x="100" y="36" fill="#9FE1CB" font-weight="700">ventas</text>
+    <text x="200" y="36" fill="#EF9F27" font-weight="700">LAG(ventas)</text>
+    <text x="340" y="36" fill="#1D9E75" font-weight="700">variación</text>
+    <text x="20" y="54">Ene</text><text x="100" y="54">8000</text><text x="200" y="54" fill="#6e7681">NULL</text><text x="340" y="54" fill="#6e7681">—</text>
+    <text x="20" y="68">Feb</text><text x="100" y="68">9500</text><text x="200" y="68" fill="#EF9F27">8000</text><text x="340" y="68" fill="#1D9E75">+1500</text>
+    <text x="20" y="82">Mar</text><text x="100" y="82">7200</text><text x="200" y="82" fill="#EF9F27">9500</text><text x="340" y="82" fill="#E24B4A">-2300</text>
+    <text x="20" y="96">Abr</text><text x="100" y="96">11000</text><text x="200" y="96" fill="#EF9F27">7200</text><text x="340" y="96" fill="#1D9E75">+3800</text>
+    <text x="20" y="110">May</text><text x="100" y="110">10500</text><text x="200" y="110" fill="#EF9F27">11000</text><text x="340" y="110" fill="#E24B4A">-500</text>
+    <!-- flecha lag -->
+    <line x1="120" y1="68" x2="195" y2="68" stroke="#EF9F27" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arr7)"/>
+    <path d="M 120 54 Q 157 54 157 61 Q 157 68 195 68" fill="none" stroke="rgba(239,159,39,0.3)" stroke-width="0.8"/>
+  </g></svg>`
+};
+
+const SYNTAX = {
+  'select': '<span class="s-kw">SELECT</span> <span class="s-val">col1, col2, expresion AS alias</span>\n<span class="s-kw">FROM</span> <span class="s-val">tabla</span>\n<span class="s-opt">[WHERE condicion]</span>\n<span class="s-opt">[GROUP BY cols]</span>\n<span class="s-opt">[HAVING condicion]</span>\n<span class="s-opt">[ORDER BY col DESC]</span>\n<span class="s-opt">[LIMIT n]</span>',
+  'distinct': '<span class="s-kw">SELECT DISTINCT</span> <span class="s-val">columna</span>\n<span class="s-kw">FROM</span> <span class="s-val">tabla</span>\n<span class="s-opt">[WHERE condicion]</span>\n<span class="s-opt">[ORDER BY columna]</span>',
+  'orderby': '<span class="s-kw">SELECT</span> <span class="s-val">cols</span>\n<span class="s-kw">FROM</span> <span class="s-val">tabla</span>\n<span class="s-kw">ORDER BY</span> <span class="s-val">col1</span> <span class="s-opt">[ASC|DESC]</span><span class="s-opt">, col2 [ASC|DESC]</span>',
+  'limit': '<span class="s-kw">SELECT</span> <span class="s-val">cols</span>\n<span class="s-kw">FROM</span> <span class="s-val">tabla</span>\n<span class="s-opt">[ORDER BY col]</span>\n<span class="s-kw">LIMIT</span> <span class="s-val">n</span>',
+  'where': '<span class="s-kw">SELECT</span> <span class="s-val">cols</span>\n<span class="s-kw">FROM</span> <span class="s-val">tabla</span>\n<span class="s-kw">WHERE</span> <span class="s-val">condicion</span>\n<span class="s-opt">  [AND condicion2]</span>\n<span class="s-opt">  [OR  condicion3]</span>',
+  'between': '<span class="s-kw">WHERE</span> <span class="s-val">col</span> <span class="s-kw">BETWEEN</span> <span class="s-val">val1</span> <span class="s-kw">AND</span> <span class="s-val">val2</span>\n<span class="s-kw">WHERE</span> <span class="s-val">col</span> <span class="s-kw">IN</span> (<span class="s-val">v1, v2, v3</span>)\n<span class="s-kw">WHERE</span> <span class="s-val">col</span> <span class="s-kw">LIKE</span> <span class="s-val">\'%patron%\'</span>',
+  'isnull': '<span class="s-kw">WHERE</span> <span class="s-val">columna</span> <span class="s-kw">IS NULL</span>\n<span class="s-kw">WHERE</span> <span class="s-val">columna</span> <span class="s-kw">IS NOT NULL</span>',
+  'having': '<span class="s-kw">SELECT</span> <span class="s-val">col</span>, <span class="s-val">AGG(col2)</span>\n<span class="s-kw">FROM</span> <span class="s-val">tabla</span>\n<span class="s-kw">GROUP BY</span> <span class="s-val">col</span>\n<span class="s-kw">HAVING</span> <span class="s-val">AGG(col2) operador valor</span>',
+  'groupby': '<span class="s-kw">SELECT</span> <span class="s-val">col_grupo</span>, <span class="s-val">AGG(col_metrica)</span>\n<span class="s-kw">FROM</span> <span class="s-val">tabla</span>\n<span class="s-opt">[WHERE condicion]</span>\n<span class="s-kw">GROUP BY</span> <span class="s-val">col_grupo</span>\n<span class="s-opt">[HAVING AGG() operador valor]</span>\n<span class="s-opt">[ORDER BY AGG() DESC]</span>',
+  'casewhen': '<span class="s-kw">CASE</span>\n  <span class="s-kw">WHEN</span> <span class="s-val">condicion1</span> <span class="s-kw">THEN</span> <span class="s-val">resultado1</span>\n  <span class="s-kw">WHEN</span> <span class="s-val">condicion2</span> <span class="s-kw">THEN</span> <span class="s-val">resultado2</span>\n  <span class="s-kw">ELSE</span> <span class="s-val">resultado_default</span>\n<span class="s-kw">END</span> <span class="s-kw">AS</span> <span class="s-val">alias</span>',
+  'coalesce': '<span class="s-kw">COALESCE</span>(<span class="s-val">val1</span>, <span class="s-val">val2</span>, <span class="s-val">\'default\'</span>)\n<span class="s-kw">NULLIF</span>(<span class="s-val">expresion</span>, <span class="s-val">valor_nulo_si_igual</span>)',
+  'inner': '<span class="s-kw">SELECT</span> <span class="s-val">a.col, b.col</span>\n<span class="s-kw">FROM</span> <span class="s-val">tabla_a</span> <span class="s-val">a</span>\n<span class="s-kw">INNER JOIN</span> <span class="s-val">tabla_b</span> <span class="s-val">b</span>\n  <span class="s-kw">ON</span> <span class="s-val">a.id = b.id</span>\n<span class="s-opt">[WHERE condicion]</span>',
+  'left': '<span class="s-kw">SELECT</span> <span class="s-val">a.col, b.col</span>\n<span class="s-kw">FROM</span> <span class="s-val">tabla_izquierda</span> <span class="s-val">a</span>\n<span class="s-kw">LEFT JOIN</span> <span class="s-val">tabla_derecha</span> <span class="s-val">b</span>\n  <span class="s-kw">ON</span> <span class="s-val">a.id = b.id</span>\n<span class="s-opt">[WHERE b.col IS NULL]</span> <span class="s-opt">← anti-join</span>',
+  'full': '<span class="s-kw">SELECT</span> <span class="s-val">cols</span>\n<span class="s-kw">FROM</span> <span class="s-val">tabla_a</span> <span class="s-val">a</span>\n<span class="s-kw">FULL OUTER JOIN</span> <span class="s-val">tabla_b</span> <span class="s-val">b</span>\n  <span class="s-kw">ON</span> <span class="s-val">a.id = b.id</span>',
+  'rownumber': '<span class="s-val">funcion_ventana</span>() <span class="s-kw">OVER</span> (\n  <span class="s-opt">[PARTITION BY col_grupo]</span>\n  <span class="s-kw">ORDER BY</span> <span class="s-val">col_orden</span> <span class="s-opt">[DESC]</span>\n) <span class="s-kw">AS</span> <span class="s-val">alias</span>',
+  'sumover': '<span class="s-val">AGG</span>(<span class="s-val">col</span>) <span class="s-kw">OVER</span> (\n  <span class="s-opt">[PARTITION BY col_grupo]</span>\n  <span class="s-opt">[ORDER BY col]</span>\n  <span class="s-opt">[ROWS BETWEEN n PRECEDING AND CURRENT ROW]</span>\n) <span class="s-kw">AS</span> <span class="s-val">alias</span>',
+  'lag': '<span class="s-kw">LAG</span>(<span class="s-val">col</span><span class="s-opt">, offset, default</span>) <span class="s-kw">OVER</span> (\n  <span class="s-opt">[PARTITION BY col_grupo]</span>\n  <span class="s-kw">ORDER BY</span> <span class="s-val">col_orden</span>\n) <span class="s-kw">AS</span> <span class="s-val">alias</span>\n\n<span class="s-kw">LEAD</span>(<span class="s-val">col</span><span class="s-opt">, offset, default</span>) <span class="s-kw">OVER</span> (\n  <span class="s-kw">ORDER BY</span> <span class="s-val">col_orden</span>\n) <span class="s-kw">AS</span> <span class="s-val">alias</span>',
+  'cte': '<span class="s-kw">WITH</span> <span class="s-val">nombre_cte</span> <span class="s-kw">AS</span> (\n  <span class="s-kw">SELECT</span> ...\n)<span class="s-opt">,\notro_cte AS (\n  SELECT ... FROM nombre_cte\n)</span>\n<span class="s-kw">SELECT</span> * <span class="s-kw">FROM</span> <span class="s-val">nombre_cte</span>;',
+  'subwhere': '<span class="s-kw">SELECT</span> <span class="s-val">cols</span>\n<span class="s-kw">FROM</span> <span class="s-val">tabla</span>\n<span class="s-kw">WHERE</span> <span class="s-val">col</span> <span class="s-val">operador</span> (\n  <span class="s-kw">SELECT</span> <span class="s-val">valor</span>\n  <span class="s-kw">FROM</span> <span class="s-val">tabla</span>\n);',
+  'cast': '<span class="s-kw">CAST</span>(<span class="s-val">columna</span> <span class="s-kw">AS</span> <span class="s-val">TIPO</span>)\n<span class="s-opt">Tipos: INTEGER, DECIMAL(p,s), VARCHAR,</span>\n<span class="s-opt">       DATE, TIMESTAMP, BOOLEAN</span>\n\n<span class="s-opt">PostgreSQL: columna::</span><span class="s-val">TIPO</span>',
+  'date': '<span class="s-kw">DATE_TRUNC</span>(<span class="s-val">\'periodo\'</span>, <span class="s-val">col_fecha</span>)\n<span class="s-opt">Periodos: year, quarter, month, week, day</span>\n\n<span class="s-kw">EXTRACT</span>(<span class="s-val">PARTE</span> <span class="s-kw">FROM</span> <span class="s-val">col_fecha</span>)\n<span class="s-opt">Partes: YEAR, MONTH, DOW, DOY, HOUR</span>',
+  'explain': '<span class="s-kw">EXPLAIN</span> <span class="s-opt">[ANALYZE]</span>\n<span class="s-val">tu_query_aqui</span>;\n\n<span class="s-opt">ANALYZE = ejecuta y muestra tiempos reales</span>\n<span class="s-opt">Sin ANALYZE = solo estimaciones del planner</span>'
+};
+
+const DATA = [
+  {
+    cat:'select', cmd:'SELECT + alias', syntaxKey:'select', visualKey:'select',
+    desc:'Columnas a recuperar y renombrar',
+    note:'El punto de partida de toda consulta. Define qué columnas necesitas. Usa AS para limpiar nombres de columnas en el output.',
+    code:'<span class="kw">SELECT</span>\n  nombre,\n  salario,\n  salario * <span class="nm">1.1</span> <span class="kw">AS</span> salario_ajustado\n<span class="kw">FROM</span> empleados;',
+    raw:'SELECT\n  nombre,\n  salario,\n  salario * 1.1 AS salario_ajustado\nFROM empleados;',
+    tip:'<b>tip:</b> Evita SELECT * en producción — especifica columnas para mejorar performance y legibilidad.'
+  },
+  {
+    cat:'select', cmd:'DISTINCT', syntaxKey:'distinct', visualKey:'distinct',
+    desc:'Elimina filas duplicadas',
+    note:'Devuelve valores únicos. Es costoso en tablas grandes. COUNT(DISTINCT columna) es muy útil para medir cardinalidad en EDA.',
+    code:'<span class="kw">SELECT DISTINCT</span> ciudad\n<span class="kw">FROM</span> clientes\n<span class="kw">ORDER BY</span> ciudad;',
+    raw:'SELECT DISTINCT ciudad\nFROM clientes\nORDER BY ciudad;',
+    tip:'<b>tip:</b> COUNT(DISTINCT col) ignora NULLs — perfecto para auditar variedad de valores.'
+  },
+  {
+    cat:'select', cmd:'ORDER BY', syntaxKey:'orderby',
+    desc:'Ordena el resultado',
+    note:'Ordena por una o más columnas. ASC (default) = ascendente, DESC = descendente. Puedes ordenar por número de posición de columna.',
+    code:'<span class="kw">SELECT</span> nombre, ventas\n<span class="kw">FROM</span> rep_ventas\n<span class="kw">ORDER BY</span> ventas <span class="kw">DESC</span>, nombre <span class="kw">ASC</span>;',
+    raw:'SELECT nombre, ventas\nFROM rep_ventas\nORDER BY ventas DESC, nombre ASC;',
+    tip:'<b>tip:</b> ORDER BY 2 DESC ordena por la segunda columna — útil en queries dinámicas.'
+  },
+  {
+    cat:'select', cmd:'LIMIT / TOP', syntaxKey:'limit',
+    desc:'Restringe filas devueltas',
+    note:'LIMIT en PostgreSQL/MySQL, TOP en SQL Server. Indispensable para exploración rápida de datos.',
+    code:'<span class="kw">SELECT</span> *\n<span class="kw">FROM</span> transacciones\n<span class="kw">ORDER BY</span> monto <span class="kw">DESC</span>\n<span class="kw">LIMIT</span> <span class="nm">10</span>; <span class="cm">-- top 10 mayores</span>',
+    raw:'SELECT *\nFROM transacciones\nORDER BY monto DESC\nLIMIT 10;',
+    tip:'<b>tip:</b> Siempre combina LIMIT con ORDER BY para resultados deterministas.'
+  },
+  {
+    cat:'filter', cmd:'WHERE', syntaxKey:'where', visualKey:'where',
+    desc:'Filtra filas antes de agrupar',
+    note:'Filtra filas individuales ANTES de GROUP BY. Soporta: =, !=, >, <, >=, <=, AND, OR, NOT, BETWEEN, IN, LIKE.',
+    code:'<span class="kw">SELECT</span> *\n<span class="kw">FROM</span> ventas\n<span class="kw">WHERE</span> region = <span class="st">\'Norte\'</span>\n  <span class="kw">AND</span> monto > <span class="nm">5000</span>\n  <span class="kw">AND</span> fecha >= <span class="st">\'2024-01-01\'</span>;',
+    raw:"SELECT *\nFROM ventas\nWHERE region = 'Norte'\n  AND monto > 5000\n  AND fecha >= '2024-01-01';",
+    tip:'<b>tip:</b> WHERE va ANTES de GROUP BY. Para filtrar agregaciones usa HAVING.'
+  },
+  {
+    cat:'filter', cmd:'BETWEEN / IN / LIKE', syntaxKey:'between',
+    desc:'Filtros de rango, lista y patrón',
+    note:'BETWEEN es inclusivo en ambos extremos. IN reemplaza múltiples OR. LIKE usa % (cualquier secuencia) y _ (un solo carácter).',
+    code:'<span class="kw">WHERE</span> edad <span class="kw">BETWEEN</span> <span class="nm">25</span> <span class="kw">AND</span> <span class="nm">40</span>\n<span class="kw">AND</span>   pais <span class="kw">IN</span> (<span class="st">\'MX\'</span>, <span class="st">\'CO\'</span>, <span class="st">\'AR\'</span>)\n<span class="kw">AND</span>   nombre <span class="kw">LIKE</span> <span class="st">\'A%\'</span>; <span class="cm">-- empieza con A</span>',
+    raw:"WHERE edad BETWEEN 25 AND 40\nAND pais IN ('MX', 'CO', 'AR')\nAND nombre LIKE 'A%';",
+    tip:"<b>tip:</b> ILIKE es LIKE sin importar mayúsculas (PostgreSQL). En MySQL usa LOWER(col) LIKE '%texto%'."
+  },
+  {
+    cat:'filter', cmd:'IS NULL / IS NOT NULL', syntaxKey:'isnull',
+    desc:'Detecta valores faltantes',
+    note:'NULL no es igual a nada, ni siquiera a sí mismo. Nunca uses = NULL — siempre IS NULL. Fundamental en limpieza de datos.',
+    code:'<span class="kw">SELECT</span> *\n<span class="kw">FROM</span> clientes\n<span class="kw">WHERE</span> email <span class="kw">IS NULL</span>;\n\n<span class="cm">-- Auditoría de nulos</span>\n<span class="kw">SELECT</span>\n  <span class="fn">COUNT</span>(*) - <span class="fn">COUNT</span>(email) <span class="kw">AS</span> emails_nulos\n<span class="kw">FROM</span> clientes;',
+    raw:'SELECT * FROM clientes WHERE email IS NULL;\n\nSELECT COUNT(*) - COUNT(email) AS emails_nulos\nFROM clientes;',
+    tip:'<b>tip:</b> COUNT(*) cuenta todas las filas; COUNT(col) ignora NULLs — usa la diferencia para medir completitud.'
+  },
+  {
+    cat:'filter', cmd:'HAVING', syntaxKey:'having',
+    desc:'Filtra grupos post-GROUP BY',
+    note:'Se aplica DESPUÉS de GROUP BY. Solo puede referenciar columnas agrupadas o funciones de agregación.',
+    code:'<span class="kw">SELECT</span> ciudad, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> n\n<span class="kw">FROM</span> clientes\n<span class="kw">GROUP BY</span> ciudad\n<span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) > <span class="nm">100</span>\n<span class="kw">ORDER BY</span> n <span class="kw">DESC</span>;',
+    raw:'SELECT ciudad, COUNT(*) AS n\nFROM clientes\nGROUP BY ciudad\nHAVING COUNT(*) > 100\nORDER BY n DESC;',
+    tip:'<b>tip:</b> WHERE filtra filas, HAVING filtra grupos. No son intercambiables.'
+  },
+  {
+    cat:'agg', cmd:'GROUP BY + funciones', syntaxKey:'groupby', visualKey:'groupby',
+    desc:'Agrega datos por categoría',
+    note:'Agrupa filas con el mismo valor. Todo lo que no es función de agregación debe estar en GROUP BY. Funciones: COUNT, SUM, AVG, MAX, MIN.',
+    code:'<span class="kw">SELECT</span>\n  region,\n  <span class="fn">COUNT</span>(*) <span class="kw">AS</span> n_ventas,\n  <span class="fn">SUM</span>(monto)   <span class="kw">AS</span> total,\n  <span class="fn">AVG</span>(monto)   <span class="kw">AS</span> promedio,\n  <span class="fn">MAX</span>(monto)   <span class="kw">AS</span> mayor,\n  <span class="fn">MIN</span>(monto)   <span class="kw">AS</span> menor\n<span class="kw">FROM</span> ventas\n<span class="kw">GROUP BY</span> region;',
+    raw:'SELECT\n  region,\n  COUNT(*) AS n_ventas,\n  SUM(monto) AS total,\n  AVG(monto) AS promedio,\n  MAX(monto) AS mayor,\n  MIN(monto) AS menor\nFROM ventas\nGROUP BY region;',
+    tip:'<b>tip:</b> ROUND(AVG(monto), 2) para limpiar decimales en el output final.'
+  },
+  {
+    cat:'agg', cmd:'CASE WHEN', syntaxKey:'casewhen',
+    desc:'Condicional tipo if / else',
+    note:'Crea columnas calculadas con lógica condicional. Clave para segmentación, etiquetado y pivoteo de datos en análisis.',
+    code:'<span class="kw">SELECT</span>\n  nombre, monto,\n  <span class="kw">CASE</span>\n    <span class="kw">WHEN</span> monto >= <span class="nm">10000</span> <span class="kw">THEN</span> <span class="st">\'Alto\'</span>\n    <span class="kw">WHEN</span> monto >= <span class="nm">5000</span>  <span class="kw">THEN</span> <span class="st">\'Medio\'</span>\n    <span class="kw">ELSE</span> <span class="st">\'Bajo\'</span>\n  <span class="kw">END</span> <span class="kw">AS</span> segmento\n<span class="kw">FROM</span> ventas;',
+    raw:"SELECT\n  nombre, monto,\n  CASE\n    WHEN monto >= 10000 THEN 'Alto'\n    WHEN monto >= 5000  THEN 'Medio'\n    ELSE 'Bajo'\n  END AS segmento\nFROM ventas;",
+    tip:"<b>tip:</b> SUM(CASE WHEN condicion THEN 1 ELSE 0 END) — conteo condicional sin subquery."
+  },
+  {
+    cat:'agg', cmd:'COALESCE / NULLIF', syntaxKey:'coalesce',
+    desc:'Manejo de valores nulos',
+    note:'COALESCE devuelve el primer valor no-nulo. NULLIF devuelve NULL si dos valores son iguales — evita división por cero.',
+    code:'<span class="kw">SELECT</span>\n  <span class="fn">COALESCE</span>(email, telefono, <span class="st">\'sin contacto\'</span>)\n    <span class="kw">AS</span> contacto,\n  ventas / <span class="fn">NULLIF</span>(clientes, <span class="nm">0</span>)\n    <span class="kw">AS</span> ventas_por_cliente\n<span class="kw">FROM</span> resumen;',
+    raw:"SELECT\n  COALESCE(email, telefono, 'sin contacto') AS contacto,\n  ventas / NULLIF(clientes, 0) AS ventas_por_cliente\nFROM resumen;",
+    tip:'<b>tip:</b> COALESCE es estándar SQL. En MySQL también existe IFNULL(valor, default).'
+  },
+  {
+    cat:'join', cmd:'INNER JOIN', syntaxKey:'inner', visualKey:'inner',
+    desc:'Solo filas que coinciden en ambas tablas',
+    note:'Devuelve filas que tienen coincidencia en AMBAS tablas. Es el JOIN más común en análisis. Las filas sin match se descartan.',
+    code:'<span class="kw">SELECT</span>\n  o.orden_id,\n  c.nombre,\n  o.monto\n<span class="kw">FROM</span> ordenes o\n<span class="kw">INNER JOIN</span> clientes c\n  <span class="kw">ON</span> o.cliente_id = c.id;',
+    raw:'SELECT\n  o.orden_id,\n  c.nombre,\n  o.monto\nFROM ordenes o\nINNER JOIN clientes c\n  ON o.cliente_id = c.id;',
+    tip:'<b>tip:</b> Usa alias de tabla (o, c) para queries más legibles con múltiples JOINs.'
+  },
+  {
+    cat:'join', cmd:'LEFT JOIN', syntaxKey:'left', visualKey:'left',
+    desc:'Todas las filas de la tabla izquierda',
+    note:'Devuelve TODAS las filas de la tabla izquierda, con NULLs donde no hay coincidencia. Ideal para detectar registros huérfanos.',
+    code:'<span class="kw">SELECT</span>\n  c.nombre,\n  o.orden_id <span class="cm">-- NULL si no tiene pedidos</span>\n<span class="kw">FROM</span> clientes c\n<span class="kw">LEFT JOIN</span> ordenes o\n  <span class="kw">ON</span> c.id = o.cliente_id\n<span class="kw">WHERE</span> o.orden_id <span class="kw">IS NULL</span>; <span class="cm">-- sin compras</span>',
+    raw:'SELECT c.nombre, o.orden_id\nFROM clientes c\nLEFT JOIN ordenes o\n  ON c.id = o.cliente_id\nWHERE o.orden_id IS NULL;',
+    tip:'<b>tip:</b> WHERE col IS NULL después de LEFT JOIN = anti-join (filas SIN coincidencia).'
+  },
+  {
+    cat:'join', cmd:'FULL OUTER JOIN', syntaxKey:'full',
+    desc:'Todas las filas de ambas tablas',
+    note:'Combina LEFT y RIGHT JOIN. Filas sin coincidencia aparecen con NULLs en ambos lados. Útil para reconciliación de datasets.',
+    code:'<span class="kw">SELECT</span>\n  <span class="fn">COALESCE</span>(a.id, b.id) <span class="kw">AS</span> id,\n  a.valor <span class="kw">AS</span> fuente_a,\n  b.valor <span class="kw">AS</span> fuente_b\n<span class="kw">FROM</span> tabla_a a\n<span class="kw">FULL OUTER JOIN</span> tabla_b b\n  <span class="kw">ON</span> a.id = b.id;',
+    raw:'SELECT\n  COALESCE(a.id, b.id) AS id,\n  a.valor AS fuente_a,\n  b.valor AS fuente_b\nFROM tabla_a a\nFULL OUTER JOIN tabla_b b\n  ON a.id = b.id;',
+    tip:'<b>tip:</b> MySQL no tiene FULL OUTER JOIN — simúlalo con UNION de LEFT JOIN y RIGHT JOIN.'
+  },
+  {
+    cat:'window', cmd:'ROW_NUMBER()', syntaxKey:'rownumber', visualKey:'rownumber',
+    desc:'Número de fila por partición',
+    note:'Asigna número único a cada fila dentro de una partición. Perfecto para obtener "el top 1 por categoría" sin agrupar.',
+    code:'<span class="kw">SELECT</span> * <span class="kw">FROM</span> (\n  <span class="kw">SELECT</span>\n    nombre, region, ventas,\n    <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (\n      <span class="kw">PARTITION BY</span> region\n      <span class="kw">ORDER BY</span> ventas <span class="kw">DESC</span>\n    ) <span class="kw">AS</span> rn\n  <span class="kw">FROM</span> rep_ventas\n) ranked\n<span class="kw">WHERE</span> rn = <span class="nm">1</span>; <span class="cm">-- mejor por región</span>',
+    raw:'SELECT * FROM (\n  SELECT nombre, region, ventas,\n    ROW_NUMBER() OVER (\n      PARTITION BY region ORDER BY ventas DESC\n    ) AS rn\n  FROM rep_ventas\n) ranked\nWHERE rn = 1;',
+    tip:'<b>tip:</b> RANK() permite empates, ROW_NUMBER() no. DENSE_RANK() no deja huecos en la numeración.'
+  },
+  {
+    cat:'window', cmd:'SUM() / AVG() OVER', syntaxKey:'sumover',
+    desc:'Agregaciones sin colapsar filas',
+    note:'Calcula totales acumulados o promedios móviles manteniendo todas las filas visibles. No es necesario GROUP BY.',
+    code:'<span class="kw">SELECT</span>\n  fecha, monto,\n  <span class="fn">SUM</span>(monto) <span class="kw">OVER</span> (\n    <span class="kw">ORDER BY</span> fecha\n  ) <span class="kw">AS</span> acumulado,\n  <span class="fn">AVG</span>(monto) <span class="kw">OVER</span> (\n    <span class="kw">ORDER BY</span> fecha\n    <span class="kw">ROWS BETWEEN</span> <span class="nm">6</span> <span class="kw">PRECEDING</span>\n    <span class="kw">AND CURRENT ROW</span>\n  ) <span class="kw">AS</span> promedio_7dias\n<span class="kw">FROM</span> ventas_diarias;',
+    raw:'SELECT fecha, monto,\n  SUM(monto) OVER (ORDER BY fecha) AS acumulado,\n  AVG(monto) OVER (\n    ORDER BY fecha\n    ROWS BETWEEN 6 PRECEDING AND CURRENT ROW\n  ) AS promedio_7dias\nFROM ventas_diarias;',
+    tip:'<b>tip:</b> PARTITION BY divide en grupos. Sin él, la ventana cubre toda la tabla.'
+  },
+  {
+    cat:'window', cmd:'LAG() / LEAD()', syntaxKey:'lag', visualKey:'lag',
+    desc:'Accede a filas anteriores o siguientes',
+    note:'LAG obtiene el valor de la fila anterior, LEAD el de la siguiente. Clave para calcular variaciones período a período (MoM, YoY).',
+    code:'<span class="kw">SELECT</span>\n  mes, ventas,\n  <span class="fn">LAG</span>(ventas) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> mes)\n    <span class="kw">AS</span> mes_anterior,\n  ventas - <span class="fn">LAG</span>(ventas) <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> mes)\n    <span class="kw">AS</span> variacion\n<span class="kw">FROM</span> ventas_mensuales;',
+    raw:'SELECT mes, ventas,\n  LAG(ventas) OVER (ORDER BY mes) AS mes_anterior,\n  ventas - LAG(ventas) OVER (ORDER BY mes) AS variacion\nFROM ventas_mensuales;',
+    tip:'<b>tip:</b> LAG(col, 2) accede 2 filas atrás. LAG(col, 1, 0) retorna 0 si no hay fila anterior.'
+  },
+  {
+    cat:'subquery', cmd:'WITH (CTE)', syntaxKey:'cte', visualKey:'cte',
+    desc:'Consulta nombrada y reutilizable',
+    note:'Common Table Expression. Hace el código más legible que subqueries anidadas. Puedes encadenar varias CTEs en una sola query.',
+    code:'<span class="kw">WITH</span> ventas_region <span class="kw">AS</span> (\n  <span class="kw">SELECT</span> region, <span class="fn">SUM</span>(monto) <span class="kw">AS</span> total\n  <span class="kw">FROM</span> ventas\n  <span class="kw">GROUP BY</span> region\n),\npromedio_global <span class="kw">AS</span> (\n  <span class="kw">SELECT</span> <span class="fn">AVG</span>(total) <span class="kw">AS</span> prom\n  <span class="kw">FROM</span> ventas_region\n)\n<span class="kw">SELECT</span> r.*, p.prom\n<span class="kw">FROM</span> ventas_region r, promedio_global p;',
+    raw:'WITH ventas_region AS (\n  SELECT region, SUM(monto) AS total\n  FROM ventas GROUP BY region\n),\npromedio_global AS (\n  SELECT AVG(total) AS prom\n  FROM ventas_region\n)\nSELECT r.*, p.prom\nFROM ventas_region r, promedio_global p;',
+    tip:'<b>tip:</b> Las CTEs mejoran la legibilidad y permiten referenciar el mismo subquery múltiples veces.'
+  },
+  {
+    cat:'subquery', cmd:'Subquery en WHERE', syntaxKey:'subwhere',
+    desc:'Filtra con resultado de otra consulta',
+    note:'Una query dentro de otra. Útil cuando necesitas un valor calculado dinámicamente (promedio, máximo) para filtrar filas.',
+    code:'<span class="kw">SELECT</span> nombre, salario\n<span class="kw">FROM</span> empleados\n<span class="kw">WHERE</span> salario > (\n  <span class="kw">SELECT</span> <span class="fn">AVG</span>(salario)\n  <span class="kw">FROM</span> empleados\n); <span class="cm">-- sobre el promedio</span>',
+    raw:'SELECT nombre, salario\nFROM empleados\nWHERE salario > (\n  SELECT AVG(salario)\n  FROM empleados\n);',
+    tip:'<b>tip:</b> EXISTS es más eficiente que IN cuando el subquery devuelve muchas filas.'
+  },
+  {
+    cat:'util', cmd:'CAST / CONVERT', syntaxKey:'cast',
+    desc:'Convierte tipos de datos',
+    note:'Cambia el tipo de una columna. Esencial para fechas almacenadas como texto, precisión decimal y comparaciones de tipos mixtos.',
+    code:'<span class="kw">SELECT</span>\n  <span class="fn">CAST</span>(precio    <span class="kw">AS</span> DECIMAL(<span class="nm">10</span>,<span class="nm">2</span>)) <span class="kw">AS</span> precio_fmt,\n  <span class="fn">CAST</span>(fecha_str <span class="kw">AS</span> DATE)         <span class="kw">AS</span> fecha,\n  <span class="fn">CAST</span>(activo   <span class="kw">AS</span> VARCHAR)       <span class="kw">AS</span> activo_txt\n<span class="kw">FROM</span> productos;',
+    raw:'SELECT\n  CAST(precio AS DECIMAL(10,2)) AS precio_fmt,\n  CAST(fecha_str AS DATE) AS fecha,\n  CAST(activo AS VARCHAR) AS activo_txt\nFROM productos;',
+    tip:'<b>tip:</b> En PostgreSQL: columna::DATE equivale a CAST(columna AS DATE) — más conciso.'
+  },
+  {
+    cat:'util', cmd:'DATE_TRUNC / EXTRACT', syntaxKey:'date',
+    desc:'Manipulación de fechas',
+    note:'DATE_TRUNC trunca al inicio del período (mes, semana, año). EXTRACT obtiene una parte específica. Varían según el motor SQL.',
+    code:'<span class="kw">SELECT</span>\n  <span class="fn">DATE_TRUNC</span>(<span class="st">\'month\'</span>, fecha)  <span class="kw">AS</span> mes,\n  <span class="fn">EXTRACT</span>(<span class="kw">YEAR FROM</span> fecha)    <span class="kw">AS</span> anio,\n  <span class="fn">EXTRACT</span>(<span class="kw">DOW FROM</span> fecha)     <span class="kw">AS</span> dia_semana,\n  <span class="fn">COUNT</span>(*) <span class="kw">AS</span> n\n<span class="kw">FROM</span> ventas\n<span class="kw">GROUP BY</span> <span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>;',
+    raw:"SELECT\n  DATE_TRUNC('month', fecha) AS mes,\n  EXTRACT(YEAR FROM fecha) AS anio,\n  EXTRACT(DOW FROM fecha) AS dia_semana,\n  COUNT(*) AS n\nFROM ventas\nGROUP BY 1, 2, 3;",
+    tip:"<b>tip:</b> En MySQL: MONTH(fecha), YEAR(fecha), DATE_FORMAT(fecha, '%Y-%m') para agrupar por mes."
+  },
+  {
+    cat:'util', cmd:'EXPLAIN ANALYZE', syntaxKey:'explain',
+    desc:'Analiza el plan de ejecución',
+    note:'Muestra cómo el motor ejecuta tu query: qué índices usa, costos, filas estimadas vs reales. Fundamental para optimización.',
+    code:'<span class="kw">EXPLAIN ANALYZE</span>\n<span class="kw">SELECT</span> *\n<span class="kw">FROM</span> ventas\n<span class="kw">WHERE</span> cliente_id = <span class="nm">42</span>\n  <span class="kw">AND</span> fecha > <span class="st">\'2024-01-01\'</span>;',
+    raw:"EXPLAIN ANALYZE\nSELECT *\nFROM ventas\nWHERE cliente_id = 42\n  AND fecha > '2024-01-01';",
+    tip:"<b>tip:</b> Busca 'Seq Scan' en tablas grandes — indica que falta un índice."
+  }
+];
+
+const CAT_LABELS = {
+  select:'SELECT & estructura básica',
+  filter:'Filtrado de datos',
+  agg:'Agregación & cálculos',
+  join:'JOINs — combinar tablas',
+  window:'Window functions',
+  subquery:'Subqueries & CTEs',
+  util:'Utilidades & optimización'
+};
+
+let activeTab = 'all';
+let searchText = '';
+
+function setTab(tab, el) {
+  activeTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function filterCards() {
+  searchText = document.getElementById('searchInput').value.toLowerCase();
+  render();
+}
+
+function getFiltered() {
+  return DATA.filter(d => {
+    const matchTab = activeTab === 'all' || d.cat === activeTab;
+    const matchSearch = !searchText ||
+      d.cmd.toLowerCase().includes(searchText) ||
+      d.desc.toLowerCase().includes(searchText) ||
+      d.note.toLowerCase().includes(searchText);
+    return matchTab && matchSearch;
+  });
+}
+
+function groupByOrder(arr) {
+  const order = ['select','filter','agg','join','window','subquery','util'];
+  const groups = {};
+  order.forEach(c => groups[c] = []);
+  arr.forEach(d => { if(groups[d.cat]) groups[d.cat].push(d); });
+  return groups;
+}
+
+function copyCode(raw, btn) {
+  navigator.clipboard.writeText(raw).then(() => {
+    btn.textContent = 'copiado ✓';
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'copiar'; btn.classList.remove('ok'); }, 1500);
+  });
+}
+
+function toggleCard(card) { card.classList.toggle('expanded'); }
+
+function render() {
+  const filtered = getFiltered();
+  const container = document.getElementById('cardContainer');
+  document.getElementById('counter').textContent = filtered.length + ' comando' + (filtered.length !== 1 ? 's' : '');
+
+  if (!filtered.length) {
+    container.innerHTML = '<div style="text-align:center;padding:2.5rem;color:var(--text3);font-family:JetBrains Mono,monospace;font-size:13px;">sin resultados para "' + searchText + '"</div>';
+    return;
+  }
+
+  let html = '';
+
+  if (activeTab === 'all') {
+    const groups = groupByOrder(filtered);
+    for (const [cat, items] of Object.entries(groups)) {
+      if (!items.length) continue;
+      html += '<div class="section"><div class="section-label">' + CAT_LABELS[cat] + '</div><div class="cards">';
+      items.forEach((d, i) => { html += buildCard(d, cat + i); });
+      html += '</div></div>';
+    }
+  } else {
+    html += '<div class="section"><div class="cards">';
+    filtered.forEach((d, i) => { html += buildCard(d, activeTab + i); });
+    html += '</div></div>';
+  }
+
+  container.innerHTML = html;
+}
+
+function buildCard(d, id) {
+  const hasSyntax = d.syntaxKey && SYNTAX[d.syntaxKey];
+  const hasVisual = d.visualKey && VISUALS[d.visualKey];
+  const tabs = ['ejemplo'];
+  if (hasSyntax) tabs.unshift('sintaxis');
+  if (hasVisual) tabs.push('visual');
+
+  let tabsHtml = '<div class="detail-tabs" onclick="event.stopPropagation()">';
+  tabs.forEach((t, i) => {
+    tabsHtml += '<button class="dtab' + (i === 0 ? ' dactive' : '') + '" onclick="switchTab(this, \'' + id + '\', \'' + t + '\')">' + t + '</button>';
+  });
+  tabsHtml += '</div>';
+
+  let sintaxisHtml = hasSyntax ? '<div class="tab-panel" data-card="' + id + '" data-tab="sintaxis" style="display:' + (tabs[0]==='sintaxis'?'block':'none') + '">' +
+    '<div class="syntax-block"><span class="syn-title">// estructura</span>' + SYNTAX[d.syntaxKey] + '</div>' +
+    '<div class="syntax-legend"><span class="leg-req">■ obligatorio</span><span class="leg-opt">■ [opcional]</span><span class="leg-val">■ tu valor</span></div>' +
+    '</div>' : '';
+
+  let ejemploHtml = '<div class="tab-panel" data-card="' + id + '" data-tab="ejemplo" style="display:' + (tabs[0]==='ejemplo'?'block':'none') + '">' +
+    '<p class="detail-note">' + d.note + '</p>' +
+    '<div class="code-wrap">' +
+      '<div class="code-block">' + d.code + '</div>' +
+      '<button class="copy-btn" onclick="event.stopPropagation();copyCode(' + JSON.stringify(d.raw) + ',this)">copiar</button>' +
+    '</div>' +
+    (d.tip ? '<div class="tip">' + d.tip + '</div>' : '') +
+    '</div>';
+
+  let visualHtml = hasVisual ? '<div class="tab-panel" data-card="' + id + '" data-tab="visual" style="display:none">' +
+    '<div class="visual-block"><span class="visual-title">// cómo funciona</span>' + VISUALS[d.visualKey] + '</div>' +
+    '</div>' : '';
+
+  return '<div class="card" id="c' + id + '" onclick="toggleCard(this)">' +
+    '<div class="card-top">' +
+      '<span class="cmd">' + d.cmd + '</span>' +
+      '<span class="card-desc">' + d.desc + '</span>' +
+      '<i class="ti ti-chevron-down expand-icon"></i>' +
+    '</div>' +
+    '<div class="detail">' +
+      tabsHtml +
+      sintaxisHtml +
+      ejemploHtml +
+      visualHtml +
+    '</div>' +
+  '</div>';
+}
+
+function switchTab(btn, cardId, tabName) {
+  const card = document.getElementById('c' + cardId);
+  card.querySelectorAll('.dtab').forEach(t => t.classList.remove('dactive'));
+  btn.classList.add('dactive');
+  card.querySelectorAll('.tab-panel').forEach(p => {
+    p.style.display = p.dataset.tab === tabName ? 'block' : 'none';
+  });
+}
+
+render();
+</script>
+</body>
+</html>
