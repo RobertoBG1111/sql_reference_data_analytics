@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ejercicios prácticos · SQL para Analistas · Roberto Barrera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-base: #070914;
+  --bg-deep: #050811;
+  --bg-surface: rgba(255, 255, 255, 0.025);
+  --bg-surface-hover: rgba(255, 255, 255, 0.05);
+  --bg-elevated: rgba(255, 255, 255, 0.045);
+  --bg-code: rgba(0, 0, 0, 0.4);
+  --border: rgba(255, 255, 255, 0.07);
+  --border-hover: rgba(255, 255, 255, 0.15);
+  --border-active: rgba(0, 212, 168, 0.5);
+  --text: #ecedf2;
+  --text2: #9da3b4;
+  --text3: #5d6478;
+  --accent: #00d4a8;
+  --accent-bright: #14e6bf;
+  --accent-deep: #0bbf95;
+  --accent-dim: rgba(0, 212, 168, 0.14);
+  --accent-glow: rgba(0, 212, 168, 0.45);
+  --accent-mint: #67e8c8;
+  --blue: #82a8ff;
+  --purple: #a78bfa;
+  --amber: #fcd34d;
+  --red: #f87171;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html, body { height: 100%; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg-base);
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(0,212,168,0.06), transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(99,140,235,0.06), transparent 50%);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 3rem 1.5rem 4rem;
+  position: relative;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body::before,
+body::after,
+.bg-orb {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(110px);
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform;
+}
+body::before {
+  width: 620px; height: 620px;
+  background: radial-gradient(circle, rgba(0,212,168,0.22) 0%, transparent 65%);
+  top: -240px; left: -200px;
+  animation: drift1 24s ease-in-out infinite;
+}
+body::after {
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(99,140,235,0.20) 0%, transparent 65%);
+  bottom: -280px; right: -260px;
+  animation: drift2 30s ease-in-out infinite;
+}
+.bg-orb {
+  width: 540px; height: 540px;
+  background: radial-gradient(circle, rgba(140,110,225,0.15) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  margin-left: -270px;
+  margin-top: -270px;
+  animation: drift3 26s ease-in-out infinite;
+}
+@keyframes drift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(180px, 120px) scale(1.1); }
+  66%      { transform: translate(40px, 220px) scale(0.95); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(-220px, -140px) scale(1.08); }
+  66%      { transform: translate(-60px, -260px) scale(0.92); }
+}
+@keyframes drift3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-120px, -80px) scale(1.12); }
+}
+
+.root {
+  max-width: 880px;
+  margin: 0 auto;
+  position: relative;
+  animation: fadeUp 0.7s var(--ease-out);
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.75rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.title {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+.title span {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-bright) 45%, var(--blue) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-surface);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 12px;
+  color: var(--text2);
+  font-family: 'JetBrains Mono', monospace;
+  text-decoration: none;
+  white-space: nowrap;
+  align-self: flex-start;
+  transition: all 0.25s var(--ease);
+}
+.back-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+  transform: translateY(-1px);
+}
+.back-link i { font-size: 14px; }
+
+/* INTRO CARD */
+.intro {
+  background: var(--bg-surface);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  margin-bottom: 1.75rem;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+.intro strong { color: var(--accent-mint); font-weight: 600; }
+.intro .loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  color: var(--amber);
+  transition: opacity 0.4s var(--ease);
+}
+.intro .loader.ready { color: var(--accent); }
+.intro .loader.ready .spinner { display: none; }
+.spinner {
+  width: 10px; height: 10px;
+  border: 1.5px solid var(--text3);
+  border-top-color: var(--amber);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* EXERCISE */
+#exercisesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.exercise {
+  background: var(--bg-surface);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 22px 24px;
+  animation: cardIn 0.5s var(--ease-out) backwards;
+}
+#exercisesContainer .exercise:nth-child(1) { animation-delay: 0.05s; }
+#exercisesContainer .exercise:nth-child(2) { animation-delay: 0.12s; }
+#exercisesContainer .exercise:nth-child(3) { animation-delay: 0.19s; }
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ex-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.diff-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.diff-badge.basico  { background: rgba(0,212,168,0.12); color: var(--accent-mint); border: 1px solid rgba(0,212,168,0.3); }
+.diff-badge.inter   { background: rgba(252,211,77,0.10); color: var(--amber); border: 1px solid rgba(252,211,77,0.3); }
+.diff-badge.avanz   { background: rgba(248,113,113,0.10); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+.domain-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+}
+.ex-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+  line-height: 1.25;
+}
+.ex-context {
+  background: rgba(255,255,255,0.02);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+.ex-context b { color: var(--text); font-weight: 600; }
+
+/* SCHEMA VIEW */
+.schema-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.schema-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+.schema-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.schema-table {
+  background: rgba(0,0,0,0.28);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+.schema-table .tname {
+  color: var(--accent);
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.schema-table .sample-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+.schema-table .sample-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+.schema-table .sample-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.schema-col {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 2px 0;
+  font-size: 11.5px;
+}
+.schema-col .col-name { color: var(--text); }
+.schema-col .col-name.pk { color: var(--accent-mint); font-weight: 600; }
+.schema-col .col-type { color: var(--text3); font-size: 10.5px; }
+
+.sample-result {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+  display: none;
+}
+.sample-result.open { display: block; }
+.sample-result table { font-size: 10.5px; }
+
+/* QUESTION */
+.question {
+  background: rgba(0,0,0,0.18);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  margin-top: 14px;
+}
+.q-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.q-num {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+  color: #00150f;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 12px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px var(--accent-dim);
+}
+.q-text {
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.55;
+  flex: 1;
+  padding-top: 4px;
+}
+.q-text b { color: var(--accent-mint); }
+
+/* SQL EDITOR — overlay technique: <pre.editor-hl> behind transparent <textarea.sql-editor> */
+.editor-wrap {
+  position: relative;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  overflow: hidden;
+}
+.editor-wrap:focus-within {
+  border-color: var(--border-active);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+.editor-hl,
+.sql-editor {
+  margin: 0;
+  padding: 12px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 22px;
+  letter-spacing: 0;
+  tab-size: 2;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  box-sizing: border-box;
+}
+.editor-hl {
+  position: absolute;
+  inset: 0;
+  color: var(--text);
+  pointer-events: none;
+  overflow: hidden;
+  background: transparent;
+}
+.editor-hl .kw { color: var(--accent-mint); font-weight: 600; }
+.editor-hl .fn { color: var(--blue); }
+.editor-hl .st { color: var(--amber); }
+.editor-hl .cm { color: var(--text3); font-style: italic; }
+.editor-hl .nm { color: var(--red); }
+.sql-editor {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 110px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: transparent;
+  caret-color: var(--text);
+  resize: vertical;
+}
+.sql-editor::placeholder { color: var(--text3); font-style: italic; }
+.sql-editor::selection { background: rgba(0,212,168,0.28); color: transparent; }
+.sql-editor::-moz-selection { background: rgba(0,212,168,0.28); color: transparent; }
+
+/* Mini-legend over editor */
+.editor-legend {
+  display: flex;
+  gap: 14px;
+  margin-top: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  flex-wrap: wrap;
+}
+.editor-legend span { display: inline-flex; align-items: center; gap: 4px; }
+.editor-legend i {
+  width: 8px; height: 8px;
+  border-radius: 2px;
+  display: inline-block;
+}
+.editor-legend .lg-kw { background: var(--accent-mint); }
+.editor-legend .lg-fn { background: var(--blue); }
+.editor-legend .lg-st { background: var(--amber); }
+.editor-legend .lg-nm { background: var(--red); }
+.editor-legend .lg-cm { background: var(--text3); }
+
+.editor-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.ebtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+.ebtn:hover:not(:disabled) {
+  background: var(--bg-surface-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+.ebtn:disabled { opacity: 0.4; cursor: not-allowed; }
+.ebtn.run {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+  border-color: transparent;
+  color: #00150f;
+  font-weight: 600;
+}
+.ebtn.run:hover:not(:disabled) { box-shadow: 0 6px 18px var(--accent-dim); }
+.ebtn i { font-size: 13px; }
+
+.result {
+  margin-top: 12px;
+  display: none;
+}
+.result.open { display: block; }
+.result-header {
+  font-size: 10.5px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text3);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  display: block;
+  overflow-x: auto;
+  max-height: 340px;
+}
+.result-table table { width: 100%; border-collapse: collapse; }
+.result-table th {
+  text-align: left;
+  padding: 8px 12px;
+  background: rgba(0,212,168,0.08);
+  color: var(--accent-mint);
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0,212,168,0.2);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+}
+.result-table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  white-space: nowrap;
+}
+.result-table tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+.result-table tr:hover td { background: rgba(0,212,168,0.04); }
+.result-empty {
+  padding: 14px;
+  text-align: center;
+  color: var(--text3);
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.result-error {
+  padding: 12px 16px;
+  background: rgba(248,113,113,0.08);
+  border: 1px solid rgba(248,113,113,0.3);
+  border-left: 2px solid var(--red);
+  border-radius: var(--radius-sm);
+  color: var(--red);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.result-error b { color: #ffb4b4; }
+
+.row-count {
+  font-size: 10.5px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text3);
+  margin-top: 6px;
+}
+
+.hint-box, .sol-box {
+  margin-top: 10px;
+  display: none;
+  animation: expandIn 0.35s var(--ease-out);
+}
+.hint-box.open, .sol-box.open { display: block; }
+@keyframes expandIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hint-box {
+  background: rgba(252,211,77,0.06);
+  border: 1px solid rgba(252,211,77,0.25);
+  border-left: 2px solid var(--amber);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  font-size: 12.5px;
+  color: var(--text2);
+  line-height: 1.65;
+}
+.hint-box b { color: var(--amber); font-weight: 600; }
+
+.sol-box {
+  background: rgba(0,212,168,0.05);
+  border: 1px solid rgba(0,212,168,0.25);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+.sol-label {
+  font-size: 10.5px;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.code-wrap { position: relative; margin-bottom: 12px; }
+.code-block {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text);
+  white-space: pre;
+  overflow-x: auto;
+  line-height: 1.75;
+}
+.kw { color: var(--accent-mint); font-weight: 600; }
+.fn { color: var(--blue); }
+.st { color: var(--amber); }
+.cm { color: var(--text3); font-style: italic; }
+.nm { color: var(--red); }
+
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--bg-surface);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 10.5px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+.copy-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+.copy-btn.ok { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+
+.use-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-hover);
+  background: transparent;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  margin-bottom: 12px;
+}
+.use-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.interpretation {
+  background: rgba(130,168,255,0.05);
+  border-left: 2px solid var(--blue);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 11px 14px;
+  font-size: 12.5px;
+  color: var(--text2);
+  line-height: 1.65;
+}
+.interpretation .ilabel {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.interpretation b { color: var(--text); font-weight: 600; }
+
+/* FOOTER */
+.footer {
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.footer-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.footer-role {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 4px;
+}
+.footer-links { display: flex; gap: 10px; flex-wrap: wrap; }
+.link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: 12.5px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s var(--ease);
+}
+.link-btn:hover {
+  background: var(--bg-surface-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+.link-btn.primary {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+  border-color: transparent;
+  color: #00150f;
+  font-weight: 600;
+}
+.link-btn.primary:hover {
+  box-shadow: 0 8px 24px var(--accent-dim);
+  transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  body { padding: 1.5rem 1rem 3rem; }
+  .title { font-size: 26px; }
+  .ex-title { font-size: 17px; }
+  .schema-grid { grid-template-columns: 1fr; }
+  .result-table { font-size: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-orb" aria-hidden="true"></div>
+<div class="root">
+
+  <div class="header">
+    <div>
+      <div class="eyebrow">// data analytics · ejercicios prácticos</div>
+      <div class="title">Proyectos de <span>Análisis</span><br>con SQL real</div>
+    </div>
+    <a href="index.html" class="back-link" title="Volver al cheatsheet">
+      <i class="ti ti-arrow-left"></i> Cheatsheet
+    </a>
+  </div>
+
+  <div class="intro">
+    <strong>¿Cómo funciona?</strong>
+    Cada ejercicio plantea un caso de negocio con datos cargados en una base SQLite que corre 100% en tu navegador. Lee el contexto, explora el esquema, escribe tu SQL y ejecútalo. Si te trabas, pide una pista o revela la solución comentada y su lectura analítica.
+    <br>
+    <span class="loader" id="dbLoader"><span class="spinner"></span> <span id="loaderText">cargando motor SQL (sql.js wasm)...</span></span>
+  </div>
+
+  <div id="exercisesContainer"></div>
+
+  <div class="footer">
+    <div>
+      <div class="footer-name">Roberto Barrera</div>
+      <div class="footer-role">// data analyst jr · mérida, mx</div>
+    </div>
+    <div class="footer-links">
+      <a class="link-btn" href="index.html">
+        <i class="ti ti-book-2"></i> Cheatsheet
+      </a>
+      <a class="link-btn" href="https://www.linkedin.com/in/robertobarreragarcia" target="_blank" rel="noopener">
+        <i class="ti ti-brand-linkedin"></i> LinkedIn
+      </a>
+      <a class="link-btn primary" href="https://github.com/RobertoBG1111" target="_blank" rel="noopener">
+        <i class="ti ti-brand-github"></i> GitHub
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
+<script>
+/* =========================================================================
+   SEED SQL — DDL + datos para los 3 ejercicios.
+   Prefijos por dominio: ec_ (e-commerce), mkt_ (marketing), saas_ (saas).
+   ========================================================================= */
+const SEED_SQL = `
+-- ============ E-COMMERCE ============
+CREATE TABLE ec_customers (id INTEGER PRIMARY KEY, name TEXT, city TEXT, signup_date TEXT);
+INSERT INTO ec_customers VALUES
+ (1,'Ana Rivera','CDMX','2025-11-04'),
+ (2,'Luis Mendoza','GDL','2025-12-20'),
+ (3,'Sara Pérez','CDMX','2026-01-08'),
+ (4,'Mario Cano','MTY','2026-01-15'),
+ (5,'Rosa Núñez','GDL','2026-01-22'),
+ (6,'Diego Soto','Mérida','2026-02-03'),
+ (7,'Paula Ríos','Puebla','2026-02-10'),
+ (8,'Andrés Vega','CDMX','2026-02-19'),
+ (9,'Lucía Brito','MTY','2026-02-26'),
+ (10,'Carla Tena','Mérida','2026-03-04'),
+ (11,'Pablo Lozano','GDL','2026-03-12'),
+ (12,'Itzel Marín','Puebla','2026-03-20');
+
+CREATE TABLE ec_products (id INTEGER PRIMARY KEY, name TEXT, category TEXT, unit_price REAL);
+INSERT INTO ec_products VALUES
+ (1,'Auriculares BT Pro','Electrónica',899.00),
+ (2,'Smartwatch X3','Electrónica',1899.00),
+ (3,'Cafetera Express','Hogar',1499.00),
+ (4,'Licuadora Turbo','Hogar',799.00),
+ (5,'Sudadera Hoodie','Ropa',549.00),
+ (6,'Tenis Runner','Deportes',1299.00),
+ (7,'Mochila 30L','Deportes',699.00),
+ (8,'Mancuernas 10kg','Deportes',449.00),
+ (9,'Termo Inox','Hogar',299.00),
+ (10,'Camiseta Oversized','Ropa',349.00);
+
+CREATE TABLE ec_orders (id INTEGER PRIMARY KEY, customer_id INTEGER, order_date TEXT, status TEXT);
+INSERT INTO ec_orders VALUES
+ (1001,1,'2026-01-05','completed'),
+ (1002,2,'2026-01-09','completed'),
+ (1003,3,'2026-01-12','completed'),
+ (1004,1,'2026-01-18','completed'),
+ (1005,4,'2026-01-20','cancelled'),
+ (1006,5,'2026-01-24','completed'),
+ (1007,3,'2026-01-28','completed'),
+ (1008,6,'2026-02-04','completed'),
+ (1009,2,'2026-02-07','completed'),
+ (1010,7,'2026-02-11','completed'),
+ (1011,8,'2026-02-15','completed'),
+ (1012,1,'2026-02-19','completed'),
+ (1013,9,'2026-02-22','completed'),
+ (1014,5,'2026-02-25','cancelled'),
+ (1015,4,'2026-02-27','completed'),
+ (1016,10,'2026-03-05','completed'),
+ (1017,8,'2026-03-08','completed'),
+ (1018,3,'2026-03-11','completed'),
+ (1019,11,'2026-03-14','completed'),
+ (1020,6,'2026-03-17','completed'),
+ (1021,12,'2026-03-21','completed'),
+ (1022,2,'2026-03-23','completed'),
+ (1023,9,'2026-03-26','completed'),
+ (1024,1,'2026-03-28','completed'),
+ (1025,7,'2026-03-30','cancelled');
+
+CREATE TABLE ec_order_items (id INTEGER PRIMARY KEY, order_id INTEGER, product_id INTEGER, quantity INTEGER, unit_price REAL);
+INSERT INTO ec_order_items VALUES
+ (1,1001,1,1,899.00),(2,1001,9,2,299.00),
+ (3,1002,6,1,1299.00),(4,1002,8,1,449.00),
+ (5,1003,2,1,1899.00),
+ (6,1004,3,1,1499.00),(7,1004,5,2,549.00),
+ (8,1005,4,1,799.00),
+ (9,1006,7,1,699.00),(10,1006,10,3,349.00),
+ (11,1007,1,2,899.00),
+ (12,1008,2,1,1899.00),(13,1008,9,1,299.00),
+ (14,1009,5,1,549.00),(15,1009,10,1,349.00),
+ (16,1010,3,1,1499.00),
+ (17,1011,6,1,1299.00),(18,1011,7,1,699.00),(19,1011,8,2,449.00),
+ (20,1012,1,1,899.00),(21,1012,2,1,1899.00),
+ (22,1013,4,1,799.00),(23,1013,9,2,299.00),
+ (24,1014,5,1,549.00),
+ (25,1015,6,2,1299.00),(26,1015,10,1,349.00),
+ (27,1016,3,1,1499.00),(28,1016,7,1,699.00),
+ (29,1017,1,3,899.00),
+ (30,1018,2,1,1899.00),(31,1018,9,1,299.00),
+ (32,1019,5,2,549.00),(33,1019,10,2,349.00),
+ (34,1020,8,1,449.00),(35,1020,7,1,699.00),
+ (36,1021,3,1,1499.00),
+ (37,1022,6,1,1299.00),(38,1022,1,1,899.00),
+ (39,1023,4,1,799.00),(40,1023,5,1,549.00),(41,1023,9,1,299.00),
+ (42,1024,2,1,1899.00),
+ (43,1025,10,2,349.00);
+
+-- ============ MARKETING ============
+CREATE TABLE mkt_campaigns (id INTEGER PRIMARY KEY, name TEXT, channel TEXT, cost REAL, start_date TEXT, end_date TEXT);
+INSERT INTO mkt_campaigns VALUES
+ (1,'Search Q1','Google Ads',45000.00,'2026-01-01','2026-03-31'),
+ (2,'Social Spring','Meta Ads',32000.00,'2026-02-01','2026-04-15'),
+ (3,'Email Loyalty','Email',6000.00,'2026-01-15','2026-04-30');
+
+CREATE TABLE mkt_sessions (id INTEGER PRIMARY KEY, campaign_id INTEGER, user_id TEXT, session_date TEXT, device TEXT);
+INSERT INTO mkt_sessions VALUES
+ (1,1,'u_001','2026-01-08','desktop'),(2,1,'u_002','2026-01-10','mobile'),(3,1,'u_003','2026-01-12','mobile'),
+ (4,1,'u_004','2026-01-15','desktop'),(5,1,'u_005','2026-01-18','mobile'),(6,1,'u_001','2026-01-22','desktop'),
+ (7,1,'u_006','2026-01-26','tablet'),(8,1,'u_007','2026-02-01','mobile'),(9,1,'u_008','2026-02-05','desktop'),
+ (10,1,'u_009','2026-02-09','mobile'),(11,1,'u_010','2026-02-14','mobile'),(12,1,'u_011','2026-02-18','desktop'),
+ (13,1,'u_012','2026-02-22','mobile'),(14,1,'u_004','2026-02-27','desktop'),(15,1,'u_013','2026-03-03','mobile'),
+ (16,1,'u_014','2026-03-08','desktop'),(17,1,'u_015','2026-03-14','mobile'),(18,1,'u_002','2026-03-20','mobile'),
+ (19,2,'u_020','2026-02-03','mobile'),(20,2,'u_021','2026-02-05','mobile'),(21,2,'u_022','2026-02-08','mobile'),
+ (22,2,'u_023','2026-02-11','mobile'),(23,2,'u_024','2026-02-14','desktop'),(24,2,'u_025','2026-02-17','mobile'),
+ (25,2,'u_026','2026-02-20','mobile'),(26,2,'u_027','2026-02-24','tablet'),(27,2,'u_028','2026-02-28','mobile'),
+ (28,2,'u_029','2026-03-04','mobile'),(29,2,'u_030','2026-03-08','mobile'),(30,2,'u_031','2026-03-13','desktop'),
+ (31,2,'u_032','2026-03-18','mobile'),(32,2,'u_020','2026-03-22','mobile'),(33,2,'u_033','2026-03-27','mobile'),
+ (34,3,'u_040','2026-01-22','desktop'),(35,3,'u_041','2026-01-28','desktop'),(36,3,'u_042','2026-02-03','mobile'),
+ (37,3,'u_043','2026-02-09','desktop'),(38,3,'u_044','2026-02-15','mobile'),(39,3,'u_045','2026-02-21','desktop'),
+ (40,3,'u_040','2026-02-27','desktop'),(41,3,'u_046','2026-03-05','mobile'),(42,3,'u_047','2026-03-12','desktop'),
+ (43,3,'u_048','2026-03-18','desktop'),(44,3,'u_049','2026-03-25','mobile'),(45,3,'u_043','2026-03-30','desktop');
+
+CREATE TABLE mkt_events (id INTEGER PRIMARY KEY, session_id INTEGER, event_type TEXT, amount REAL);
+-- Search Q1 (campaign 1): muchas views, leads ~35%, purchases ~15%
+INSERT INTO mkt_events VALUES
+ (1,1,'view',0),(2,1,'lead',0),(3,1,'purchase',1450.00),
+ (4,2,'view',0),(5,2,'lead',0),
+ (6,3,'view',0),
+ (7,4,'view',0),(8,4,'lead',0),(9,4,'purchase',2300.00),
+ (10,5,'view',0),
+ (11,6,'view',0),(12,6,'lead',0),
+ (13,7,'view',0),
+ (14,8,'view',0),(15,8,'lead',0),(16,8,'purchase',890.00),
+ (17,9,'view',0),(18,9,'lead',0),
+ (19,10,'view',0),
+ (20,11,'view',0),(21,11,'lead',0),
+ (22,12,'view',0),(23,12,'lead',0),(24,12,'purchase',1799.00),
+ (25,13,'view',0),
+ (26,14,'view',0),(27,14,'lead',0),
+ (28,15,'view',0),(29,15,'lead',0),(30,15,'purchase',1190.00),
+ (31,16,'view',0),
+ (32,17,'view',0),(33,17,'lead',0),
+ (34,18,'view',0),
+ -- Social Spring (campaign 2): muchas views, leads ~25%, purchases ~8%
+ (35,19,'view',0),(36,19,'lead',0),
+ (37,20,'view',0),
+ (38,21,'view',0),(39,21,'lead',0),(40,21,'purchase',650.00),
+ (41,22,'view',0),
+ (42,23,'view',0),(43,23,'lead',0),
+ (44,24,'view',0),
+ (45,25,'view',0),(46,25,'lead',0),
+ (47,26,'view',0),
+ (48,27,'view',0),(49,27,'lead',0),(50,27,'purchase',1100.00),
+ (51,28,'view',0),
+ (52,29,'view',0),(53,29,'lead',0),
+ (54,30,'view',0),
+ (55,31,'view',0),(56,31,'lead',0),
+ (57,32,'view',0),
+ (58,33,'view',0),(59,33,'lead',0),
+ -- Email Loyalty (campaign 3): conversión alta, audiencia caliente
+ (60,34,'view',0),(61,34,'lead',0),(62,34,'purchase',2450.00),
+ (63,35,'view',0),(64,35,'lead',0),(65,35,'purchase',1850.00),
+ (66,36,'view',0),(67,36,'lead',0),
+ (68,37,'view',0),(69,37,'lead',0),(70,37,'purchase',3200.00),
+ (71,38,'view',0),(72,38,'lead',0),
+ (73,39,'view',0),(74,39,'lead',0),(75,39,'purchase',990.00),
+ (76,40,'view',0),(77,40,'lead',0),(78,40,'purchase',1599.00),
+ (79,41,'view',0),(80,41,'lead',0),
+ (81,42,'view',0),(82,42,'lead',0),(83,42,'purchase',2100.00),
+ (84,43,'view',0),
+ (85,44,'view',0),(86,44,'lead',0),(87,44,'purchase',1349.00),
+ (88,45,'view',0),(89,45,'lead',0);
+
+-- ============ SAAS ============
+CREATE TABLE saas_users (id INTEGER PRIMARY KEY, signup_date TEXT, country TEXT);
+INSERT INTO saas_users VALUES
+ (1,'2026-01-04','MX'),(2,'2026-01-07','CO'),(3,'2026-01-11','MX'),(4,'2026-01-15','AR'),(5,'2026-01-19','MX'),
+ (6,'2026-01-23','PE'),(7,'2026-01-27','MX'),(8,'2026-01-30','CL'),
+ (9,'2026-02-03','MX'),(10,'2026-02-07','AR'),(11,'2026-02-11','MX'),(12,'2026-02-14','CO'),(13,'2026-02-18','MX'),
+ (14,'2026-02-22','MX'),(15,'2026-02-26','PE'),
+ (16,'2026-03-02','MX'),(17,'2026-03-06','CL'),(18,'2026-03-10','MX'),(19,'2026-03-14','CO'),(20,'2026-03-18','MX'),
+ (21,'2026-03-22','AR'),(22,'2026-03-26','MX'),(23,'2026-03-30','MX');
+
+CREATE TABLE saas_subscriptions (id INTEGER PRIMARY KEY, user_id INTEGER, plan TEXT, mrr REAL, start_date TEXT, end_date TEXT);
+INSERT INTO saas_subscriptions VALUES
+ (1,1,'Pro',79,'2026-01-04',NULL),
+ (2,2,'Starter',29,'2026-01-07','2026-02-10'),
+ (3,3,'Pro',79,'2026-01-11',NULL),
+ (4,4,'Starter',29,'2026-01-15',NULL),
+ (5,5,'Enterprise',199,'2026-01-19',NULL),
+ (6,6,'Starter',29,'2026-01-23','2026-03-01'),
+ (7,7,'Pro',79,'2026-01-27',NULL),
+ (8,8,'Starter',29,'2026-01-30','2026-02-28'),
+ (9,9,'Pro',79,'2026-02-03',NULL),
+ (10,10,'Starter',29,'2026-02-07',NULL),
+ (11,11,'Enterprise',199,'2026-02-11',NULL),
+ (12,12,'Starter',29,'2026-02-14','2026-04-02'),
+ (13,13,'Pro',79,'2026-02-18',NULL),
+ (14,14,'Starter',29,'2026-02-22',NULL),
+ (15,15,'Pro',79,'2026-02-26',NULL),
+ (16,16,'Starter',29,'2026-03-02',NULL),
+ (17,17,'Pro',79,'2026-03-06',NULL),
+ (18,18,'Starter',29,'2026-03-10','2026-04-15'),
+ (19,19,'Enterprise',199,'2026-03-14',NULL),
+ (20,20,'Starter',29,'2026-03-18',NULL),
+ (21,21,'Pro',79,'2026-03-22',NULL),
+ (22,22,'Starter',29,'2026-03-26',NULL),
+ (23,23,'Pro',79,'2026-03-30',NULL);
+
+CREATE TABLE saas_payments (id INTEGER PRIMARY KEY, user_id INTEGER, paid_at TEXT, amount REAL);
+INSERT INTO saas_payments VALUES
+ -- user 1 Pro, activo, 4 pagos
+ (1,1,'2026-01-04',79),(2,1,'2026-02-04',79),(3,1,'2026-03-04',79),(4,1,'2026-04-04',79),(5,1,'2026-05-04',79),
+ -- user 2 Starter, churn al M+1
+ (6,2,'2026-01-07',29),(7,2,'2026-02-07',29),
+ -- user 3 Pro, activo
+ (8,3,'2026-01-11',79),(9,3,'2026-02-11',79),(10,3,'2026-03-11',79),(11,3,'2026-04-11',79),(12,3,'2026-05-11',79),
+ -- user 4 Starter, activo pero ÚLTIMO pago hace mucho (riesgo churn — gap > 35 días)
+ (13,4,'2026-01-15',29),(14,4,'2026-02-15',29),(15,4,'2026-03-15',29),
+ -- user 5 Enterprise, activo
+ (16,5,'2026-01-19',199),(17,5,'2026-02-19',199),(18,5,'2026-03-19',199),(19,5,'2026-04-19',199),(20,5,'2026-05-09',199),
+ -- user 6 Starter, churn M+1.5
+ (21,6,'2026-01-23',29),(22,6,'2026-02-23',29),
+ -- user 7 Pro, activo
+ (23,7,'2026-01-27',79),(24,7,'2026-02-27',79),(25,7,'2026-03-27',79),(26,7,'2026-04-27',79),
+ -- user 8 Starter, churn M+1
+ (27,8,'2026-01-30',29),
+ -- user 9 Pro, activo
+ (28,9,'2026-02-03',79),(29,9,'2026-03-03',79),(30,9,'2026-04-03',79),(31,9,'2026-05-03',79),
+ -- user 10 Starter, activo
+ (32,10,'2026-02-07',29),(33,10,'2026-03-07',29),(34,10,'2026-04-07',29),
+ -- user 11 Enterprise, activo
+ (35,11,'2026-02-11',199),(36,11,'2026-03-11',199),(37,11,'2026-04-11',199),(38,11,'2026-05-11',199),
+ -- user 12 Starter, churn M+2
+ (39,12,'2026-02-14',29),(40,12,'2026-03-14',29),(41,12,'2026-04-02',29),
+ -- user 13 Pro, activo
+ (42,13,'2026-02-18',79),(43,13,'2026-03-18',79),(44,13,'2026-04-18',79),
+ -- user 14 Starter, activo (último pago hace > 35 días — riesgo churn)
+ (45,14,'2026-02-22',29),(46,14,'2026-03-22',29),
+ -- user 15 Pro, activo
+ (47,15,'2026-02-26',79),(48,15,'2026-03-26',79),(49,15,'2026-04-26',79),
+ -- user 16 Starter, activo
+ (50,16,'2026-03-02',29),(51,16,'2026-04-02',29),(52,16,'2026-05-02',29),
+ -- user 17 Pro, activo
+ (53,17,'2026-03-06',79),(54,17,'2026-04-06',79),
+ -- user 18 Starter, churn M+1
+ (55,18,'2026-03-10',29),(56,18,'2026-04-10',29),
+ -- user 19 Enterprise, activo
+ (57,19,'2026-03-14',199),(58,19,'2026-04-14',199),(59,19,'2026-05-12',199),
+ -- user 20 Starter, activo
+ (60,20,'2026-03-18',29),(61,20,'2026-04-18',29),
+ -- user 21 Pro, activo
+ (62,21,'2026-03-22',79),(63,21,'2026-04-22',79),
+ -- user 22 Starter, activo (último pago ya hace > 35 días — riesgo)
+ (64,22,'2026-03-26',29),
+ -- user 23 Pro, activo
+ (65,23,'2026-03-30',79),(66,23,'2026-04-30',79);
+`;
+
+/* =========================================================================
+   EXERCISES — 3 casos progresivos
+   ========================================================================= */
+const EXERCISES = [
+  // ----------- EJERCICIO 1: E-COMMERCE -----------
+  {
+    id: 'ec',
+    level: 'basico',
+    levelLabel: 'Básico',
+    domain: 'E-commerce / Ventas',
+    title: 'Tienda online: ¿qué mueve el negocio en Q1?',
+    context: 'Eres analista en una <b>tienda online de productos varios</b>. El equipo comercial quiere entender qué pasó en el <b>Q1 2026 (ene-mar)</b>: qué productos generan más ingreso, qué ciudades dejan mejor ticket promedio, y cuántos clientes se quedan después de su primera compra. Tienes acceso a la BD operativa con clientes, productos, pedidos y líneas de pedido.',
+    tables: [
+      { name: 'ec_customers', cols: [['id','INT PK'],['name','TEXT'],['city','TEXT'],['signup_date','DATE']] },
+      { name: 'ec_products',  cols: [['id','INT PK'],['name','TEXT'],['category','TEXT'],['unit_price','REAL']] },
+      { name: 'ec_orders',    cols: [['id','INT PK'],['customer_id','INT FK'],['order_date','DATE'],['status','TEXT']] },
+      { name: 'ec_order_items', cols: [['id','INT PK'],['order_id','INT FK'],['product_id','INT FK'],['quantity','INT'],['unit_price','REAL']] }
+    ],
+    questions: [
+      {
+        text: 'Lista el <b>top 5 productos por ingreso total</b> (quantity × unit_price) en pedidos <b>completados</b> de Q1 2026. Muestra nombre del producto y su ingreso.',
+        hint: 'Vas a necesitar un <b>INNER JOIN</b> de <code>ec_order_items</code> con <code>ec_products</code> y <code>ec_orders</code> (para filtrar status=\'completed\' y rango de fechas). Agrupa por producto, suma <code>quantity*unit_price</code>, ordena DESC y limita a 5.',
+        solution: `<span class="kw">SELECT</span> p.name <span class="kw">AS</span> producto,
+       <span class="fn">SUM</span>(oi.quantity * oi.unit_price) <span class="kw">AS</span> ingreso
+<span class="kw">FROM</span> ec_order_items oi
+<span class="kw">JOIN</span> ec_products p <span class="kw">ON</span> p.id = oi.product_id
+<span class="kw">JOIN</span> ec_orders o  <span class="kw">ON</span> o.id = oi.order_id
+<span class="kw">WHERE</span> o.status = <span class="st">'completed'</span>
+  <span class="kw">AND</span> o.order_date <span class="kw">BETWEEN</span> <span class="st">'2026-01-01'</span> <span class="kw">AND</span> <span class="st">'2026-03-31'</span>
+<span class="kw">GROUP BY</span> p.name
+<span class="kw">ORDER BY</span> ingreso <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> <span class="nm">5</span>;`,
+        interpretation: 'Los productos que aparecen arriba son los <b>motores de ingreso</b> del trimestre — no necesariamente los que se venden en más unidades, sino los que combinan precio y demanda. Es la primera pregunta que el equipo comercial hace para decidir <b>stock, descuentos y campañas</b> del siguiente trimestre. Una bandera roja es si todo el top depende de 1-2 SKUs (riesgo de concentración).'
+      },
+      {
+        text: 'Calcula el <b>ticket promedio (AOV)</b> por <b>ciudad del cliente</b>, considerando solo pedidos <b>completados</b>. Muestra ciudad, número de pedidos y AOV redondeado a 2 decimales, ordenado de mayor a menor AOV.',
+        hint: 'AOV por ciudad = suma del total del pedido / número de pedidos en esa ciudad. Necesitas calcular el <b>total por pedido</b> primero (puedes hacerlo con una subconsulta/CTE sumando <code>quantity*unit_price</code> en <code>ec_order_items</code>) y luego unir con <code>ec_orders</code> + <code>ec_customers</code> y agrupar por ciudad.',
+        solution: `<span class="kw">WITH</span> totales <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> oi.order_id,
+         <span class="fn">SUM</span>(oi.quantity * oi.unit_price) <span class="kw">AS</span> total_pedido
+  <span class="kw">FROM</span> ec_order_items oi
+  <span class="kw">GROUP BY</span> oi.order_id
+)
+<span class="kw">SELECT</span> c.city <span class="kw">AS</span> ciudad,
+       <span class="fn">COUNT</span>(*) <span class="kw">AS</span> pedidos,
+       <span class="fn">ROUND</span>(<span class="fn">AVG</span>(t.total_pedido), <span class="nm">2</span>) <span class="kw">AS</span> aov
+<span class="kw">FROM</span> ec_orders o
+<span class="kw">JOIN</span> ec_customers c <span class="kw">ON</span> c.id = o.customer_id
+<span class="kw">JOIN</span> totales t      <span class="kw">ON</span> t.order_id = o.id
+<span class="kw">WHERE</span> o.status = <span class="st">'completed'</span>
+<span class="kw">GROUP BY</span> c.city
+<span class="kw">ORDER BY</span> aov <span class="kw">DESC</span>;`,
+        interpretation: 'El AOV por ciudad te dice <b>dónde el cliente gasta más en cada compra</b>. Una ciudad con AOV alto pero pocos pedidos puede ser una oportunidad de marketing local (audiencia premium, mercado por desarrollar). Una ciudad con muchos pedidos pero AOV bajo invita a probar <b>bundles o upsell</b>. Compáralo siempre contra el número de pedidos para no sobreinterpretar promedios calculados sobre muy pocos casos.'
+      },
+      {
+        text: 'Clasifica a los clientes en <b>"recurrentes"</b> (más de 1 pedido completado en Q1) vs <b>"one-shot"</b> (exactamente 1 pedido completado). Devuelve cuántos clientes hay en cada grupo y qué % representan del total.',
+        hint: 'Primero cuenta pedidos completados por <code>customer_id</code> en Q1. Después usa <b>CASE WHEN</b> para etiquetar cada cliente como recurrente / one-shot, y agrupa. El porcentaje se calcula como <code>COUNT(*) * 100.0 / SUM(COUNT(*)) OVER ()</code> o con una subconsulta del total.',
+        solution: `<span class="kw">WITH</span> pedidos_por_cliente <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> customer_id, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> n_pedidos
+  <span class="kw">FROM</span> ec_orders
+  <span class="kw">WHERE</span> status = <span class="st">'completed'</span>
+    <span class="kw">AND</span> order_date <span class="kw">BETWEEN</span> <span class="st">'2026-01-01'</span> <span class="kw">AND</span> <span class="st">'2026-03-31'</span>
+  <span class="kw">GROUP BY</span> customer_id
+)
+<span class="kw">SELECT</span>
+  <span class="kw">CASE WHEN</span> n_pedidos &gt; <span class="nm">1</span> <span class="kw">THEN</span> <span class="st">'recurrente'</span> <span class="kw">ELSE</span> <span class="st">'one-shot'</span> <span class="kw">END</span> <span class="kw">AS</span> tipo,
+  <span class="fn">COUNT</span>(*) <span class="kw">AS</span> clientes,
+  <span class="fn">ROUND</span>(<span class="fn">COUNT</span>(*) * <span class="nm">100.0</span> / <span class="fn">SUM</span>(<span class="fn">COUNT</span>(*)) <span class="kw">OVER</span> (), <span class="nm">1</span>) <span class="kw">AS</span> pct
+<span class="kw">FROM</span> pedidos_por_cliente
+<span class="kw">GROUP BY</span> tipo
+<span class="kw">ORDER BY</span> clientes <span class="kw">DESC</span>;`,
+        interpretation: 'Este split es el <b>termómetro de retención temprana</b>. Si la mayoría es one-shot, el negocio depende de captar nuevos clientes constantemente (caro y poco saludable). Si los recurrentes son una porción sana (>30%) en un solo trimestre, hay relación con la marca. Combina este número con el AOV: <b>clientes recurrentes con AOV creciente</b> es el patrón ideal de LTV en e-commerce.'
+      }
+    ]
+  },
+
+  // ----------- EJERCICIO 2: MARKETING -----------
+  {
+    id: 'mkt',
+    level: 'inter',
+    levelLabel: 'Intermedio',
+    domain: 'Marketing / Campañas',
+    title: 'Performance de campañas: ¿cuál convierte y cuál no?',
+    context: 'El equipo de marketing corrió <b>3 campañas en simultáneo</b>: Search en Google Ads, Social en Meta, y una de Email para clientes existentes. Cada una tiene un presupuesto y trae sesiones al sitio. Cada sesión puede registrar uno o más eventos: <code>view</code> (entró), <code>lead</code> (dejó email o se registró) y <code>purchase</code> (compró, con monto). Necesitan que les digas <b>cuál campaña convierte mejor</b>, dónde se pierde la gente en el embudo y qué <b>ROI</b> tiene cada inversión.',
+    tables: [
+      { name: 'mkt_campaigns', cols: [['id','INT PK'],['name','TEXT'],['channel','TEXT'],['cost','REAL'],['start_date','DATE'],['end_date','DATE']] },
+      { name: 'mkt_sessions',  cols: [['id','INT PK'],['campaign_id','INT FK'],['user_id','TEXT'],['session_date','DATE'],['device','TEXT']] },
+      { name: 'mkt_events',    cols: [['id','INT PK'],['session_id','INT FK'],['event_type','TEXT'],['amount','REAL']] }
+    ],
+    questions: [
+      {
+        text: 'Calcula la <b>tasa de conversión por campaña</b>: % de <b>sesiones</b> que terminaron en <code>purchase</code>. Muestra nombre de campaña, sesiones totales, compras y tasa (%).',
+        hint: 'Une <code>mkt_sessions</code> con <code>mkt_campaigns</code> y haz <b>LEFT JOIN</b> a <code>mkt_events</code> filtrando <code>event_type=\'purchase\'</code>. Usa <code>COUNT(DISTINCT session_id)</code> para no contar dos veces si una sesión tuviera varios purchases. La tasa = compras × 100.0 / sesiones.',
+        solution: `<span class="kw">SELECT</span> c.name <span class="kw">AS</span> campaña,
+       <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> s.id) <span class="kw">AS</span> sesiones,
+       <span class="fn">COUNT</span>(<span class="kw">DISTINCT CASE WHEN</span> e.event_type = <span class="st">'purchase'</span> <span class="kw">THEN</span> s.id <span class="kw">END</span>) <span class="kw">AS</span> compras,
+       <span class="fn">ROUND</span>(
+         <span class="fn">COUNT</span>(<span class="kw">DISTINCT CASE WHEN</span> e.event_type = <span class="st">'purchase'</span> <span class="kw">THEN</span> s.id <span class="kw">END</span>) * <span class="nm">100.0</span>
+         / <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> s.id), <span class="nm">2</span>
+       ) <span class="kw">AS</span> conversion_pct
+<span class="kw">FROM</span> mkt_campaigns c
+<span class="kw">JOIN</span> mkt_sessions s <span class="kw">ON</span> s.campaign_id = c.id
+<span class="kw">LEFT JOIN</span> mkt_events e <span class="kw">ON</span> e.session_id = s.id
+<span class="kw">GROUP BY</span> c.name
+<span class="kw">ORDER BY</span> conversion_pct <span class="kw">DESC</span>;`,
+        interpretation: 'La tasa por <b>sesión</b> es honesta pero dura: castiga campañas que traen mucho tráfico frío (como Search) y favorece audiencias ya calentadas (Email a tu base). No interpretes "Email convierte mejor que Search" como "deberíamos invertir solo en Email": Email no <b>escala</b> a audiencia nueva. Compáralo siempre con costo de adquisición y volumen absoluto.'
+      },
+      {
+        text: 'Construye el <b>embudo por campaña</b>: para cada una, número de usuarios únicos que llegaron a <code>view</code>, a <code>lead</code> y a <code>purchase</code>. Calcula también el <b>drop-off</b> view→lead y lead→purchase en %.',
+        hint: 'Usa <code>COUNT(DISTINCT user_id) FILTER (...)</code> o el truco <code>COUNT(DISTINCT CASE WHEN ... THEN user_id END)</code> para contar usuarios únicos en cada paso. El drop-off es <code>(1 - paso_siguiente/paso_actual) * 100</code>. Une <code>mkt_events</code> con <code>mkt_sessions</code> para llegar al <code>user_id</code>.',
+        solution: `<span class="kw">WITH</span> funnel <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> c.name <span class="kw">AS</span> campaña,
+         <span class="fn">COUNT</span>(<span class="kw">DISTINCT CASE WHEN</span> e.event_type = <span class="st">'view'</span>     <span class="kw">THEN</span> s.user_id <span class="kw">END</span>) <span class="kw">AS</span> usr_view,
+         <span class="fn">COUNT</span>(<span class="kw">DISTINCT CASE WHEN</span> e.event_type = <span class="st">'lead'</span>     <span class="kw">THEN</span> s.user_id <span class="kw">END</span>) <span class="kw">AS</span> usr_lead,
+         <span class="fn">COUNT</span>(<span class="kw">DISTINCT CASE WHEN</span> e.event_type = <span class="st">'purchase'</span> <span class="kw">THEN</span> s.user_id <span class="kw">END</span>) <span class="kw">AS</span> usr_purchase
+  <span class="kw">FROM</span> mkt_campaigns c
+  <span class="kw">JOIN</span> mkt_sessions s <span class="kw">ON</span> s.campaign_id = c.id
+  <span class="kw">JOIN</span> mkt_events e   <span class="kw">ON</span> e.session_id = s.id
+  <span class="kw">GROUP BY</span> c.name
+)
+<span class="kw">SELECT</span> campaña, usr_view, usr_lead, usr_purchase,
+       <span class="fn">ROUND</span>((<span class="nm">1.0</span> - usr_lead     * <span class="nm">1.0</span>/usr_view) * <span class="nm">100</span>, <span class="nm">1</span>) <span class="kw">AS</span> dropoff_view_lead_pct,
+       <span class="fn">ROUND</span>((<span class="nm">1.0</span> - usr_purchase * <span class="nm">1.0</span>/<span class="fn">NULLIF</span>(usr_lead,<span class="nm">0</span>)) * <span class="nm">100</span>, <span class="nm">1</span>) <span class="kw">AS</span> dropoff_lead_purchase_pct
+<span class="kw">FROM</span> funnel
+<span class="kw">ORDER BY</span> usr_purchase <span class="kw">DESC</span>;`,
+        interpretation: 'El embudo te dice <b>en qué paso pierdes a la gente</b>. Un drop-off alto en view→lead suele ser un problema de <b>landing page</b> (oferta, copy, formulario largo). Un drop-off alto en lead→purchase suele ser <b>precio, fricción de checkout o intención fría</b>. Comparar el mismo embudo entre campañas revela <b>dónde invertir esfuerzo</b>: a veces ganas más optimizando un paso que metiendo más presupuesto arriba.'
+      },
+      {
+        text: 'Calcula el <b>ROI por campaña</b>: ingresos totales de compras menos el costo, dividido entre el costo, expresado como múltiplo (no %). Ej.: ROI = 1.5 significa que recuperaste el costo y ganaste 1.5× extra. Ordena de mejor a peor.',
+        hint: 'Suma <code>amount</code> de eventos <code>purchase</code> por campaña y compáralo con <code>cost</code> de <code>mkt_campaigns</code>. Cuida que el <code>SUM</code> ignora NULLs pero asegúrate que la base de sesiones-eventos esté bien unida. ROI = (ingresos - costo) / costo.',
+        solution: `<span class="kw">SELECT</span> c.name <span class="kw">AS</span> campaña,
+       c.cost <span class="kw">AS</span> costo,
+       <span class="fn">COALESCE</span>(<span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> e.event_type = <span class="st">'purchase'</span> <span class="kw">THEN</span> e.amount <span class="kw">END</span>), <span class="nm">0</span>) <span class="kw">AS</span> ingresos,
+       <span class="fn">ROUND</span>(
+         (<span class="fn">COALESCE</span>(<span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> e.event_type = <span class="st">'purchase'</span> <span class="kw">THEN</span> e.amount <span class="kw">END</span>), <span class="nm">0</span>) - c.cost)
+         / c.cost, <span class="nm">2</span>
+       ) <span class="kw">AS</span> roi
+<span class="kw">FROM</span> mkt_campaigns c
+<span class="kw">LEFT JOIN</span> mkt_sessions s <span class="kw">ON</span> s.campaign_id = c.id
+<span class="kw">LEFT JOIN</span> mkt_events e   <span class="kw">ON</span> e.session_id = s.id
+<span class="kw">GROUP BY</span> c.id, c.name, c.cost
+<span class="kw">ORDER BY</span> roi <span class="kw">DESC</span>;`,
+        interpretation: 'ROI negativo significa que la campaña <b>no recuperó su costo en el periodo medido</b>. No siempre es para apagarla: campañas de awareness suelen tener ROI bajo en ventana corta pero alto en LTV. La conversación importante con marketing es <b>¿esta campaña tenía objetivo de venta directa o de construir audiencia?</b>. Si era de venta directa y ROI &lt; 0, hay que iterar oferta, audiencia o creatividades antes de seguir invirtiendo.'
+      }
+    ]
+  },
+
+  // ----------- EJERCICIO 3: SAAS -----------
+  {
+    id: 'saas',
+    level: 'avanz',
+    levelLabel: 'Avanzado',
+    domain: 'SaaS / Suscripciones',
+    title: 'Retención de cohortes y detección temprana de churn',
+    context: 'Una empresa <b>SaaS B2B</b> con tres planes (Starter $29, Pro $79, Enterprise $199 MRR) lleva 4 meses operando y quiere entender su salud: <b>¿cuántos usuarios siguen activos cada mes después de su signup?</b>, <b>¿qué plan aporta más MRR?</b> y <b>¿quién está a punto de cancelar</b> (gap entre pagos &gt; 35 días)?. Hoy es <b>2026-05-13</b>.',
+    tables: [
+      { name: 'saas_users',         cols: [['id','INT PK'],['signup_date','DATE'],['country','TEXT']] },
+      { name: 'saas_subscriptions', cols: [['id','INT PK'],['user_id','INT FK'],['plan','TEXT'],['mrr','REAL'],['start_date','DATE'],['end_date','DATE']] },
+      { name: 'saas_payments',      cols: [['id','INT PK'],['user_id','INT FK'],['paid_at','DATE'],['amount','REAL']] }
+    ],
+    questions: [
+      {
+        text: 'Calcula la <b>retención por cohorte mensual</b>: para cada mes de signup (Ene, Feb, Mar 2026), cuántos usuarios siguen activos en <b>M+1, M+2</b> (mes siguiente y dos meses después). Considera "activo" si su <code>end_date</code> es NULL <b>o</b> es posterior al final del mes evaluado.',
+        hint: 'Construye una CTE <code>cohorts</code> con el mes de signup por usuario (<code>strftime(\'%Y-%m\', signup_date)</code>). Otra CTE puede tener los meses de evaluación M+1 y M+2 calculados con <code>date(signup_date, \'+1 month\')</code>. Cuenta usuarios donde <code>end_date IS NULL OR end_date &gt;= último_día_del_mes_evaluado</code>.',
+        solution: `<span class="kw">WITH</span> cohortes <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> u.id <span class="kw">AS</span> user_id,
+         <span class="fn">strftime</span>(<span class="st">'%Y-%m'</span>, u.signup_date) <span class="kw">AS</span> cohorte,
+         u.signup_date,
+         s.end_date
+  <span class="kw">FROM</span> saas_users u
+  <span class="kw">JOIN</span> saas_subscriptions s <span class="kw">ON</span> s.user_id = u.id
+)
+<span class="kw">SELECT</span> cohorte,
+       <span class="fn">COUNT</span>(*) <span class="kw">AS</span> usuarios,
+       <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> end_date <span class="kw">IS NULL</span>
+                 <span class="kw">OR</span> end_date &gt;= <span class="fn">date</span>(signup_date, <span class="st">'+1 month'</span>)
+                <span class="kw">THEN</span> <span class="nm">1</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>) <span class="kw">AS</span> activos_m1,
+       <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> end_date <span class="kw">IS NULL</span>
+                 <span class="kw">OR</span> end_date &gt;= <span class="fn">date</span>(signup_date, <span class="st">'+2 month'</span>)
+                <span class="kw">THEN</span> <span class="nm">1</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>) <span class="kw">AS</span> activos_m2,
+       <span class="fn">ROUND</span>(<span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> end_date <span class="kw">IS NULL</span> <span class="kw">OR</span> end_date &gt;= <span class="fn">date</span>(signup_date,<span class="st">'+1 month'</span>) <span class="kw">THEN</span> <span class="nm">1</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>) * <span class="nm">100.0</span> / <span class="fn">COUNT</span>(*), <span class="nm">1</span>) <span class="kw">AS</span> ret_m1_pct,
+       <span class="fn">ROUND</span>(<span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> end_date <span class="kw">IS NULL</span> <span class="kw">OR</span> end_date &gt;= <span class="fn">date</span>(signup_date,<span class="st">'+2 month'</span>) <span class="kw">THEN</span> <span class="nm">1</span> <span class="kw">ELSE</span> <span class="nm">0</span> <span class="kw">END</span>) * <span class="nm">100.0</span> / <span class="fn">COUNT</span>(*), <span class="nm">1</span>) <span class="kw">AS</span> ret_m2_pct
+<span class="kw">FROM</span> cohortes
+<span class="kw">GROUP BY</span> cohorte
+<span class="kw">ORDER BY</span> cohorte;`,
+        interpretation: 'El análisis de cohortes es el <b>indicador #1 de salud de un SaaS</b>. Una caída fuerte en M+1 sugiere problema de <b>onboarding o expectativa</b> (el cliente no encontró valor rápido). Caídas en M+2/M+3 apuntan a <b>falta de hábito de uso o pricing</b>. Cohortes recientes con mejor retención que las antiguas indican <b>aprendizaje del equipo</b>; lo contrario es una alarma seria. Para tomar decisiones, mira la <b>tendencia entre cohortes</b>, no solo el número absoluto.'
+      },
+      {
+        text: 'Construye un <b>ranking de planes por MRR total activo</b> usando una <b>window function</b>. Devuelve plan, total MRR (suma de mrr de suscripciones <b>activas</b>, es decir <code>end_date IS NULL</code>), número de cuentas activas y un campo <code>rk</code> con su posición.',
+        hint: 'Filtra primero las suscripciones activas. Agrupa por <code>plan</code> sumando <code>mrr</code>. Aplica <code>RANK() OVER (ORDER BY total_mrr DESC)</code> sobre el resultado agrupado — puedes usar una CTE para que el RANK opere sobre los totales ya calculados.',
+        solution: `<span class="kw">WITH</span> mrr_por_plan <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> plan,
+         <span class="fn">SUM</span>(mrr) <span class="kw">AS</span> total_mrr,
+         <span class="fn">COUNT</span>(*) <span class="kw">AS</span> cuentas_activas
+  <span class="kw">FROM</span> saas_subscriptions
+  <span class="kw">WHERE</span> end_date <span class="kw">IS NULL</span>
+  <span class="kw">GROUP BY</span> plan
+)
+<span class="kw">SELECT</span> plan,
+       total_mrr,
+       cuentas_activas,
+       <span class="fn">RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> total_mrr <span class="kw">DESC</span>) <span class="kw">AS</span> rk
+<span class="kw">FROM</span> mrr_por_plan
+<span class="kw">ORDER BY</span> rk;`,
+        interpretation: 'No te quedes solo con el plan que más MRR aporta — pregúntate <b>de qué depende ese liderazgo</b>: ¿pocos clientes Enterprise pagando mucho (concentración de riesgo) o muchos Starter pagando poco (riesgo de churn alto pero base diversificada)? En un SaaS sano, el plan medio (Pro aquí) suele ser el motor: balance entre ARPU y volumen. Si Starter genera más MRR que Pro, normalmente toca <b>repensar pricing o packaging</b> para empujar upgrades.'
+      },
+      {
+        text: 'Encuentra <b>usuarios en riesgo de churn</b>: aquellos cuya suscripción sigue activa (<code>end_date IS NULL</code>) pero cuyo <b>último pago tiene más de 35 días</b> respecto a hoy (<code>2026-05-13</code>). Devuelve user_id, plan, último pago y días desde el último pago, ordenado por mayor riesgo primero.',
+        hint: 'Para cada usuario activo, encuentra <code>MAX(paid_at)</code> en <code>saas_payments</code>. Calcula la diferencia en días con <code>julianday(\'2026-05-13\') - julianday(MAX(paid_at))</code>. Filtra los que están &gt; 35. Usa una CTE para el último pago por usuario y luego une con suscripciones activas.',
+        solution: `<span class="kw">WITH</span> ultimo_pago <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> user_id, <span class="fn">MAX</span>(paid_at) <span class="kw">AS</span> last_paid
+  <span class="kw">FROM</span> saas_payments
+  <span class="kw">GROUP BY</span> user_id
+)
+<span class="kw">SELECT</span> s.user_id,
+       s.plan,
+       up.last_paid,
+       <span class="fn">CAST</span>(<span class="fn">julianday</span>(<span class="st">'2026-05-13'</span>) - <span class="fn">julianday</span>(up.last_paid) <span class="kw">AS</span> <span class="kw">INTEGER</span>) <span class="kw">AS</span> dias_sin_pago
+<span class="kw">FROM</span> saas_subscriptions s
+<span class="kw">JOIN</span> ultimo_pago up <span class="kw">ON</span> up.user_id = s.user_id
+<span class="kw">WHERE</span> s.end_date <span class="kw">IS NULL</span>
+  <span class="kw">AND</span> <span class="fn">julianday</span>(<span class="st">'2026-05-13'</span>) - <span class="fn">julianday</span>(up.last_paid) &gt; <span class="nm">35</span>
+<span class="kw">ORDER BY</span> dias_sin_pago <span class="kw">DESC</span>;`,
+        interpretation: 'Estos son los <b>candidatos a intervención de Customer Success</b>: la suscripción está nominalmente activa pero el pago dejó de fluir. Causas típicas: tarjeta caducada, factura sin aprobar, o el cliente ya está mentalmente fuera. Acción inmediata: contacto proactivo en las próximas 48-72h, revisar logs de uso para saber si están "vivos" en el producto, y si lo están, ofrecer ayuda; si no, intentar retener con onboarding o descuento <b>antes</b> de que pidan baja. El churn anticipado es 5-10× más recuperable que el confirmado.'
+      }
+    ]
+  }
+];
+
+/* =========================================================================
+   STATE + DOM helpers
+   ========================================================================= */
+let db = null;
+let ready = false;
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+}
+
+/* =========================================================================
+   RENDER
+   ========================================================================= */
+function render() {
+  const container = $('#exercisesContainer');
+  container.innerHTML = EXERCISES.map((ex, exIdx) => {
+    const tablesHTML = ex.tables.map(t => `
+      <div class="schema-table">
+        <div class="tname">
+          <span>${t.name}</span>
+          <button class="sample-btn" onclick="showSample('${t.name}', '${ex.id}_${t.name}_sample')" disabled>ver muestra</button>
+        </div>
+        ${t.cols.map(c => `
+          <div class="schema-col">
+            <span class="col-name ${c[1].includes('PK') ? 'pk' : ''}">${c[0]}</span>
+            <span class="col-type">${c[1]}</span>
+          </div>
+        `).join('')}
+        <div class="sample-result" id="${ex.id}_${t.name}_sample"></div>
+      </div>
+    `).join('');
+
+    const questionsHTML = ex.questions.map((q, qIdx) => {
+      const qid = `${ex.id}_q${qIdx}`;
+      return `
+        <div class="question">
+          <div class="q-head">
+            <div class="q-num">${qIdx + 1}</div>
+            <div class="q-text">${q.text}</div>
+          </div>
+          <div class="editor-wrap">
+            <pre class="editor-hl" id="hl_${qid}" aria-hidden="true"></pre>
+            <textarea
+              class="sql-editor"
+              id="editor_${qid}"
+              placeholder="-- Escribe tu SQL aquí. Pulsa Ejecutar o Ctrl/Cmd+Enter."
+              spellcheck="false"
+              autocapitalize="off"
+              autocomplete="off"
+              autocorrect="off"
+              oninput="updateHighlight('${qid}')"
+              onscroll="syncEditorScroll('${qid}')"
+              onkeydown="handleEditorKey(event, '${qid}')"></textarea>
+          </div>
+          <div class="editor-legend">
+            <span><i class="lg-kw"></i> palabra clave</span>
+            <span><i class="lg-fn"></i> función</span>
+            <span><i class="lg-st"></i> string</span>
+            <span><i class="lg-nm"></i> número</span>
+            <span><i class="lg-cm"></i> comentario</span>
+          </div>
+          <div class="editor-actions">
+            <button class="ebtn run" onclick="runQuery('${qid}')" disabled>
+              <i class="ti ti-player-play"></i> Ejecutar
+            </button>
+            <button class="ebtn" onclick="toggleHint('${qid}')">
+              <i class="ti ti-bulb"></i> Pista
+            </button>
+            <button class="ebtn" onclick="toggleSolution('${qid}')">
+              <i class="ti ti-check"></i> Solución
+            </button>
+            <button class="ebtn" onclick="clearEditor('${qid}')">
+              <i class="ti ti-refresh"></i> Limpiar
+            </button>
+          </div>
+          <div class="hint-box" id="hint_${qid}">
+            <b>Pista:</b> ${q.hint}
+          </div>
+          <div class="result" id="result_${qid}"></div>
+          <div class="sol-box" id="sol_${qid}">
+            <div class="sol-label">solución de referencia</div>
+            <div class="code-wrap">
+              <pre class="code-block" id="sol_code_${qid}">${q.solution}</pre>
+              <button class="copy-btn" onclick="copyCode('${qid}', this)">copiar</button>
+            </div>
+            <button class="use-btn" onclick="useSolution('${qid}')">
+              <i class="ti ti-arrow-down-left"></i> Pegar en el editor
+            </button>
+            <div class="interpretation">
+              <span class="ilabel">interpretación analítica</span>
+              ${q.interpretation}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <div class="exercise">
+        <div class="ex-head">
+          <span class="diff-badge ${ex.level}">
+            <i class="ti ti-flame"></i> ${ex.levelLabel}
+          </span>
+          <span class="domain-chip">// ${ex.domain}</span>
+        </div>
+        <div class="ex-title">${ex.title}</div>
+        <div class="ex-context">${ex.context}</div>
+        <div class="schema-label">Esquema de datos</div>
+        <div class="schema-grid">${tablesHTML}</div>
+        ${questionsHTML}
+      </div>
+    `;
+  }).join('');
+}
+
+/* =========================================================================
+   SQL.JS BOOTSTRAP
+   ========================================================================= */
+async function initDB() {
+  try {
+    const SQL = await initSqlJs({
+      locateFile: f => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/${f}`
+    });
+    db = new SQL.Database();
+    db.run(SEED_SQL);
+    ready = true;
+    // Enable all run + sample buttons
+    $$('.ebtn.run').forEach(b => b.disabled = false);
+    $$('.sample-btn').forEach(b => b.disabled = false);
+    const loader = $('#dbLoader');
+    loader.classList.add('ready');
+    $('#loaderText').textContent = 'motor SQL listo · puedes ejecutar consultas';
+  } catch (e) {
+    $('#loaderText').textContent = 'error cargando sql.js: ' + e.message;
+    $('#dbLoader').style.color = 'var(--red)';
+  }
+}
+
+/* =========================================================================
+   QUERY EXECUTION + UI
+   ========================================================================= */
+function runQuery(qid) {
+  const editor = document.getElementById(`editor_${qid}`);
+  const sql = editor.value.trim();
+  const target = document.getElementById(`result_${qid}`);
+  target.classList.add('open');
+
+  if (!sql) {
+    target.innerHTML = `<div class="result-error"><b>Editor vacío.</b> Escribe una consulta o pega la solución para probarla.</div>`;
+    return;
+  }
+  if (!ready) {
+    target.innerHTML = `<div class="result-error"><b>El motor SQL aún no está listo.</b> Espera unos segundos y vuelve a intentar.</div>`;
+    return;
+  }
+  try {
+    const result = db.exec(sql);
+    if (!result.length) {
+      target.innerHTML = `
+        <div class="result-header">resultado</div>
+        <div class="result-empty">consulta ejecutada — 0 filas devueltas</div>`;
+      return;
+    }
+    // Render only the first result set (usual case for analytics)
+    const r = result[0];
+    let html = `<div class="result-header">resultado · ${r.values.length} fila${r.values.length === 1 ? '' : 's'}</div>`;
+    html += `<div class="result-table"><table><thead><tr>`;
+    html += r.columns.map(c => `<th>${esc(c)}</th>`).join('');
+    html += `</tr></thead><tbody>`;
+    html += r.values.map(row => `<tr>${row.map(v => `<td>${v === null ? '<span style="color:var(--text3)">NULL</span>' : esc(v)}</td>`).join('')}</tr>`).join('');
+    html += `</tbody></table></div>`;
+    target.innerHTML = html;
+  } catch (e) {
+    target.innerHTML = `<div class="result-error"><b>Error SQL:</b> ${esc(e.message)}</div>`;
+  }
+}
+
+function showSample(tableName, containerId) {
+  if (!ready) return;
+  const container = document.getElementById(containerId);
+  if (container.classList.contains('open')) {
+    container.classList.remove('open');
+    container.innerHTML = '';
+    return;
+  }
+  try {
+    const result = db.exec(`SELECT * FROM ${tableName} LIMIT 5`);
+    if (!result.length) {
+      container.innerHTML = `<div class="result-empty">tabla vacía</div>`;
+    } else {
+      const r = result[0];
+      let html = `<div class="result-table"><table><thead><tr>`;
+      html += r.columns.map(c => `<th>${esc(c)}</th>`).join('');
+      html += `</tr></thead><tbody>`;
+      html += r.values.map(row => `<tr>${row.map(v => `<td>${v === null ? '<span style="color:var(--text3)">NULL</span>' : esc(v)}</td>`).join('')}</tr>`).join('');
+      html += `</tbody></table></div>`;
+      container.innerHTML = html;
+    }
+    container.classList.add('open');
+  } catch (e) {
+    container.innerHTML = `<div class="result-error">${esc(e.message)}</div>`;
+    container.classList.add('open');
+  }
+}
+
+function toggleHint(qid) { document.getElementById(`hint_${qid}`).classList.toggle('open'); }
+function toggleSolution(qid) { document.getElementById(`sol_${qid}`).classList.toggle('open'); }
+function clearEditor(qid) {
+  document.getElementById(`editor_${qid}`).value = '';
+  updateHighlight(qid);
+  const r = document.getElementById(`result_${qid}`);
+  r.classList.remove('open');
+  r.innerHTML = '';
+}
+
+function useSolution(qid) {
+  const codeEl = document.getElementById(`sol_code_${qid}`);
+  // Extract plain text from the colored HTML
+  const text = codeEl.textContent;
+  const ed = document.getElementById(`editor_${qid}`);
+  ed.value = text;
+  updateHighlight(qid);
+  ed.focus();
+}
+
+function copyCode(qid, btn) {
+  const codeEl = document.getElementById(`sol_code_${qid}`);
+  navigator.clipboard.writeText(codeEl.textContent).then(() => {
+    btn.classList.add('ok');
+    btn.textContent = 'copiado ✓';
+    setTimeout(() => { btn.classList.remove('ok'); btn.textContent = 'copiar'; }, 1500);
+  });
+}
+
+function handleEditorKey(e, qid) {
+  // Ctrl/Cmd + Enter → run
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    e.preventDefault();
+    runQuery(qid);
+    return;
+  }
+  // Tab inserts 2 spaces instead of focus-shift
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const ta = e.target;
+    const start = ta.selectionStart, end = ta.selectionEnd;
+    ta.value = ta.value.substring(0, start) + '  ' + ta.value.substring(end);
+    ta.selectionStart = ta.selectionEnd = start + 2;
+    updateHighlight(qid);
+  }
+}
+
+/* =========================================================================
+   SQL SYNTAX HIGHLIGHTING (overlay technique)
+   Renders the same text the user types into a <pre.editor-hl> behind a
+   transparent <textarea>. Single-pass regex tokenizes by category so we
+   never highlight inside strings/comments.
+   ========================================================================= */
+const SQL_KEYWORDS = [
+  'SELECT','FROM','WHERE','JOIN','INNER','LEFT','RIGHT','FULL','OUTER','CROSS','ON','USING',
+  'GROUP','BY','ORDER','HAVING','LIMIT','OFFSET','AS','AND','OR','NOT','IN','IS','NULL',
+  'BETWEEN','LIKE','CASE','WHEN','THEN','ELSE','END','WITH','UNION','INTERSECT','EXCEPT','ALL',
+  'DISTINCT','OVER','PARTITION','ASC','DESC','EXISTS','INSERT','UPDATE','DELETE','VALUES',
+  'INTO','SET','CREATE','TABLE','DROP','ALTER','PRIMARY','KEY','FOREIGN','REFERENCES',
+  'INTEGER','TEXT','REAL','INT','BOOLEAN','DATE','TIMESTAMP','VARCHAR'
+];
+const SQL_FUNCTIONS = [
+  'SUM','COUNT','AVG','MIN','MAX','ROUND','COALESCE','NULLIF','CAST','CONVERT',
+  'STRFTIME','DATE','JULIANDAY','DATETIME','TIME','SUBSTR','SUBSTRING','LENGTH','TRIM',
+  'UPPER','LOWER','REPLACE','ABS','IFNULL','RANK','ROW_NUMBER','DENSE_RANK',
+  'LAG','LEAD','FIRST_VALUE','LAST_VALUE','NTILE','PERCENT_RANK','CUME_DIST'
+];
+const HL_RE = new RegExp(
+    '(--[^\\n]*)'                                  // 1: line comment
+  + '|(\\/\\*[\\s\\S]*?\\*\\/)'                    // 2: block comment
+  + '|(\'(?:[^\']|\'\')*\')'                       // 3: single-quoted string
+  + '|("(?:[^"]|"")*")'                            // 4: double-quoted identifier (treated as string)
+  + '|\\b(' + SQL_FUNCTIONS.join('|') + ')\\b(?=\\s*\\()' // 5: function name (followed by '(')
+  + '|\\b(' + SQL_KEYWORDS.join('|') + ')\\b'      // 6: keyword
+  + '|\\b(\\d+(?:\\.\\d+)?)\\b'                    // 7: number
+  , 'gi'
+);
+function escHTML(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function highlightSQL(text) {
+  // Tokenize on the raw text, then escape each piece as we wrap it,
+  // so the regex never sees HTML entities (avoids matching numbers inside &lt; etc.)
+  let out = '';
+  let last = 0;
+  text.replace(HL_RE, (match, cm1, cm2, st1, st2, fn, kw, nm, idx) => {
+    if (idx > last) out += escHTML(text.slice(last, idx));
+    let cls = '';
+    if (cm1 || cm2) cls = 'cm';
+    else if (st1 || st2) cls = 'st';
+    else if (fn) cls = 'fn';
+    else if (kw) cls = 'kw';
+    else if (nm) cls = 'nm';
+    out += `<span class="${cls}">${escHTML(match)}</span>`;
+    last = idx + match.length;
+    return match;
+  });
+  if (last < text.length) out += escHTML(text.slice(last));
+  // Trailing newline so the <pre> matches textarea height when the last line is empty
+  return out + '\n';
+}
+function updateHighlight(qid) {
+  const ta = document.getElementById(`editor_${qid}`);
+  const hl = document.getElementById(`hl_${qid}`);
+  if (!ta || !hl) return;
+  hl.innerHTML = highlightSQL(ta.value);
+  hl.scrollTop = ta.scrollTop;
+  hl.scrollLeft = ta.scrollLeft;
+}
+function syncEditorScroll(qid) {
+  const ta = document.getElementById(`editor_${qid}`);
+  const hl = document.getElementById(`hl_${qid}`);
+  if (!ta || !hl) return;
+  hl.scrollTop = ta.scrollTop;
+  hl.scrollLeft = ta.scrollLeft;
+}
+function initAllHighlights() {
+  document.querySelectorAll('.sql-editor').forEach(ta => {
+    const qid = ta.id.replace('editor_', '');
+    updateHighlight(qid);
+  });
+}
+
+/* =========================================================================
+   BOOT
+   ========================================================================= */
+render();
+initAllHighlights();
+initDB();
+</script>
+</body>
+</html>
