@@ -6,9 +6,20 @@
 
 ## ¿Qué incluye?
 
+El proyecto tiene **dos páginas conectadas entre sí**:
+
+### Cheatsheet (`index.html`)
+
 - **22 cláusulas y funciones** organizadas por categoría: SELECT, filtrado, agregación, JOINs, window functions, subqueries y utilidades.
-- **3 vistas por comando**: sintaxis estructurada, ejemplo de código copiable y diagrama visual de cómo funciona.
-- **100% estático** con un solo archivo HTML, sin dependencias de build.
+- **3 vistas por comando**: sintaxis estructurada, ejemplo de código copiable y diagrama visual SVG de cómo funciona.
+- **Buscador en vivo** + filtros por categoría.
+
+### Ejercicios prácticos (`ejercicios.html`)
+
+- **3 casos de análisis con dificultad progresiva** (básico → intermedio → avanzado) sobre dominios reales: e-commerce, marketing y SaaS.
+- **Editor SQL real**: escribe consultas y ejecútalas contra una base SQLite cargada 100% en tu navegador (vía `sql.js`) — sin servidor, sin backend.
+- Cada caso incluye contexto de negocio, esquema de datos, **2-3 preguntas analíticas**, pistas, solución comentada e **interpretación analítica** de cada resultado.
+- **Resaltado de sintaxis** en el editor que diferencia palabras clave, funciones, strings, números y comentarios.
 
 ## Cómo usarlo
 
@@ -19,7 +30,7 @@ git clone https://github.com/RobertoBG1111/sql-cheatsheet-data-analyst.git
 cd sql-cheatsheet-data-analyst
 ```
 
-Después abre `index.html` en tu navegador. Listo.
+Después abre `index.html` en tu navegador y navega a los ejercicios desde el botón del header. Listo.
 
 ### Opción B - Versión online (GitHub Pages)
 
@@ -31,9 +42,9 @@ Para activar Pages: **Settings → Pages → Source: `main` / root → Save.**
 
 ## Sobre este proyecto
 
-Este cheatsheet forma parte de mi **portafolio de Data Analytics**. Lo construí mientras consolidaba mis apuntes de SQL para análisis exploratorio, con el objetivo de tener una referencia visual rápida que pudiera consultar y compartir en cualquier momento.
+Este proyecto forma parte de mi **portafolio de Data Analytics**. Empezó como un cheatsheet para consolidar mis apuntes de SQL y tener una referencia visual rápida; la página de ejercicios prácticos es el siguiente paso: pasar de "consultar la sintaxis" a "aplicarla a problemas de negocio reales", uniendo el dominio técnico con el criterio analítico.
 
-**Sobre el desarrollo**: me apoyé en inteligencia artificial (Claude, de Anthropic) como copiloto durante la construcción de esta herramienta para acelerar el diseño de la interfaz, generar los diagramas SVG y depurar el JavaScript. La curación del contenido SQL, las decisiones de qué incluir y los criterios pedagógicos vienen de mi experiencia consolidando apuntes como analista. Creo que ser transparente sobre el uso de IA es parte de la práctica profesional moderna en data.
+> **Sobre el desarrollo**: me apoyé en inteligencia artificial (Claude, de Anthropic) como copiloto durante la construcción de esta herramienta — para acelerar el diseño de la interfaz, generar los diagramas SVG y depurar el JavaScript. La curación del contenido SQL, las decisiones de qué incluir y los criterios pedagógicos vienen de mi experiencia consolidando apuntes como analista. Creo que ser transparente sobre el uso de IA es parte de la práctica profesional moderna en data.
 
 ## Otros proyectos del portafolio
 
