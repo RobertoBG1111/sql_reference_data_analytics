@@ -148,6 +148,40 @@ body::after {
   color: transparent;
 }
 
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  align-self: flex-start;
+}
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+  border: 1px solid transparent;
+  color: #00150f;
+  font-size: 12.5px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 6px 20px var(--accent-dim), 0 0 0 1px rgba(0,212,168,0.3);
+  transition: all 0.25s var(--ease);
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px var(--accent-dim), 0 0 0 1px rgba(0,212,168,0.45);
+}
+.cta-btn i { font-size: 14px; }
+.cta-btn .arr { transition: transform 0.25s var(--ease); }
+.cta-btn:hover .arr { transform: translateX(3px); }
+
 .live-badge {
   display: inline-flex;
   align-items: center;
@@ -623,9 +657,15 @@ body::after {
       <div class="eyebrow">// data analytics · sql reference</div>
       <div class="title">SQL <span>Cheatsheet</span><br>para Analistas</div>
     </div>
-    <div class="live-badge">
-      <span class="dot"></span>
-      v1.1 · 2026
+    <div class="header-right">
+      <a class="cta-btn" href="ejercicios.html" title="Ir a los ejercicios prácticos de análisis">
+        <i class="ti ti-flask"></i> Ejercicios prácticos
+        <i class="ti ti-arrow-right arr"></i>
+      </a>
+      <div class="live-badge">
+        <span class="dot"></span>
+        v1.2 · 2026
+      </div>
     </div>
   </div>
 
@@ -659,6 +699,9 @@ body::after {
       <div class="footer-role">// data analyst jr · mérida, mx</div>
     </div>
     <div class="footer-links">
+      <a class="link-btn" href="ejercicios.html">
+        <i class="ti ti-flask"></i> Ejercicios prácticos
+      </a>
       <a class="link-btn" href="https://www.linkedin.com/in/robertobarreragarcia" target="_blank" rel="noopener">
         <i class="ti ti-brand-linkedin"></i> LinkedIn
       </a>
